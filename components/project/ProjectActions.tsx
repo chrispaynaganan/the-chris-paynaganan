@@ -6,7 +6,7 @@ import { Heart, Share } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/button";
 import { useSaved } from "@/components/ui/SavedProvider";
-import { useToast } from "@/components/ui/Toast";
+import { savedToast, useToast } from "@/components/ui/Toast";
 import { ShareDialog } from "./ShareDialog";
 
 type Props = {
@@ -35,7 +35,7 @@ export function TopActions({ slug, name, subtitle, url }: Props) {
       <button
         type="button"
         aria-pressed={isSaved}
-        onClick={() => toast("ok", toggle(slug) ? `Saved ${name}` : "Removed from saved")}
+        onClick={() => savedToast(toast, toggle(slug), name)}
         className={buttonClass("tertiary", "text-sm")}
       >
         <Heart aria-hidden className={cn("size-4 stroke-ink", isSaved ? "animate-heart fill-ink" : "fill-none")} />

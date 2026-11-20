@@ -10,7 +10,7 @@ function splitLabel(label: string) {
 }
 
 /** The stamp artwork itself: an ink-style circle or rectangle. Open slots are dashed and grey. */
-export function StampMark({ stamp, className }: { stamp: PassportStamp; className?: string }) {
+export function StampMark({ stamp, className, decorative = false }: { stamp: PassportStamp; className?: string; decorative?: boolean }) {
   const raw = useId();
   const id = `arc-${raw.replace(/[^a-zA-Z0-9]/g, "")}`;
   const lines = splitLabel(stamp.label);
@@ -21,8 +21,9 @@ export function StampMark({ stamp, className }: { stamp: PassportStamp; classNam
   return (
     <svg
       viewBox="0 0 160 160"
-      role="img"
-      aria-label={earned ? `${stamp.label} stamp, first earned ${stamp.year}` : `${stamp.label}: not stamped yet`}
+      role={decorative ? undefined : "img"}
+      aria-hidden={decorative || undefined}
+      aria-label={decorative ? undefined : earned ? `${stamp.label} stamp, first earned ${stamp.year}` : `${stamp.label}: not stamped yet`}
       className={cn("w-full", earned ? "text-ink" : "text-field", className)}
     >
       {stamp.shape === "circle" ? (

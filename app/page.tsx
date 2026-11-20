@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ViewTransition } from "react";
-import { categories, getPassport, getProjects, getSite } from "@/lib/content";
+import { categories, getPassport, getProjects, getSite, getStories } from "@/lib/content";
+import { StoriesRow } from "@/components/stories/StoriesRow";
 import { ProjectExplorer } from "@/components/home/ProjectExplorer";
 import { PassportSection } from "@/components/stamps/PassportSection";
 import { Reveal } from "@/components/motion/Reveal";
@@ -12,7 +13,7 @@ const slide = {
 } as const;
 
 export default async function HomePage() {
-  const [projects, passport, site] = await Promise.all([getProjects(), getPassport(), getSite()]);
+  const [projects, passport, site, stories] = await Promise.all([getProjects(), getPassport(), getSite(), getStories()]);
   return (
     <ViewTransition enter={slide.enter} exit={slide.exit} default="none">
       <main className="mx-auto flex max-w-site flex-col gap-16 px-gutter pt-8 pb-20">
@@ -21,6 +22,9 @@ export default async function HomePage() {
           <p className="text-muted">
             {projects.length} projects, written up like diary entries. Healthcare, maritime, coaching and voice.
           </p>
+          <div className="pt-6">
+            <StoriesRow projects={stories} />
+          </div>
         </Reveal>
 
         <ProjectExplorer projects={projects} categories={categories} />

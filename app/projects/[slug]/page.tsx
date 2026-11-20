@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { ArrowLeft } from "lucide-react";
-import { getProject, getProjects, getStampsFor } from "@/lib/content";
+import { getProject, getProjects, getStampsFor, getStories } from "@/lib/content";
 import { buttonClass } from "@/components/ui/button";
 import { StatusBadge, statusInfo, toneClass } from "@/components/ui/StatusBadge";
 import { Shot } from "@/components/project/Shot";
@@ -14,6 +14,9 @@ import { PhotoTour } from "@/components/project/PhotoTour";
 import { MobileWorkBar } from "@/components/project/MobileWorkBar";
 import { Reveal } from "@/components/motion/Reveal";
 import { CountUp } from "@/components/motion/CountUp";
+import { StatBar } from "@/components/motion/StatBar";
+import { DiaryEntry } from "@/components/project/DiaryEntry";
+import { StoryButton } from "@/components/stories/StoryButton";
 
 const slide = {
   enter: { "nav-forward": "nav-forward", "nav-back": "nav-back", default: "none" },
@@ -39,7 +42,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const project = await getProject(slug);
   if (!project) notFound();
 
-  const [all, stamps] = await Promise.all([getProjects(), getStampsFor(project)]);
+  const [all, stamps, stories] = await Promise.all([getProjects(), getStampsFor(project), getStories()]);
   const i = all.findIndex((p) => p.slug === slug);
   const prev = all[(i - 1 + all.length) % all.length];
   const next = all[(i + 1) % all.length];
@@ -67,6 +70,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <span className="font-medium">{project.years}</span>
           <span aria-hidden className="text-muted">·</span>
           <span className="text-muted">{project.category}</span>
+        </div>
+        <div className="pt-2">
+          <StoryButton projects={stories} start={i} />
         </div>
       </div>
 
@@ -112,9 +118,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           {project.stats.length > 0 && (
             <div className="grid grid-cols-3 gap-3 border-b border-line py-6">
               {project.stats.map((s) => (
-                <div key={s.label} className="flex flex-col gap-1 rounded-xl border border-line-strong p-4">
+                <div key={s.label} className="flex flex-col gap-2 rounded-xl border border-line-strong p-4">
                   <span className="text-3xl font-semibold tracking-tight"><CountUp value={s.value} /></span>
                   <span className="text-sm text-muted">{s.label}</span>
+                  <StatBar delay={0.2} />
                 </div>
               ))}
             </div>
@@ -123,13 +130,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <div className="flex flex-col pt-2">
             {project.entries.map((e, n) => (
               <Reveal key={e.stage} delay={n === 0 ? 0 : 0.05}>
-              <article className="flex flex-col gap-2.5 border-b border-line py-6">
-                <div className="flex flex-wrap items-baseline justify-between gap-3">
-                  <h3 className="text-xl font-semibold">{e.label}</h3>
-                  <span className="text-muted">{e.date}</span>
-                </div>
-                <p className="text-xl">{e.body}</p>
-              </article>
+                <DiaryEntry entry={e} projectName={project.name} />
               </Reveal>
             ))}
           </div>

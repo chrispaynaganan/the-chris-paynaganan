@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/button";
 import { Notice } from "@/components/ui/Notice";
+import { Confirmation } from "@/components/ui/Confirmation";
 
 type Values = { name: string; email: string; tier: string; pay: string; company: string; time: string; details: string };
 type Errors = Partial<Record<keyof Values, string>>;
@@ -100,12 +101,9 @@ export function InquiryForm({
   const described = (k: keyof Values) => (errors[k] ? { "aria-invalid": true, "aria-describedby": `${k}-err` } : {});
 
   return (
+    <>
+    <Confirmation open={sent} onClose={() => setSent(false)} dark={dark} title="Your project request is ready" steps={["Send the email that just opened in your email app.", "I’ll reply within a day or two with the intake form and a call scheduler.", "We meet on a discovery call, then I send a quotation."]} />
     <form onSubmit={submit} noValidate className="grid flex-2 basis-md gap-4 sm:grid-cols-2">
-      {sent && (
-        <Notice tone="ok" role="status" className="sm:col-span-2">
-          Your email app should open with everything filled in. Send it and I’ll reply within a day or two.
-        </Notice>
-      )}
       {Object.keys(errors).length > 0 && (
         <Notice tone="error" role="alert" className="sm:col-span-2">
           A few fields need a look before this can go out.
@@ -159,5 +157,6 @@ export function InquiryForm({
         <a href={`mailto:${email}`} className={buttonClass("tertiary", undefined, dark)}>Or email me directly</a>
       </div>
     </form>
+    </>
   );
 }

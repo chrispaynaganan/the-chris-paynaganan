@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu as GlassMenu } from "glisse";
-import { Menu as MenuIcon, Search } from "lucide-react";
+import { Menu as MenuIcon, Search, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/button";
 import { useSearchDock } from "@/components/home/SearchDock";
+import { SearchSuggestions } from "@/components/home/SearchSuggestions";
 import { Logo } from "./Logo";
 
 const tabs = [
@@ -69,9 +71,18 @@ export function Header({
 }) {
   const pathname = usePathname();
   const scrolled = useScrolled();
-  const { docked, query, openSearch } = useSearchDock();
+  const { docked, query, setQuery, expanded, setExpanded, showResults } = useSearchDock();
   const isBusiness = pathname.startsWith("/business");
   const showDock = pathname === "/" && docked;
+  const isOpen = expanded && pathname === "/";
+
+  // Escape closes the expanded search
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setExpanded(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, setExpanded]);
 
   if (isBusiness) {
     return (
@@ -116,11 +127,15 @@ export function Header({
 
         <div className="hidden min-h-12 items-center justify-center md:flex">
           <AnimatePresence mode="wait" initial={false}>
-            {showDock ? (
+            {isOpen ? (
+              <span key="open-spacer" className="h-12" />
+            ) : showDock ? (
               <motion.button
                 key="dock"
+                layoutId="header-search"
                 type="button"
-                onClick={openSearch}
+                onClick={() => setExpanded(true)}
+                aria-expanded={isOpen}
                 initial={{ opacity: 0, y: 14, scale: 0.92 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 14, scale: 0.92 }}
@@ -184,6 +199,71 @@ export function Header({
           <SiteMenu linkedIn={linkedIn} calendly={calendly} enterpriseUrl={enterpriseUrl} resumeUrl={resumeUrl} />
         </div>
       </div>
+
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                key="search-backdrop"
+                aria-hidden
+                onClick={() => setExpanded(false)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-20 bg-ink/25"
+              />
+            )}
+          </AnimatePresence>,
+          document.body,
+        )}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <motion.div
+              key="search-panel"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-x-0 top-full border-b border-line bg-paper"
+            >
+              <div className="mx-auto flex max-w-3xl flex-col gap-4 px-gutter pt-2 pb-6">
+                <motion.div
+                  layoutId="header-search"
+                  transition={{ type: "spring", stiffness: 380, damping: 34 }}
+                  className="flex items-center rounded-full border border-line-strong bg-paper py-2 pr-2 pl-6 shadow-pill-hover"
+                >
+                  <div className="flex min-w-0 flex-1 flex-col pr-4">
+                    <label htmlFor="header-search-input" className="text-xs font-medium">
+                      Search the diary
+                    </label>
+                    <input
+                      id="header-search-input"
+                      autoFocus
+                      type="text"
+                      inputMode="search"
+                      enterKeyHint="search"
+                      autoComplete="off"
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && showResults()}
+                      placeholder="Project, industry or platform"
+                      className="min-w-0 bg-transparent pt-0.5 text-sm outline-none placeholder:text-muted"
+                    />
+                  </div>
+                  <button type="button" onClick={() => setExpanded(false)} aria-label="Close search" className="mr-2 flex size-9 cursor-pointer items-center justify-center rounded-full transition hover:bg-surface">
+                    <X aria-hidden className="size-4" />
+                  </button>
+                  <button type="button" onClick={showResults} className="flex h-12 cursor-pointer items-center gap-2 rounded-full bg-ink px-5 text-sm font-medium text-paper transition active:scale-97">
+                    <Search aria-hidden className="size-4 stroke-3" /> Search
+                  </button>
+                </motion.div>
+                <SearchSuggestions id="header-suggestions" onDone={showResults} />
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

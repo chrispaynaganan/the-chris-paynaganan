@@ -1,13 +1,11 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 // Hearted projects, remembered in this browser only.
 const KEY = "cp-saved-projects";
-const SavedContext = createContext<{ saved: string[]; toggle: (slug: string) => boolean }>({
-  saved: [],
-  toggle: () => false,
-});
+type Saved = { saved: string[]; ready: boolean; toggle: (slug: string) => boolean };
+const SavedContext = createContext<Saved>({ saved: [], ready: false, toggle: () => false });
 
 export function useSaved() {
   return useContext(SavedContext);
@@ -15,29 +13,33 @@ export function useSaved() {
 
 export function SavedProvider({ children }: { children: React.ReactNode }) {
   const [saved, setSaved] = useState<string[]>([]);
+  const [ready, setReady] = useState(false);
+  const current = useRef<string[]>([]);
 
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(KEY);
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- reading browser storage once after mount
-      if (raw) setSaved(JSON.parse(raw));
+      if (raw) {
+        current.current = JSON.parse(raw);
+        setSaved(current.current);
+      }
     } catch {
       // storage can be blocked; hearts then last for this visit only
     }
+    setReady(true);
   }, []);
 
+  /** Returns true if the project is now saved. */
   const toggle = useCallback((slug: string) => {
-    let nowSaved = false;
-    setSaved((prev) => {
-      nowSaved = !prev.includes(slug);
-      const next = nowSaved ? [...prev, slug] : prev.filter((s) => s !== slug);
-      try {
-        window.localStorage.setItem(KEY, JSON.stringify(next));
-      } catch {}
-      return next;
-    });
+    const nowSaved = !current.current.includes(slug);
+    const next = nowSaved ? [...current.current, slug] : current.current.filter((s) => s !== slug);
+    current.current = next;
+    setSaved(next);
+    try {
+      window.localStorage.setItem(KEY, JSON.stringify(next));
+    } catch {}
     return nowSaved;
   }, []);
 
-  return <SavedContext.Provider value={{ saved, toggle }}>{children}</SavedContext.Provider>;
+  return <SavedContext.Provider value={{ saved, ready, toggle }}>{children}</SavedContext.Provider>;
 }

@@ -6,6 +6,7 @@ import { Check } from "lucide-react";
 import { SegmentedControl } from "glisse";
 import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/button";
+import { RollingNumber } from "@/components/motion/RollingNumber";
 import type { Bundle } from "@/types/content";
 
 const numerals = ["I", "II", "III", "IV", "V"];
@@ -52,9 +53,9 @@ export function Bundles({ bundles }: { bundles: Bundle[] }) {
               </div>
               <div className="flex flex-col gap-1">
                 <h3 className="text-3xl">{b.name}</h3>
-                <div key={String(full)} className="flex animate-fade-in items-baseline gap-2 pt-3">
-                  <span className="text-5xl font-semibold tracking-tighter">{price.usd}</span>
-                  <span className={cn("text-sm", lit ? "text-muted" : "text-paper/60")}>{price.php}</span>
+                <div className="flex items-baseline gap-2 pt-3">
+                  <RollingNumber value={price.usd} className="text-5xl font-semibold tracking-tighter" />
+                  <RollingNumber value={price.php} className={cn("text-sm", lit ? "text-muted" : "text-paper/60")} />
                 </div>
                 <span className={cn("text-xs font-medium tracking-widest uppercase", lit ? "text-muted" : "text-paper/50")}>
                   {full ? "Paid in full · per project" : "From, in installments"}

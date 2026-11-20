@@ -3,7 +3,7 @@ import { Livvic } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { SearchDockProvider } from "@/components/home/SearchDock";
-import { getSite } from "@/lib/content";
+import { getProjects, getSite } from "@/lib/content";
 import { Footer } from "@/components/layout/Footer";
 import { ToastProvider } from "@/components/ui/Toast";
 import { SavedProvider } from "@/components/ui/SavedProvider";
@@ -26,13 +26,14 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const site = await getSite();
+  const [site, projects] = await Promise.all([getSite(), getProjects()]);
+  const searchProjects = projects.map(({ slug, name, kind, category, platform, status, tags }) => ({ slug, name, kind, category, platform, status, tags }));
   return (
     <html lang="en" data-theme="light" className={livvic.variable}>
       <body className="flex min-h-screen flex-col">
         <ToastProvider>
           <SavedProvider>
-            <SearchDockProvider>
+            <SearchDockProvider projects={searchProjects}>
               <Header
                 calendly={site.calendlyUrl}
                 resumeUrl={site.resumeUrl}

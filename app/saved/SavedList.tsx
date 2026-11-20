@@ -7,8 +7,23 @@ import { buttonClass } from "@/components/ui/button";
 import type { Project } from "@/types/content";
 
 export function SavedList({ projects }: { projects: Project[] }) {
-  const { saved } = useSaved();
+  const { saved, ready } = useSaved();
   const list = projects.filter((p) => saved.includes(p.slug));
+
+  // Shimmering placeholders until the browser's saved list has been read
+  if (!ready) {
+    return (
+      <div aria-busy="true" aria-label="Loading saved projects" className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className="flex flex-col gap-3">
+            <div className="shimmer aspect-20/19 rounded-2xl" />
+            <div className="shimmer h-4 w-2/3 rounded-full" />
+            <div className="shimmer h-4 w-1/2 rounded-full" />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   if (list.length === 0) {
     return (

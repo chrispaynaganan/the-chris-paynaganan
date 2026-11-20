@@ -1,36 +1,63 @@
 "use client";
 
 import Link from "next/link";
-import { useState, ViewTransition } from "react";
+import { useEffect, useRef, useState, ViewTransition } from "react";
+import { useReducedMotion } from "motion/react";
 import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { Project } from "@/types/content";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { useSaved } from "@/components/ui/SavedProvider";
-import { useToast } from "@/components/ui/Toast";
+import { savedToast, useToast } from "@/components/ui/Toast";
 import { Shot } from "@/components/project/Shot";
+
+const PREVIEW_MS = 1500;
 
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [slide, setSlide] = useState(0);
+  const [previewing, setPreviewing] = useState(false);
   const { saved, toggle } = useSaved();
   const toast = useToast();
+  const reduce = useReducedMotion();
   const isSaved = saved.includes(project.slug);
   const count = project.screenshots.length;
   const go = (d: number) => setSlide((s) => (s + d + count) % count);
   const href = `/projects/${project.slug}`;
+  const hoverDelay = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Hover preview: after a short pause on the card, its screenshots cross-fade through on their own
+  useEffect(() => {
+    if (!previewing || reduce || count < 2) return;
+    const t = setInterval(() => setSlide((s) => (s + 1) % count), PREVIEW_MS);
+    return () => clearInterval(t);
+  }, [previewing, reduce, count]);
+
+  const startPreview = () => {
+    hoverDelay.current = setTimeout(() => setPreviewing(true), 450);
+  };
+  const stopPreview = () => {
+    if (hoverDelay.current) clearTimeout(hoverDelay.current);
+    setPreviewing(false);
+  };
+  useEffect(() => () => {
+    if (hoverDelay.current) clearTimeout(hoverDelay.current);
+  }, []);
 
   return (
-    <article className="group relative flex flex-col" data-index={index}>
+    <article className="group relative flex flex-col" data-index={index} onMouseEnter={startPreview} onMouseLeave={stopPreview}>
       <div className="relative aspect-20/19 overflow-hidden rounded-2xl bg-placeholder">
         {/* Same name as the hero on the project page, so this thumbnail morphs into it */}
         <ViewTransition name={`shot-${project.slug}`} share="morph" default="none">
-          <div className="h-full overflow-hidden">
-            <div
-              className="flex h-full transition-transform duration-500 ease-soft group-hover:scale-103"
-              style={{ transform: `translateX(-${slide * 100}%)` }}
-            >
+          <div className="relative h-full overflow-hidden">
+            <div className="relative h-full transition-transform duration-700 ease-soft group-hover:scale-103">
               {project.screenshots.map((s, i) => (
-                <Shot key={s.label} shot={s} name={project.name} alt={i % 2 === 1} className="h-full w-full shrink-0" />
+                <Shot
+                  key={s.label}
+                  shot={s}
+                  name={project.name}
+                  alt={i % 2 === 1}
+                  className={cn("absolute inset-0 transition-opacity duration-700 ease-soft", i === slide ? "opacity-100" : "opacity-0")}
+                />
               ))}
             </div>
           </div>
@@ -39,18 +66,12 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         <StatusBadge status={project.status} className="absolute top-3 left-3" />
         <button
           type="button"
-          onClick={() => {
-            const nowSaved = toggle(project.slug);
-            toast("ok", nowSaved ? `Saved ${project.name}` : "Removed from saved");
-          }}
+          onClick={() => savedToast(toast, toggle(project.slug), project.name)}
           aria-pressed={isSaved}
           aria-label={isSaved ? `Remove ${project.name} from saved` : `Save ${project.name}`}
           className="absolute top-2 right-2 flex size-11 cursor-pointer items-center justify-center transition active:scale-85"
         >
-          <Heart
-            aria-hidden
-            className={cn("size-6.5 stroke-paper stroke-2", isSaved ? "animate-heart fill-ink" : "fill-ink/35")}
-          />
+          <Heart aria-hidden className={cn("size-6.5 stroke-paper stroke-2", isSaved ? "animate-heart fill-ink" : "fill-ink/35")} />
         </button>
         {count > 1 && (
           <>
@@ -72,7 +93,10 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
             </button>
             <div className="pointer-events-none absolute inset-x-0 bottom-2.5 flex justify-center gap-1.5">
               {project.screenshots.map((s, i) => (
-                <span key={s.label} className={cn("size-1.5 rounded-full transition", i === slide ? "bg-ink" : "bg-ink/25")} />
+                <span
+                  key={s.label}
+                  className={cn("h-1.5 rounded-full transition-all duration-500 ease-soft", i === slide ? "w-4 bg-ink" : "w-1.5 bg-ink/25")}
+                />
               ))}
             </div>
           </>
@@ -80,7 +104,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       </div>
       <Link href={href} transitionTypes={["nav-forward"]} className="flex flex-col gap-0.5 pt-3">
         <span className="flex justify-between gap-2">
-          <span className="font-medium underline-offset-4 decoration-transparent transition group-hover:underline group-hover:decoration-ink">{project.name}</span>
+          <span className="font-medium decoration-transparent underline-offset-4 transition group-hover:underline group-hover:decoration-ink">{project.name}</span>
           <span className="text-sm">{project.years}</span>
         </span>
         <span className="text-muted">{project.kind}</span>

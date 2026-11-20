@@ -4,6 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/button";
 import { Notice } from "@/components/ui/Notice";
+import { Confirmation } from "@/components/ui/Confirmation";
 
 type Values = { name: string; email: string; company: string; reason: string; message: string };
 type Errors = Partial<Record<keyof Values, string>>;
@@ -51,12 +52,9 @@ export function ContactForm({ email, reasons }: { email: string; reasons: string
   };
 
   return (
+    <>
+    <Confirmation open={sent} onClose={() => setSent(false)} dark={false} title="Your message is ready" steps={["Send the email that just opened in your email app.", "I read every message myself and reply within a day or two.", "If it’s a fit, we’ll set up a call."]} />
     <form onSubmit={submit} noValidate className="grid gap-4 sm:grid-cols-2">
-      {sent && (
-        <Notice tone="ok" role="status" className="sm:col-span-2">
-          Your email app should open with your message filled in. Send it and I’ll reply within a day or two.
-        </Notice>
-      )}
       {Object.keys(errors).length > 0 && (
         <Notice tone="error" role="alert" className="sm:col-span-2">A few fields need a look before this can go out.</Notice>
       )}
@@ -92,5 +90,6 @@ export function ContactForm({ email, reasons }: { email: string; reasons: string
         <a href={`mailto:${email}`} className={buttonClass("tertiary")}>Or email me directly</a>
       </div>
     </form>
+    </>
   );
 }
