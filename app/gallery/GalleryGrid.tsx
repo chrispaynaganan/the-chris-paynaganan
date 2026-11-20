@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { cn } from "@/lib/cn";
+import { SegmentedControl } from "glisse";
 import { Notice } from "@/components/ui/Notice";
 import type { SiteContent } from "@/types/content";
 
@@ -16,22 +16,13 @@ export function GalleryGrid({ items }: { items: SiteContent["gallery"] }) {
   const shown = items.filter((g) => f === "all" || g.category === f);
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap gap-2">
-        {filters.map((x) => (
-          <button
-            key={x.id}
-            type="button"
-            aria-pressed={f === x.id}
-            onClick={() => setF(x.id)}
-            className={cn(
-              "h-9 cursor-pointer rounded-full border px-4 text-sm font-semibold transition active:scale-97",
-              f === x.id ? "border-ink bg-ink text-paper" : "border-line-strong bg-paper hover:border-ink",
-            )}
-          >
-            {x.label}
-          </button>
-        ))}
-      </div>
+      <SegmentedControl
+        aria-label="Filter the gallery"
+        className="self-start"
+        items={filters.map((x) => ({ value: x.id, label: x.label }))}
+        value={f}
+        onValueChange={(v) => setF(v as typeof f)}
+      />
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {shown.map((g, i) => (
           <li key={g.title} className="flex animate-fade-up flex-col gap-2.5" style={{ animationDelay: `${i * 60}ms` }}>

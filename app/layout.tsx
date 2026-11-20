@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Newsreader } from "next/font/google";
 import { Header } from "@/components/layout/Header";
+import { MobileTabBar } from "@/components/layout/MobileTabBar";
+import { SearchDockProvider } from "@/components/home/SearchDock";
+import { getSite } from "@/lib/content";
 import { Footer } from "@/components/layout/Footer";
 import { ToastProvider } from "@/components/ui/Toast";
 import { SavedProvider } from "@/components/ui/SavedProvider";
@@ -22,15 +25,24 @@ export const metadata: Metadata = {
   openGraph: { type: "website", siteName: "Chris Paynaganan", locale: "en_PH" },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const site = await getSite();
   return (
-    <html lang="en" className={`${inter.variable} ${newsreader.variable}`}>
+    <html lang="en" data-theme="light" className={`${inter.variable} ${newsreader.variable}`}>
       <body className="flex min-h-screen flex-col">
         <ToastProvider>
           <SavedProvider>
-            <Header />
-            <div className="flex-1">{children}</div>
-            <Footer />
+            <SearchDockProvider>
+              <Header
+                email={site.email}
+                calendly={site.calendlyUrl}
+                enterpriseUrl={site.enterprise.url}
+                linkedIn={site.socials.find((s) => s.label === "LinkedIn")?.url ?? ""}
+              />
+              <div className="flex-1 pb-24 md:pb-0">{children}</div>
+              <Footer />
+              <MobileTabBar />
+            </SearchDockProvider>
           </SavedProvider>
         </ToastProvider>
       </body>

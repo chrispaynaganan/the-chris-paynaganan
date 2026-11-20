@@ -2,15 +2,13 @@
 
 import { useState } from "react";
 import { Check } from "lucide-react";
+import { SegmentedControl } from "glisse";
 import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/button";
 import type { Bundle } from "@/types/content";
 
 export function Bundles({ bundles }: { bundles: Bundle[] }) {
   const [full, setFull] = useState(true);
-  const seg = (on: boolean) =>
-    cn("h-9 cursor-pointer rounded-full px-4 text-sm font-semibold transition", on ? "bg-ink text-paper" : "text-ink hover:bg-placeholder-alt");
-
   const choose = (name: string) => {
     window.dispatchEvent(new CustomEvent("choose-bundle", { detail: name }));
     document.getElementById("inquire")?.scrollIntoView({ behavior: "smooth" });
@@ -18,10 +16,16 @@ export function Bundles({ bundles }: { bundles: Bundle[] }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div role="group" aria-label="Payment option" className="flex self-start rounded-full bg-placeholder p-1 md:self-end">
-        <button type="button" aria-pressed={full} onClick={() => setFull(true)} className={seg(full)}>Pay in full</button>
-        <button type="button" aria-pressed={!full} onClick={() => setFull(false)} className={seg(!full)}>Other payment options</button>
-      </div>
+      <SegmentedControl
+        aria-label="Payment option"
+        className="self-start md:self-end"
+        items={[
+          { value: "full", label: "Pay in full" },
+          { value: "installments", label: "Installments" },
+        ]}
+        value={full ? "full" : "installments"}
+        onValueChange={(v) => setFull(v === "full")}
+      />
       <div className="grid gap-5 md:grid-cols-3">
         {bundles.map((b, i) => {
           const price = full ? b.payInFull : b.installments;

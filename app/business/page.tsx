@@ -5,6 +5,7 @@ import { Bundles } from "@/components/business/Bundles";
 import { Faq } from "@/components/business/Faq";
 import { InquiryForm } from "@/components/business/InquiryForm";
 import { Notice } from "@/components/ui/Notice";
+import { Reveal } from "@/components/motion/Reveal";
 
 export const metadata: Metadata = { title: "Chris for Business" };
 
@@ -30,6 +31,7 @@ export default async function BusinessPage() {
       </section>
 
       <main className="mx-auto flex max-w-6xl flex-col gap-16 px-6 pt-14 pb-20 md:px-10">
+        <Reveal>
         <section id="bundles" aria-labelledby="b-title" className="flex scroll-mt-24 flex-col gap-6">
           <div className="flex flex-col gap-1.5">
             <h2 id="b-title" className="text-3xl font-extrabold tracking-tight">Professional bundles</h2>
@@ -47,6 +49,9 @@ export default async function BusinessPage() {
             </Link>
           </div>
         </section>
+        </Reveal>
+
+        <Reveal>
 
         <section id="addons" aria-labelledby="a-title" className="flex scroll-mt-24 flex-col gap-5">
           <h2 id="a-title" className="text-3xl font-extrabold tracking-tight">Add-ons</h2>
@@ -66,6 +71,10 @@ export default async function BusinessPage() {
           </ul>
         </section>
 
+        </Reveal>
+
+        <Reveal>
+
         <section id="process" aria-labelledby="p-title" className="flex scroll-mt-24 flex-col gap-5">
           <h2 id="p-title" className="text-3xl font-extrabold tracking-tight">How a project goes</h2>
           <ol className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
@@ -79,10 +88,18 @@ export default async function BusinessPage() {
           </ol>
         </section>
 
+        </Reveal>
+
+        <Reveal>
+
         <section id="faq" aria-labelledby="f-title" className="flex max-w-3xl scroll-mt-24 flex-col gap-2">
           <h2 id="f-title" className="mb-2 text-3xl font-extrabold tracking-tight">FAQ</h2>
           <Faq items={b.faqs} />
         </section>
+
+        </Reveal>
+
+        <Reveal>
 
         <section id="inquire" aria-labelledby="i-title" className="flex scroll-mt-24 flex-wrap gap-10 rounded-3xl border border-line-strong p-6 shadow-card md:p-10">
           <div className="flex flex-1 basis-72 flex-col gap-3">
@@ -98,6 +115,8 @@ export default async function BusinessPage() {
             timelines={b.timelines}
           />
         </section>
+
+        </Reveal>
       </main>
     </>
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
 import { ArrowLeft } from "lucide-react";
 import { getProject, getProjects, getStampsFor } from "@/lib/content";
 import { buttonClass } from "@/components/ui/button";
@@ -9,6 +10,15 @@ import { Shot } from "@/components/project/Shot";
 import { TopActions, WorkActions } from "@/components/project/ProjectActions";
 import { Passport } from "@/components/stamps/Passport";
 import { cn } from "@/lib/cn";
+import { PhotoTour } from "@/components/project/PhotoTour";
+import { MobileWorkBar } from "@/components/project/MobileWorkBar";
+import { Reveal } from "@/components/motion/Reveal";
+import { CountUp } from "@/components/motion/CountUp";
+
+const slide = {
+  enter: { "nav-forward": "nav-forward", "nav-back": "nav-back", default: "none" },
+  exit: { "nav-forward": "nav-forward", "nav-back": "nav-back", default: "none" },
+} as const;
 
 const SITE = "https://www.chrispaynaganan.com";
 
@@ -39,9 +49,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const [hero, ...rest] = project.screenshots;
 
   return (
-    <main className="mx-auto flex max-w-6xl animate-fade-in flex-col gap-6 px-6 pt-6 pb-20 md:px-10">
+    <ViewTransition enter={slide.enter} exit={slide.exit} default="none">
+    <main className="mx-auto flex max-w-6xl flex-col gap-6 px-6 pt-6 pb-20 md:px-10">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Link href="/" className={buttonClass("secondary")}>
+        <Link href="/" transitionTypes={["nav-back"]} className={buttonClass("secondary")}>
           <ArrowLeft aria-hidden className="size-4" /> All projects
         </Link>
         <TopActions slug={project.slug} name={project.name} subtitle={subtitle} url={url} />
@@ -59,12 +70,21 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
 
-      <section aria-label="Screenshots" className="grid grid-cols-2 gap-2 overflow-hidden rounded-2xl md:grid-cols-4">
-        {hero && <Shot shot={{ ...hero, label: "Hero screenshot" }} name={project.name} big className="col-span-2 h-72 md:row-span-2 md:h-full" />}
-        {rest.map((s) => (
-          <Shot key={s.label} shot={s} className="hidden h-52 items-start justify-end md:flex" />
+      <section aria-label="Screenshots" className="relative grid grid-cols-2 gap-2 overflow-hidden rounded-2xl md:grid-cols-4">
+        {hero && (
+          <ViewTransition name={`shot-${project.slug}`} share="morph" default="none">
+            <Shot shot={{ ...hero, label: "Hero screenshot" }} name={project.name} big className="col-span-2 h-72 md:row-span-2 md:h-full" />
+          </ViewTransition>
+        )}
+        {rest.map((s, n) => (
+          <Reveal key={s.label} delay={0.15 + n * 0.08} y={10} className="hidden md:block">
+            <Shot shot={s} className="h-52 transition duration-500 ease-soft hover:brightness-95" />
+          </Reveal>
         ))}
-        <Shot shot={{ label: "Figma file" }} className="hidden h-52 md:flex" />
+        <Reveal delay={0.31} y={10} className="hidden md:block">
+          <Shot shot={{ label: "Figma file" }} className="h-52" />
+        </Reveal>
+        <PhotoTour name={project.name} shots={[...project.screenshots, { label: "Figma file" }]} />
       </section>
 
       <div className="flex flex-wrap items-start gap-14 pt-2">
@@ -93,7 +113,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <div className="grid grid-cols-3 gap-3 border-b border-line py-6">
               {project.stats.map((s) => (
                 <div key={s.label} className="flex flex-col gap-1 rounded-xl border border-line-strong p-4">
-                  <span className="text-3xl font-extrabold tracking-tight">{s.value}</span>
+                  <span className="text-3xl font-extrabold tracking-tight"><CountUp value={s.value} /></span>
                   <span className="text-sm text-muted">{s.label}</span>
                 </div>
               ))}
@@ -102,17 +122,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
           <div className="flex flex-col pt-2">
             {project.entries.map((e, n) => (
-              <article
-                key={e.stage}
-                className="flex animate-fade-up flex-col gap-2.5 border-b border-line py-6"
-                style={{ animationDelay: `${n * 70}ms` }}
-              >
+              <Reveal key={e.stage} delay={n === 0 ? 0 : 0.05}>
+              <article className="flex flex-col gap-2.5 border-b border-line py-6">
                 <div className="flex flex-wrap items-baseline justify-between gap-3">
                   <h3 className="text-xl font-bold">{e.label}</h3>
                   <span className="font-diary text-muted italic">{e.date}</span>
                 </div>
                 <p className="font-diary text-xl">{e.body}</p>
               </article>
+              </Reveal>
             ))}
           </div>
 
@@ -126,14 +144,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           )}
 
           <div className="flex flex-wrap justify-between gap-3 pt-7">
-            <Link href={`/projects/${prev.slug}`} className={buttonClass("secondary", "text-sm")}>← {prev.name}</Link>
-            <Link href={`/projects/${next.slug}`} className={buttonClass("secondary", "text-sm")}>{next.name} →</Link>
+            <Link href={`/projects/${prev.slug}`} transitionTypes={["nav-back"]} className={buttonClass("secondary")}>← {prev.name}</Link>
+            <Link href={`/projects/${next.slug}`} transitionTypes={["nav-forward"]} className={buttonClass("secondary")}>{next.name} →</Link>
           </div>
         </div>
 
         <aside
+          id="explore"
           aria-labelledby="work-title"
-          className="flex w-full flex-col gap-3.5 rounded-2xl border border-line-strong p-6 shadow-card md:sticky md:top-28 md:w-80 md:shrink-0"
+          className="flex w-full scroll-mt-28 flex-col gap-3.5 rounded-2xl border border-line-strong p-6 shadow-card md:sticky md:top-28 md:w-80 md:shrink-0"
         >
           <div className="flex flex-col gap-0.5">
             <h2 id="work-title" className="text-xl font-bold">Explore the work</h2>
@@ -154,6 +173,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           />
         </aside>
       </div>
+      <MobileWorkBar years={project.years} status={status.label} />
     </main>
+    </ViewTransition>
   );
 }

@@ -16,8 +16,19 @@ export function Passport({ stamps, compact = false }: { stamps: PassportStamp[];
         const tilt = tilts[i % tilts.length];
         return (
           <li key={s.id} className="flex flex-col items-center gap-3 text-center">
+            <div className="relative w-full max-w-40">
+            {s.earned && !reduce && (
+              <motion.span
+                aria-hidden
+                className="absolute inset-0 rounded-full border-2 border-ink"
+                initial={{ opacity: 0, scale: 0.85 }}
+                whileInView={{ opacity: [0, 0.3, 0], scale: [0.85, 1.05, 1.35] }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.7, ease: "easeOut", delay: (i % 5) * 0.08 + 0.18 }}
+              />
+            )}
             <motion.div
-              className="w-full max-w-40 mix-blend-multiply"
+              className="w-full mix-blend-multiply"
               initial={reduce ? { rotate: tilt } : { opacity: 0, scale: 1.7, rotate: tilt - 14 }}
               whileInView={{ opacity: s.earned ? 0.92 : 1, scale: 1, rotate: s.earned ? tilt : 0 }}
               viewport={{ once: true, margin: "-60px" }}
@@ -26,6 +37,7 @@ export function Passport({ stamps, compact = false }: { stamps: PassportStamp[];
             >
               <StampMark stamp={s} />
             </motion.div>
+            </div>
             {!compact && (
               <div className="flex flex-col gap-0.5">
                 <span className="text-sm font-bold">{s.label}</span>

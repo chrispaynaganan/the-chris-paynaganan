@@ -113,3 +113,75 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ===== Glisse (liquid glass) =====
+   Keep it on our black-and-white palette: black accent, green only for "on". */
+:root {
+  --lg-fill: var(--color-ink);
+  --lg-on: var(--color-ok);
+  --lg-foreground: var(--color-ink);
+  --lg-ring: rgb(0 0 0 / 0.5);
+  --lg-ease: var(--ease-soft);
+}
+
+/* ===== View transitions (page-to-page motion) ===== */
+/* A card's thumbnail morphs into the project page's hero */
+::view-transition-group(.morph) {
+  animation-duration: 460ms;
+  animation-timing-function: var(--ease-soft);
+}
+::view-transition-image-pair(.morph) {
+  animation-name: vt-via-blur;
+}
+@keyframes vt-via-blur {
+  30% { filter: blur(3px); }
+}
+
+/* Forward slides left, back slides right */
+::view-transition-old(.nav-forward) {
+  --vt-offset: -60px;
+  animation: 150ms ease-in both vt-fade reverse, 400ms ease-in-out both vt-slide reverse;
+}
+::view-transition-new(.nav-forward) {
+  --vt-offset: 60px;
+  animation: 210ms ease-out 150ms both vt-fade, 400ms ease-in-out both vt-slide;
+}
+::view-transition-old(.nav-back) {
+  --vt-offset: 60px;
+  animation: 150ms ease-in both vt-fade reverse, 400ms ease-in-out both vt-slide reverse;
+}
+::view-transition-new(.nav-back) {
+  --vt-offset: -60px;
+  animation: 210ms ease-out 150ms both vt-fade, 400ms ease-in-out both vt-slide;
+}
+@keyframes vt-fade {
+  from { filter: blur(3px); opacity: 0; }
+  to { filter: blur(0); opacity: 1; }
+}
+@keyframes vt-slide {
+  from { translate: var(--vt-offset); }
+  to { translate: 0; }
+}
+
+/* The header and the mobile tab bar stay put while pages slide */
+::view-transition-group(site-header),
+::view-transition-group(tab-bar) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header),
+::view-transition-old(tab-bar) {
+  display: none;
+}
+::view-transition-new(site-header),
+::view-transition-new(tab-bar) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

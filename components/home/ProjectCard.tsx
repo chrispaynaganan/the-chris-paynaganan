@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, ViewTransition } from "react";
 import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { Project } from "@/types/content";
@@ -20,17 +20,22 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
   const href = `/projects/${project.slug}`;
 
   return (
-    <article className="group relative flex animate-fade-up flex-col" style={{ animationDelay: `${index * 60}ms` }}>
+    <article className="group relative flex flex-col" data-index={index}>
       <div className="relative aspect-20/19 overflow-hidden rounded-2xl bg-placeholder">
-        <div
-          className="flex h-full transition-transform duration-500 ease-soft group-hover:scale-101"
-          style={{ transform: `translateX(-${slide * 100}%)` }}
-        >
-          {project.screenshots.map((s, i) => (
-            <Shot key={s.label} shot={s} name={project.name} alt={i % 2 === 1} className="h-full w-full shrink-0" />
-          ))}
-        </div>
-        <Link href={href} className="absolute inset-0" tabIndex={-1} aria-hidden />
+        {/* Same name as the hero on the project page, so this thumbnail morphs into it */}
+        <ViewTransition name={`shot-${project.slug}`} share="morph" default="none">
+          <div className="h-full overflow-hidden">
+            <div
+              className="flex h-full transition-transform duration-500 ease-soft group-hover:scale-103"
+              style={{ transform: `translateX(-${slide * 100}%)` }}
+            >
+              {project.screenshots.map((s, i) => (
+                <Shot key={s.label} shot={s} name={project.name} alt={i % 2 === 1} className="h-full w-full shrink-0" />
+              ))}
+            </div>
+          </div>
+        </ViewTransition>
+        <Link href={href} transitionTypes={["nav-forward"]} className="absolute inset-0" tabIndex={-1} aria-hidden />
         <StatusBadge status={project.status} className="absolute top-3 left-3" />
         <button
           type="button"
@@ -73,9 +78,9 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
           </>
         )}
       </div>
-      <Link href={href} className="flex flex-col gap-0.5 pt-3">
+      <Link href={href} transitionTypes={["nav-forward"]} className="flex flex-col gap-0.5 pt-3">
         <span className="flex justify-between gap-2">
-          <span className="font-bold">{project.name}</span>
+          <span className="font-bold underline-offset-4 decoration-transparent transition group-hover:underline group-hover:decoration-ink">{project.name}</span>
           <span className="text-sm">{project.years}</span>
         </span>
         <span className="text-muted">{project.kind}</span>

@@ -3,6 +3,7 @@ import { Check } from "lucide-react";
 import { getPassport, getProjects, getSite } from "@/lib/content";
 import { buttonClass } from "@/components/ui/button";
 import { Notice } from "@/components/ui/Notice";
+import { Reveal } from "@/components/motion/Reveal";
 import { PassportSection } from "@/components/stamps/PassportSection";
 
 export const metadata: Metadata = { title: "About Chris" };
@@ -50,6 +51,7 @@ export default async function AboutPage() {
         </aside>
 
         <div className="flex min-w-0 flex-1 basis-lg flex-col gap-8">
+          <Reveal>
           <section className="flex animate-fade-up flex-col gap-4 border-b border-line pb-8">
             <h1 className="text-4xl font-extrabold tracking-tight">About Chris</h1>
             <ul className="flex flex-col gap-2.5">
@@ -61,6 +63,9 @@ export default async function AboutPage() {
               <p key={p.slice(0, 24)} className="font-diary text-xl">{p}</p>
             ))}
           </section>
+          </Reveal>
+
+          <Reveal>
 
           <section className="flex flex-col gap-4 border-b border-line pb-8">
             <h2 className="text-xl font-bold">What a karinderya taught me about design</h2>
@@ -69,6 +74,10 @@ export default async function AboutPage() {
               {site.interests.map((i) => <li key={i} className={chip}>{i}</li>)}
             </ul>
           </section>
+
+          </Reveal>
+
+          <Reveal>
 
           <section className="flex flex-col gap-4 border-b border-line pb-8">
             <h2 className="text-xl font-bold">House rules (how I work)</h2>
@@ -82,6 +91,10 @@ export default async function AboutPage() {
             </div>
           </section>
 
+          </Reveal>
+
+          <Reveal>
+
           <section className="flex flex-col gap-4 border-b border-line pb-8">
             <h2 className="text-xl font-bold">What’s in the toolbox</h2>
             {site.tools.map((g) => (
@@ -94,6 +107,10 @@ export default async function AboutPage() {
             ))}
             <Notice tone="info">{site.inTheWorks}</Notice>
           </section>
+
+          </Reveal>
+
+          <Reveal>
 
           <section className="flex flex-col gap-4 border-b border-line pb-8">
             <h2 className="text-xl font-bold">What clients say</h2>
@@ -112,6 +129,10 @@ export default async function AboutPage() {
             ))}
           </section>
 
+          </Reveal>
+
+          <Reveal>
+
           <section id="contact" aria-labelledby="contact-title" className="flex scroll-mt-28 flex-col gap-4">
             <h2 id="contact-title" className="text-xl font-bold">Let’s talk</h2>
             <p className="font-diary text-xl italic">Roles, projects, rough ideas or just design talk. No detailed pitch needed.</p>
@@ -124,6 +145,8 @@ export default async function AboutPage() {
               ))}
             </div>
           </section>
+
+          </Reveal>
         </div>
       </div>
 
