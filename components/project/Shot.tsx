@@ -13,7 +13,7 @@ export function Shot({ shot, name, alt, className, big }: { shot: Screenshot; na
   }
   return (
     <div className={cn("flex flex-col items-center justify-center gap-2 p-5 text-center", alt ? "bg-placeholder-alt" : "bg-placeholder", className)}>
-      {name && <span className={cn("font-extrabold tracking-tight", big ? "text-4xl" : "text-2xl")}>{name}</span>}
+      {name && <span className={cn("font-medium tracking-tight", big ? "text-4xl" : "text-2xl")}>{name}</span>}
       <span className="text-xs text-muted">[Screenshot · {shot.label}]</span>
     </div>
   );

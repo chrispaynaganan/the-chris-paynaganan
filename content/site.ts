@@ -8,7 +8,7 @@ export const site: SiteContent = {
   replyTime: "Replies personally, usually within a day or two",
   tagline: "I build websites that make you money.",
   calendlyUrl: "https://calendly.com/uxbychrisph/the-virtual-coffee",
-  resumeUrl: "",
+  resumeUrl: "https://buxyunximvrtzhmwvdnp.supabase.co/storage/v1/object/public/site-assets/about-hero-resume-354a595e-a5f8-463a-8ccf-ffbaeeb7ca37.pdf",
   enterprise: { label: "Chris Enterprise", url: "https://www.ohyvi.com" },
   socials: [
     { label: "LinkedIn", url: "https://www.linkedin.com/in/chrispaynaganan/" },

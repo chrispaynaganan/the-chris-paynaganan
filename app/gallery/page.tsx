@@ -9,9 +9,9 @@ export default async function GalleryPage() {
   return (
     <main className="mx-auto flex max-w-site animate-fade-in flex-col gap-6 px-gutter pt-10 pb-20">
       <div className="flex flex-col gap-1.5">
-        <span className="text-sm font-bold tracking-wider text-muted uppercase">Gallery</span>
-        <h1 className="text-3xl font-extrabold tracking-tight">Designing out of curiosity.</h1>
-        <p className="max-w-2xl font-diary text-xl italic">My mood board. Ideas I wanted to try, whether or not they ever get built.</p>
+        <span className="text-sm font-medium tracking-wider text-muted uppercase">Gallery</span>
+        <h1 className="text-3xl font-semibold tracking-tight">Designing out of curiosity.</h1>
+        <p className="max-w-2xl text-xl">My mood board. Ideas I wanted to try, whether or not they ever get built.</p>
       </div>
       <GalleryGrid items={site.gallery} />
     </main>

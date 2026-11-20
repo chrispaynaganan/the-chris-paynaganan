@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Newsreader } from "next/font/google";
+import { Livvic } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { SearchDockProvider } from "@/components/home/SearchDock";
@@ -9,11 +9,11 @@ import { ToastProvider } from "@/components/ui/Toast";
 import { SavedProvider } from "@/components/ui/SavedProvider";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const newsreader = Newsreader({
+const livvic = Livvic({
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  variable: "--font-newsreader",
+  // Regular, medium and semibold only. Nothing bolder.
+  weight: ["400", "500", "600"],
+  variable: "--font-livvic",
   display: "swap",
 });
 
@@ -28,14 +28,14 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const site = await getSite();
   return (
-    <html lang="en" data-theme="light" className={`${inter.variable} ${newsreader.variable}`}>
+    <html lang="en" data-theme="light" className={livvic.variable}>
       <body className="flex min-h-screen flex-col">
         <ToastProvider>
           <SavedProvider>
             <SearchDockProvider>
               <Header
-                email={site.email}
                 calendly={site.calendlyUrl}
+                resumeUrl={site.resumeUrl}
                 enterpriseUrl={site.enterprise.url}
                 linkedIn={site.socials.find((s) => s.label === "LinkedIn")?.url ?? ""}
               />

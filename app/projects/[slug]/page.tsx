@@ -59,12 +59,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-extrabold tracking-tight">
+        <h1 className="text-3xl font-semibold tracking-tight">
           {project.name}: {project.kind}
         </h1>
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
           <StatusBadge status={project.status} />
-          <span className="font-semibold">{project.years}</span>
+          <span className="font-medium">{project.years}</span>
           <span aria-hidden className="text-muted">·</span>
           <span className="text-muted">{project.category}</span>
         </div>
@@ -91,10 +91,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <div className="flex min-w-0 flex-1 basis-lg flex-col">
           <div className="flex items-center justify-between gap-4 border-b border-line pb-6">
             <div className="flex flex-col gap-1">
-              <h2 className="text-xl font-bold">Designed by Chris Paynaganan</h2>
+              <h2 className="text-xl font-semibold">Designed by Chris Paynaganan</h2>
               <span>{project.role}</span>
             </div>
-            <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-ink font-extrabold text-paper">CP</span>
+            <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-ink font-medium text-paper">CP</span>
           </div>
 
           <ul className="flex flex-col gap-4.5 border-b border-line py-6">
@@ -102,7 +102,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               <li key={f.label} className="flex items-start gap-4">
                 <span aria-hidden className="mt-0.5 size-6 shrink-0 rounded-md border-2 border-ink" />
                 <span className="flex flex-col gap-0.5">
-                  <span className="font-semibold">{f.label}</span>
+                  <span className="font-medium">{f.label}</span>
                   <span className="text-sm text-muted">{f.value}</span>
                 </span>
               </li>
@@ -113,7 +113,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <div className="grid grid-cols-3 gap-3 border-b border-line py-6">
               {project.stats.map((s) => (
                 <div key={s.label} className="flex flex-col gap-1 rounded-xl border border-line-strong p-4">
-                  <span className="text-3xl font-extrabold tracking-tight"><CountUp value={s.value} /></span>
+                  <span className="text-3xl font-semibold tracking-tight"><CountUp value={s.value} /></span>
                   <span className="text-sm text-muted">{s.label}</span>
                 </div>
               ))}
@@ -125,10 +125,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               <Reveal key={e.stage} delay={n === 0 ? 0 : 0.05}>
               <article className="flex flex-col gap-2.5 border-b border-line py-6">
                 <div className="flex flex-wrap items-baseline justify-between gap-3">
-                  <h3 className="text-xl font-bold">{e.label}</h3>
-                  <span className="font-diary text-muted italic">{e.date}</span>
+                  <h3 className="text-xl font-semibold">{e.label}</h3>
+                  <span className="text-muted">{e.date}</span>
                 </div>
-                <p className="font-diary text-xl">{e.body}</p>
+                <p className="text-xl">{e.body}</p>
               </article>
               </Reveal>
             ))}
@@ -136,7 +136,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
           {stamps.length > 0 && (
             <section aria-labelledby="trip-stamps" className="flex flex-col gap-5 border-b border-line py-8">
-              <h2 id="trip-stamps" className="text-xl font-bold">Stamps from this trip</h2>
+              <h2 id="trip-stamps" className="text-xl font-semibold">Stamps from this trip</h2>
               <div className="max-w-md">
                 <Passport stamps={stamps} compact />
               </div>
@@ -155,7 +155,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           className="flex w-full scroll-mt-28 flex-col gap-3.5 rounded-2xl border border-line-strong p-6 shadow-card md:sticky md:top-28 md:w-80 md:shrink-0"
         >
           <div className="flex flex-col gap-0.5">
-            <h2 id="work-title" className="text-xl font-bold">Explore the work</h2>
+            <h2 id="work-title" className="text-xl font-semibold">Explore the work</h2>
             <span className="text-sm text-muted">
               {project.years} · {project.platform}
             </span>
@@ -163,14 +163,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <p role="note" className={cn("rounded-xl px-3.5 py-3 text-sm", toneClass[status.tone])}>
             {status.note}
           </p>
-          <WorkActions
-            name={project.name}
-            subtitle={subtitle}
-            url={url}
-            docsUrl={project.docsUrl}
-            designSystemUrl={project.designSystemUrl}
-            liveUrl={project.liveUrl}
-          />
+          <WorkActions slug={project.slug} name={project.name} subtitle={subtitle} url={url} liveUrl={project.liveUrl} />
         </aside>
       </div>
       <MobileWorkBar years={project.years} status={status.label} />

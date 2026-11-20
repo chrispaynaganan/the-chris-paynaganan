@@ -17,7 +17,7 @@ export const toneClass = {
 export function StatusBadge({ status, className }: { status: ProjectStatus; className?: string }) {
   const s = statusInfo[status];
   return (
-    <span className={cn("inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold", toneClass[s.tone], className)}>
+    <span className={cn("inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium", toneClass[s.tone], className)}>
       {s.label}
     </span>
   );

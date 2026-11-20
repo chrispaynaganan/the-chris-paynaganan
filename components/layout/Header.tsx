@@ -29,7 +29,7 @@ function useScrolled() {
   return scrolled;
 }
 
-function SiteMenu({ email, linkedIn, calendly, enterpriseUrl }: { email: string; linkedIn: string; calendly: string; enterpriseUrl: string }) {
+function SiteMenu({ linkedIn, calendly, enterpriseUrl, resumeUrl }: { linkedIn: string; calendly: string; enterpriseUrl: string; resumeUrl?: string }) {
   const router = useRouter();
   const open = (url: string) => window.open(url, "_blank", "noopener");
   return (
@@ -38,14 +38,17 @@ function SiteMenu({ email, linkedIn, calendly, enterpriseUrl }: { email: string;
       align="end"
       icon={<MenuIcon aria-hidden className="size-4.5" />}
       items={[
+        { label: "Saved projects", onSelect: () => router.push("/saved") },
         { label: "About me", onSelect: () => router.push("/about") },
         { label: "Passport stamps", onSelect: () => router.push("/#passport") },
         { label: "Gallery", onSelect: () => router.push("/gallery") },
         "separator",
-        { label: "Chris for Business", onSelect: () => router.push("/business") },
+        { label: "Contact", onSelect: () => router.push("/contact") },
         { label: "Book a virtual coffee", onSelect: () => open(calendly) },
-        { label: "Email me", onSelect: () => (window.location.href = `mailto:${email}`) },
+        ...(resumeUrl ? [{ label: "Résumé", onSelect: () => open(resumeUrl) }] : []),
         { label: "LinkedIn", onSelect: () => open(linkedIn) },
+        "separator",
+        { label: "Chris for Business", onSelect: () => router.push("/business") },
         "separator",
         { label: "Chris Enterprise", onSelect: () => open(enterpriseUrl) },
       ]}
@@ -54,15 +57,15 @@ function SiteMenu({ email, linkedIn, calendly, enterpriseUrl }: { email: string;
 }
 
 export function Header({
-  email,
   linkedIn,
   calendly,
   enterpriseUrl,
+  resumeUrl,
 }: {
-  email: string;
   linkedIn: string;
   calendly: string;
   enterpriseUrl: string;
+  resumeUrl?: string;
 }) {
   const pathname = usePathname();
   const scrolled = useScrolled();
@@ -75,7 +78,7 @@ export function Header({
       <header style={{ viewTransitionName: "site-header" }} className={cn("sticky top-0 z-30 border-b bg-ink text-paper transition duration-300", scrolled ? "border-paper/15" : "border-transparent")}>
         <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-gutter py-4">
           <Logo dark business />
-          <nav aria-label="Business sections" className="hidden flex-wrap gap-5 text-sm font-semibold md:flex">
+          <nav aria-label="Business sections" className="hidden flex-wrap gap-5 text-sm font-medium md:flex">
             {[
               ["#bundles", "Bundles"],
               ["#addons", "Add-ons"],
@@ -88,10 +91,10 @@ export function Header({
             ))}
           </nav>
           <div className="flex items-center gap-4">
-            <Link href="/" transitionTypes={["nav-back"]} className="text-sm font-semibold text-paper underline underline-offset-4 hover:decoration-2">
+            <Link href="/" transitionTypes={["nav-back"]} className="text-sm font-medium text-paper underline underline-offset-4 hover:decoration-2">
               Back to projects
             </Link>
-            <a href="#inquire" className="inline-flex h-10 items-center rounded-lg bg-paper px-4 text-sm font-semibold text-ink transition hover:bg-placeholder-alt active:scale-97">
+            <a href="#inquire" className="inline-flex h-10 items-center rounded-lg bg-paper px-4 text-sm font-medium text-ink transition hover:bg-placeholder-alt active:scale-97">
               Start a project
             </a>
           </div>
@@ -122,7 +125,7 @@ export function Header({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 14, scale: 0.92 }}
                 transition={{ duration: 0.28, ease }}
-                className="flex h-12 cursor-pointer items-center gap-3 rounded-full border border-line-strong py-1.5 pr-1.5 pl-5 text-sm font-semibold shadow-pill transition-shadow hover:shadow-pill-hover"
+                className="flex h-12 cursor-pointer items-center gap-3 rounded-full border border-line-strong py-1.5 pr-1.5 pl-5 text-sm font-medium shadow-pill transition-shadow hover:shadow-pill-hover"
               >
                 <span className="max-w-48 truncate">{query || "Search the diary"}</span>
                 <span className="h-5 w-px bg-line-strong" />
@@ -149,7 +152,7 @@ export function Header({
                       href={t.href}
                       aria-current={on ? "page" : undefined}
                       className={cn(
-                        "relative inline-flex h-10 items-center px-4 text-sm font-semibold transition-colors",
+                        "relative inline-flex h-10 items-center px-4 text-sm font-medium transition-colors",
                         on ? "text-ink" : "text-muted hover:text-ink",
                       )}
                     >
@@ -160,9 +163,9 @@ export function Header({
                     </Link>
                   );
                 })}
-                <Link href="/business" className="group inline-flex h-10 items-center gap-2 px-4 text-sm font-semibold text-muted transition-colors hover:text-ink">
+                <Link href="/business" className="group inline-flex h-10 items-center gap-2 px-4 text-sm font-medium text-muted transition-colors hover:text-ink">
                   Chris
-                  <span className="rounded bg-ink px-1.5 py-0.5 text-xs font-bold tracking-wider text-paper uppercase transition group-hover:-translate-y-px">
+                  <span className="rounded bg-ink px-1.5 py-0.5 text-xs font-medium tracking-wider text-paper uppercase transition group-hover:-translate-y-px">
                     for Business
                   </span>
                 </Link>
@@ -175,10 +178,10 @@ export function Header({
           <Link href="/about" className={buttonClass("tertiary", "hidden lg:inline-flex")} aria-current={pathname.startsWith("/about") ? "page" : undefined}>
             About me
           </Link>
-          <Link href="/about#contact" className={buttonClass("primary", "hidden sm:inline-flex")}>
+          <Link href="/contact" className={buttonClass("primary", "hidden sm:inline-flex")} aria-current={pathname.startsWith("/contact") ? "page" : undefined}>
             Let&apos;s talk
           </Link>
-          <SiteMenu email={email} linkedIn={linkedIn} calendly={calendly} enterpriseUrl={enterpriseUrl} />
+          <SiteMenu linkedIn={linkedIn} calendly={calendly} enterpriseUrl={enterpriseUrl} resumeUrl={resumeUrl} />
         </div>
       </div>
     </header>

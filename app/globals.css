@@ -2,8 +2,7 @@
 
 /* Fonts come from next/font in app/layout.tsx */
 @theme inline {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-diary: var(--font-newsreader), Georgia, serif;
+  --font-sans: var(--font-livvic), ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme {

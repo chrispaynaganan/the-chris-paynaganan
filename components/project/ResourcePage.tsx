@@ -1,0 +1,70 @@
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import { getProject } from "@/lib/content";
+import { buttonClass } from "@/components/ui/button";
+import { Notice } from "@/components/ui/Notice";
+import { StatusBadge } from "@/components/ui/StatusBadge";
+
+type Kind = "documentation" | "design-system";
+
+const copy: Record<Kind, { title: string; what: string; covers: string[] }> = {
+  documentation: {
+    title: "Project documentation",
+    what: "the write-up of how this project was planned, designed and handed off",
+    covers: ["Goals, users and constraints", "Flows and key screens", "Decisions and why they were made", "Handoff notes for developers"],
+  },
+  "design-system": {
+    title: "Design system",
+    what: "the colors, type, spacing and components this project was built from",
+    covers: ["Color and type tokens", "Spacing and layout grid", "Components and their states", "Usage guidelines"],
+  },
+};
+
+/**
+ * /projects/[slug]/documentation and /projects/[slug]/design-system.
+ * When the project has a link for it, this page forwards straight there.
+ * Until then it explains what's coming and offers a walkthrough instead.
+ */
+export async function ResourcePage({ slug, kind }: { slug: string; kind: Kind }) {
+  const project = await getProject(slug);
+  if (!project) notFound();
+  const url = kind === "documentation" ? project.docsUrl : project.designSystemUrl;
+  if (url) redirect(url);
+
+  const c = copy[kind];
+  return (
+    <main className="mx-auto flex max-w-site flex-col gap-8 px-gutter pt-8 pb-20">
+      <Link href={`/projects/${project.slug}`} transitionTypes={["nav-back"]} className={buttonClass("secondary", "self-start")}>
+        <ArrowLeft aria-hidden className="size-4" /> Back to {project.name}
+      </Link>
+      <div className="flex flex-col gap-3">
+        <span className="text-sm font-medium text-muted">{project.name}</span>
+        <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{c.title}</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <StatusBadge status={project.status} />
+          <span className="text-muted">{project.years} · {project.platform}</span>
+        </div>
+      </div>
+      <Notice tone="info" className="max-w-2xl">
+        The public version of {c.what} is being prepared. Want to see it sooner? I’m happy to walk you through it on a call.
+      </Notice>
+      <section aria-labelledby="covers-title" className="flex max-w-2xl flex-col gap-4 rounded-2xl border border-line-strong p-6">
+        <h2 id="covers-title" className="text-lg font-semibold">What it will cover</h2>
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {c.covers.map((x) => (
+            <li key={x} className="flex items-center gap-3 text-sm">
+              <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-ink" /> {x}
+            </li>
+          ))}
+        </ul>
+      </section>
+      <div className="flex flex-wrap items-center gap-3">
+        <Link href="/contact" className={buttonClass("primary")}>Ask for a walkthrough</Link>
+        <Link href={`/projects/${project.slug}`} transitionTypes={["nav-back"]} className={buttonClass("tertiary")}>
+          Read the {project.name} diary
+        </Link>
+      </div>
+    </main>
+  );
+}

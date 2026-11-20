@@ -61,7 +61,7 @@ export function ProjectExplorer({
           className="group/pill flex w-full max-w-3xl items-center rounded-full border border-line-strong py-2 pr-2 pl-6 shadow-pill transition-shadow duration-300 focus-within:shadow-pill-hover hover:shadow-pill-hover"
         >
           <div className="flex min-w-0 flex-1 flex-col pr-4">
-            <label htmlFor="project-search" className="text-xs font-bold">
+            <label htmlFor="project-search" className="text-xs font-medium">
               Search the diary
             </label>
             <input
@@ -93,14 +93,14 @@ export function ProjectExplorer({
             )}
           </AnimatePresence>
           <div className="hidden flex-col border-l border-line px-4 md:flex">
-            <span className="text-xs font-bold">Role</span>
+            <span className="text-xs font-medium">Role</span>
             <span className="text-sm text-muted">Product designer</span>
           </div>
           <div className="hidden flex-col border-l border-line px-4 md:flex">
-            <span className="text-xs font-bold">Years</span>
+            <span className="text-xs font-medium">Years</span>
             <span className="text-sm text-muted">2023–2026</span>
           </div>
-          <span aria-hidden className="flex h-12 min-w-12 shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-3.5 text-sm font-semibold text-paper transition-all duration-300 group-focus-within/pill:px-5">
+          <span aria-hidden className="flex h-12 min-w-12 shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-3.5 text-sm font-medium text-paper transition-all duration-300 group-focus-within/pill:px-5">
             <Search className="size-4.5 stroke-3" />
             <span className="hidden group-focus-within/pill:inline">Search</span>
           </span>
@@ -117,7 +117,7 @@ export function ProjectExplorer({
                   onClick={() => setCat(c.id)}
                   aria-pressed={on}
                   className={cn(
-                    "relative flex h-13 shrink-0 cursor-pointer items-center px-0.5 text-sm font-semibold transition-colors",
+                    "relative flex h-13 shrink-0 cursor-pointer items-center px-0.5 text-sm font-medium transition-colors",
                     on ? "text-ink" : "text-ink/60 hover:text-ink",
                   )}
                 >
@@ -134,7 +134,7 @@ export function ProjectExplorer({
             })}
           </div>
           <div className="hidden shrink-0 items-center gap-3 rounded-xl border border-line-strong py-2 pr-2 pl-4 lg:flex">
-            <span id="live-only" className="text-sm font-semibold">Shipped only</span>
+            <span id="live-only" className="text-sm font-medium">Shipped only</span>
             <Switch aria-labelledby="live-only" checked={liveOnly} onCheckedChange={setLiveOnly} />
           </div>
         </div>
@@ -165,14 +165,14 @@ export function ProjectExplorer({
             >
               <Link href="/business" className="group flex animate-fade-up flex-col" style={{ animationDelay: `${shown.length * 70}ms` }}>
                 <div className="relative flex aspect-20/19 flex-col justify-between overflow-hidden rounded-2xl bg-ink p-6 text-paper">
-                  <span className="self-start rounded border border-paper px-2 py-1 text-xs font-bold tracking-widest uppercase">Chris for Business</span>
-                  <span className="text-2xl font-extrabold tracking-tight transition duration-500 ease-soft group-hover:-translate-y-1">
+                  <span className="self-start rounded border border-paper px-2 py-1 text-xs font-medium tracking-widest uppercase">Chris for Business</span>
+                  <span className="text-2xl font-semibold tracking-tight transition duration-500 ease-soft group-hover:-translate-y-1">
                     I build websites that make you money.
                   </span>
                   <span aria-hidden className="absolute -right-10 -bottom-10 size-40 rounded-full border border-paper/20 transition duration-700 ease-soft group-hover:scale-150" />
                 </div>
                 <span className="flex flex-col gap-0.5 pt-3">
-                  <span className="font-bold">For clients</span>
+                  <span className="font-medium">For clients</span>
                   <span className="text-muted">Bundles from $990 · design + build</span>
                 </span>
               </Link>

@@ -51,7 +51,7 @@ export function ShareDialog({
     >
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <h2 id="share-title" className="text-xl font-bold">Share this project</h2>
+          <h2 id="share-title" className="text-xl font-semibold">Share this project</h2>
           <button type="button" onClick={onClose} aria-label="Close" className="flex size-11 cursor-pointer items-center justify-center rounded-full transition hover:bg-surface">
             <X aria-hidden className="size-4.5" />
           </button>
@@ -59,12 +59,12 @@ export function ShareDialog({
         <div className="flex items-center gap-3.5">
           <div className="size-16 shrink-0 rounded-xl bg-placeholder" />
           <div className="flex flex-col">
-            <span className="font-bold">{title}</span>
+            <span className="font-medium">{title}</span>
             <span className="text-sm text-muted">{subtitle}</span>
           </div>
         </div>
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="share-link" className="text-sm font-semibold">Link</label>
+          <label htmlFor="share-link" className="text-sm font-medium">Link</label>
           <input
             id="share-link"
             readOnly

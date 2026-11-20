@@ -4,7 +4,7 @@ export function Marquee({ items }: { items: string[] }) {
     <div className="flex shrink-0">
       {items.map((t) => (
         <span key={t} className="flex shrink-0 items-center gap-10 pr-10">
-          <span className="font-diary text-3xl italic md:text-4xl">{t}</span>
+          <span className="text-3xl md:text-4xl">{t}</span>
           <span aria-hidden className="size-1.5 rounded-full bg-paper/40" />
         </span>
       ))}

@@ -28,7 +28,7 @@ export function GalleryGrid({ items }: { items: SiteContent["gallery"] }) {
           <li key={g.title} className="flex animate-fade-up flex-col gap-2.5" style={{ animationDelay: `${i * 60}ms` }}>
             <div className="flex aspect-4/3 items-center justify-center rounded-2xl bg-placeholder text-xs text-muted">[Image · {g.title}]</div>
             <div className="flex justify-between gap-2">
-              <span className="font-bold">{g.title}</span>
+              <span className="font-medium">{g.title}</span>
               <span className="text-sm text-muted">{g.date}</span>
             </div>
           </li>

@@ -13,6 +13,7 @@ export async function Footer() {
       title: "Chris",
       links: [
         { label: "About me", href: "/about" },
+        { label: "Saved projects", href: "/saved" },
         { label: "Passport stamps", href: "/#passport" },
         { label: "Gallery", href: "/gallery" },
         ...(site.resumeUrl ? [{ label: "Résumé", href: site.resumeUrl, external: true }] : []),
@@ -32,6 +33,7 @@ export async function Footer() {
     {
       title: "Connect",
       links: [
+        { label: "Contact", href: "/contact" },
         { label: "Email me", href: `mailto:${site.email}`, external: true },
         ...site.socials.map((s) => ({ label: s.label, href: s.url, external: true })),
       ],
@@ -44,7 +46,7 @@ export async function Footer() {
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-5">
           {columns.map((col) => (
             <div key={col.title} className="flex flex-col gap-3">
-              <h2 className="text-sm font-bold">{col.title}</h2>
+              <h2 className="text-sm font-medium">{col.title}</h2>
               <ul className="flex flex-col gap-2.5">
                 {col.links.map((l) => (
                   <li key={l.label}>
@@ -63,14 +65,14 @@ export async function Footer() {
             </div>
           ))}
           <div className="col-span-2 flex flex-col gap-3 md:col-span-1">
-            <h2 className="text-sm font-bold">{site.enterprise.label}</h2>
+            <h2 className="text-sm font-medium">{site.enterprise.label}</h2>
             <a
               href={site.enterprise.url}
               target="_blank"
               rel="noopener"
               className="group flex flex-col gap-2 rounded-2xl border border-line-strong bg-paper p-4 transition hover:border-ink hover:shadow-card"
             >
-              <span className="flex items-center justify-between text-base font-bold">
+              <span className="flex items-center justify-between text-base font-medium">
                 Oh, Yvi!
                 <ArrowUpRight aria-hidden className="size-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </span>
@@ -94,7 +96,7 @@ export async function Footer() {
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <span className="text-muted">{site.location}</span>
             {site.socials.map((s) => (
-              <a key={s.label} href={s.url} target="_blank" rel="noopener" className="font-semibold hover:underline hover:underline-offset-4">
+              <a key={s.label} href={s.url} target="_blank" rel="noopener" className="font-medium hover:underline hover:underline-offset-4">
                 {s.label}
               </a>
             ))}

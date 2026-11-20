@@ -37,7 +37,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {children}
       <div aria-live="polite" role="status" className="pointer-events-none fixed bottom-7 left-1/2 z-50 -translate-x-1/2">
         {toast && (
-          <div key={toast.id} className={cn("animate-toast rounded-xl px-4.5 py-3 text-sm font-semibold shadow-toast", kindClass[toast.kind])}>
+          <div key={toast.id} className={cn("animate-toast rounded-xl px-4.5 py-3 text-sm font-medium shadow-toast", kindClass[toast.kind])}>
             {toast.text}
           </div>
         )}

@@ -47,20 +47,20 @@ export function Bundles({ bundles }: { bundles: Bundle[] }) {
               )}
             >
               <div className="flex items-start justify-between gap-3">
-                <span className={cn("font-diary text-5xl italic", lit ? "text-ink/25" : "text-paper/25")}>{numerals[i]}</span>
-                {lit && <span className="rounded-full border border-ink px-3 py-1 text-xs font-bold tracking-widest uppercase">Most chosen</span>}
+                <span className={cn("text-5xl", lit ? "text-ink/25" : "text-paper/25")}>{numerals[i]}</span>
+                {lit && <span className="rounded-full border border-ink px-3 py-1 text-xs font-medium tracking-widest uppercase">Most chosen</span>}
               </div>
               <div className="flex flex-col gap-1">
-                <h3 className="font-diary text-3xl">{b.name}</h3>
+                <h3 className="text-3xl">{b.name}</h3>
                 <div key={String(full)} className="flex animate-fade-in items-baseline gap-2 pt-3">
-                  <span className="text-5xl font-extrabold tracking-tighter">{price.usd}</span>
+                  <span className="text-5xl font-semibold tracking-tighter">{price.usd}</span>
                   <span className={cn("text-sm", lit ? "text-muted" : "text-paper/60")}>{price.php}</span>
                 </div>
-                <span className={cn("text-xs font-semibold tracking-widest uppercase", lit ? "text-muted" : "text-paper/50")}>
+                <span className={cn("text-xs font-medium tracking-widest uppercase", lit ? "text-muted" : "text-paper/50")}>
                   {full ? "Paid in full · per project" : "From, in installments"}
                 </span>
                 {b.save && full && (
-                  <span className="mt-3 self-start rounded-full bg-ok-bg px-2.5 py-1 text-xs font-bold text-ok">{b.save}</span>
+                  <span className="mt-3 self-start rounded-full bg-ok-bg px-2.5 py-1 text-xs font-medium text-ok">{b.save}</span>
                 )}
               </div>
               <span aria-hidden className={cn("h-px w-full", lit ? "bg-ink/15" : "bg-paper/15")} />

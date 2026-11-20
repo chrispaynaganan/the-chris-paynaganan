@@ -66,7 +66,7 @@ export function InquiryForm({
           : "border border-field focus:border-ink",
     );
 
-  const labelClass = cn("text-sm font-semibold", dark && "text-paper/80");
+  const labelClass = cn("text-sm font-medium", dark && "text-paper/80");
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();

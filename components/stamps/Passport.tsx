@@ -40,7 +40,7 @@ export function Passport({ stamps, compact = false }: { stamps: PassportStamp[];
             </div>
             {!compact && (
               <div className="flex flex-col gap-0.5">
-                <span className="text-sm font-bold">{s.label}</span>
+                <span className="text-sm font-medium">{s.label}</span>
                 {s.earned ? (
                   <span className="text-sm text-muted">
                     {s.projects.map((p, j) => (

@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
-import { Notice } from "@/components/ui/Notice";
+import { privacy } from "@/content/legal";
+import { LegalPage } from "@/components/legal/LegalPage";
 
 export const metadata: Metadata = { title: "Privacy policy" };
 
 export default function Page() {
-  return (
-    <main className="mx-auto flex max-w-site flex-col gap-6 px-gutter pt-12 pb-20">
-      <h1 className="text-3xl font-extrabold tracking-tight">Privacy policy</h1>
-      <Notice tone="info">This page is moving over from the old site.</Notice>
-    </main>
-  );
+  return <LegalPage doc={privacy} other={{ label: "Read the terms and conditions", href: "/terms-and-conditions" }} />;
 }

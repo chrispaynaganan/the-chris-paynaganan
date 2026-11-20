@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Heart, Share } from "lucide-react";
 import { cn } from "@/lib/cn";
@@ -47,29 +48,17 @@ export function TopActions({ slug, name, subtitle, url }: Props) {
 
 /** The buttons in the sticky "Explore the work" card. */
 export function WorkActions({
+  slug,
   name,
   subtitle,
   url,
-  docsUrl,
-  designSystemUrl,
   liveUrl,
-}: Omit<Props, "slug"> & { docsUrl?: string; designSystemUrl?: string; liveUrl?: string }) {
+}: Props & { liveUrl?: string }) {
   const share = useShare();
-  const toast = useToast();
-  const soon = (what: string) => toast("info", `The ${name} ${what} link is coming soon.`);
-
   return (
     <div className="flex flex-col gap-3">
-      {docsUrl ? (
-        <a href={docsUrl} target="_blank" rel="noopener" className={buttonClass("primary")}>Project documentation</a>
-      ) : (
-        <button type="button" onClick={() => soon("documentation")} className={buttonClass("primary")}>Project documentation</button>
-      )}
-      {designSystemUrl ? (
-        <a href={designSystemUrl} target="_blank" rel="noopener" className={buttonClass("secondary")}>Design system</a>
-      ) : (
-        <button type="button" onClick={() => soon("design system")} className={buttonClass("secondary")}>Design system</button>
-      )}
+      <Link href={`/projects/${slug}/documentation`} className={buttonClass("primary")}>Project documentation</Link>
+      <Link href={`/projects/${slug}/design-system`} className={buttonClass("secondary")}>Design system</Link>
       {liveUrl && (
         <a href={liveUrl} target="_blank" rel="noopener" className={buttonClass("secondary")}>Visit live site</a>
       )}

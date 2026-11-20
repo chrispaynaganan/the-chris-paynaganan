@@ -80,7 +80,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       </div>
       <Link href={href} transitionTypes={["nav-forward"]} className="flex flex-col gap-0.5 pt-3">
         <span className="flex justify-between gap-2">
-          <span className="font-bold underline-offset-4 decoration-transparent transition group-hover:underline group-hover:decoration-ink">{project.name}</span>
+          <span className="font-medium underline-offset-4 decoration-transparent transition group-hover:underline group-hover:decoration-ink">{project.name}</span>
           <span className="text-sm">{project.years}</span>
         </span>
         <span className="text-muted">{project.kind}</span>

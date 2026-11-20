@@ -15,12 +15,12 @@ export const metadata: Metadata = { title: "Chris for Business" };
 function Chapter({ n, label, title, id }: { n: string; label: string; title: string; id: string }) {
   return (
     <Reveal className="flex flex-col gap-6">
-      <div className="flex items-center gap-4 text-xs font-bold tracking-widest text-paper/60 uppercase">
+      <div className="flex items-center gap-4 text-xs font-medium tracking-widest text-paper/60 uppercase">
         <span>{n}</span>
         <span aria-hidden className="h-px flex-1 bg-paper/15" />
         <span>{label}</span>
       </div>
-      <h2 id={id} className="max-w-4xl font-diary text-4xl md:text-6xl">
+      <h2 id={id} className="max-w-4xl text-4xl md:text-6xl">
         {title}
       </h2>
     </Reveal>
@@ -47,11 +47,11 @@ export default async function BusinessPage() {
       <section className="mx-auto flex max-w-site flex-col gap-16 px-gutter pt-20 pb-16 md:pt-28">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="flex flex-col gap-8 lg:col-span-8">
-            <Reveal y={8} className="flex items-center gap-3 text-xs font-bold tracking-widest uppercase">
+            <Reveal y={8} className="flex items-center gap-3 text-xs font-medium tracking-widest uppercase">
               <span className="rounded-full border border-paper/40 px-3 py-1">Chris for Business</span>
               <span className="text-paper/60">Private studio · for clients</span>
             </Reveal>
-            <h1 className="font-diary text-5xl tracking-tight md:text-7xl">
+            <h1 className="text-5xl tracking-tight md:text-7xl">
               <SplitWords text={site.tagline} delay={0.1} />
             </h1>
           </div>
@@ -70,7 +70,7 @@ export default async function BusinessPage() {
           {promises.map(([title, body], i) => (
             <li key={title} className="border-b border-paper/15 py-6 sm:pr-6 lg:border-b-0 lg:border-l lg:px-6 lg:first:border-l-0 lg:first:pl-0">
               <Reveal delay={0.6 + i * 0.08} y={10} className="flex flex-col gap-1.5">
-                <span className="font-semibold">{title}</span>
+                <span className="font-medium">{title}</span>
                 <span className="text-sm text-paper/60">{body}</span>
               </Reveal>
             </li>
@@ -88,8 +88,8 @@ export default async function BusinessPage() {
           <Reveal className="flex flex-col gap-4">
             <div className="flex flex-wrap items-center justify-between gap-6 rounded-3xl border border-paper/15 p-8 transition duration-500 hover:border-paper/50">
               <div className="flex flex-col gap-2">
-                <span className="text-xs font-bold tracking-widest text-paper/60 uppercase">For companies</span>
-                <span className="font-diary text-3xl">{b.businessBundles.join(" · ")}</span>
+                <span className="text-xs font-medium tracking-widest text-paper/60 uppercase">For companies</span>
+                <span className="text-3xl">{b.businessBundles.join(" · ")}</span>
               </div>
               <a href="#inquire" className={buttonClass("secondary", undefined, true)}>Ask about business bundles</a>
             </div>
@@ -105,9 +105,9 @@ export default async function BusinessPage() {
               <li key={a.name}>
                 <Reveal delay={(i % 2) * 0.08} y={12} className="group flex flex-col gap-1.5">
                   <div className="flex items-baseline gap-3">
-                    <span className="font-diary text-2xl">{a.name}</span>
+                    <span className="text-2xl">{a.name}</span>
                     <span aria-hidden className="mb-1.5 flex-1 border-b border-dotted border-paper/30 transition group-hover:border-paper/70" />
-                    <span className="font-semibold">{a.usd}</span>
+                    <span className="font-medium">{a.usd}</span>
                   </div>
                   <div className="flex justify-between gap-4 text-sm text-paper/55">
                     <span>{a.description}</span>
@@ -126,8 +126,8 @@ export default async function BusinessPage() {
             {b.process.map((s, i) => (
               <li key={s.title}>
                 <Reveal delay={i * 0.08} y={14} className="flex flex-col gap-3 border-t border-paper/30 pt-5">
-                  <span className="font-diary text-4xl text-paper/40 italic">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="font-semibold">{s.title}</span>
+                  <span className="text-4xl text-paper/40">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-medium">{s.title}</span>
                   <span className="text-sm text-paper/60">{s.body}</span>
                 </Reveal>
               </li>
@@ -138,16 +138,16 @@ export default async function BusinessPage() {
         {/* Proof */}
         <Reveal className="grid gap-8 rounded-3xl bg-paper p-10 text-ink md:grid-cols-3 md:p-14">
           <div className="flex flex-col gap-2">
-            <span className="font-diary text-6xl">{projects.length}</span>
+            <span className="text-6xl">{projects.length}</span>
             <span className="text-sm text-muted">Projects designed, from healthcare to voice</span>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="font-diary text-6xl">{live}</span>
+            <span className="text-6xl">{live}</span>
             <span className="text-sm text-muted">Client sites live right now</span>
           </div>
           <div className="flex flex-col justify-between gap-4">
-            <p className="font-diary text-xl italic">“{site.testimonials[0]?.quote}”</p>
-            <span className="text-sm font-semibold">
+            <p className="text-xl">“{site.testimonials[0]?.quote}”</p>
+            <span className="text-sm font-medium">
               {site.testimonials[0]?.name} · <span className="font-normal text-muted">{site.testimonials[0]?.title}</span>
             </span>
           </div>
@@ -166,7 +166,7 @@ export default async function BusinessPage() {
           <Chapter n="05" label="Begin" id="i-title" title="Start a project." />
           <div className="grid gap-12 lg:grid-cols-12">
             <Reveal className="flex flex-col gap-4 lg:col-span-4">
-              <p className="font-diary text-2xl italic">A rough idea is plenty. I read every message myself and usually reply within a day or two.</p>
+              <p className="text-2xl">A rough idea is plenty. I read every message myself and usually reply within a day or two.</p>
               <p className="text-sm text-paper/60">Not sure which bundle? Pick the closest one. We’ll settle it together on the call.</p>
             </Reveal>
             <Reveal delay={0.1} className="lg:col-span-8">

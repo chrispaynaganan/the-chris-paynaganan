@@ -59,7 +59,7 @@ export function PhotoTour({ name, shots }: { name: string; shots: Screenshot[] }
                   <button ref={closeRef} type="button" onClick={() => setOpen(false)} aria-label="Close photos" className="flex size-10 cursor-pointer items-center justify-center rounded-full transition hover:bg-surface">
                     <ChevronLeft aria-hidden className="size-5" />
                   </button>
-                  <span className="font-bold">{name}</span>
+                  <span className="font-medium">{name}</span>
                   <span className="size-10" />
                 </div>
                 <div className="mx-auto grid max-w-4xl grid-cols-2 gap-2 px-6 py-10">
