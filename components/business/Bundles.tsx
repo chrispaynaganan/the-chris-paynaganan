@@ -1,24 +1,28 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "motion/react";
 import { Check } from "lucide-react";
 import { SegmentedControl } from "glisse";
 import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/button";
 import type { Bundle } from "@/types/content";
 
+const numerals = ["I", "II", "III", "IV", "V"];
+
 export function Bundles({ bundles }: { bundles: Bundle[] }) {
   const [full, setFull] = useState(true);
+
   const choose = (name: string) => {
     window.dispatchEvent(new CustomEvent("choose-bundle", { detail: name }));
     document.getElementById("inquire")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       <SegmentedControl
         aria-label="Payment option"
-        className="self-start md:self-end"
+        className="self-start"
         items={[
           { value: "full", label: "Pay in full" },
           { value: "installments", label: "Installments" },
@@ -26,39 +30,51 @@ export function Bundles({ bundles }: { bundles: Bundle[] }) {
         value={full ? "full" : "installments"}
         onValueChange={(v) => setFull(v === "full")}
       />
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-5 lg:grid-cols-3">
         {bundles.map((b, i) => {
           const price = full ? b.payInFull : b.installments;
+          const lit = !!b.popular;
           return (
-            <article
+            <motion.article
               key={b.name}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: i * 0.12 }}
               className={cn(
-                "flex animate-fade-up flex-col gap-4.5 rounded-2xl bg-paper p-7 transition duration-300 hover:-translate-y-1 hover:shadow-lift",
-                b.popular ? "border-2 border-ink" : "border border-line-strong",
+                "group relative flex flex-col gap-7 overflow-hidden rounded-3xl p-8 transition duration-500 ease-soft hover:-translate-y-1.5",
+                lit ? "bg-paper text-ink shadow-lift" : "border border-paper/15 text-paper hover:border-paper/50",
               )}
-              style={{ animationDelay: `${i * 80}ms` }}
             >
-              <div className="flex min-h-7 items-center justify-between gap-2">
-                <h3 className="text-xl font-bold">{b.name}</h3>
-                {b.popular && <span className="rounded bg-ink px-2 py-1 text-xs font-bold tracking-wider text-paper uppercase">Most picked</span>}
+              <div className="flex items-start justify-between gap-3">
+                <span className={cn("font-diary text-5xl italic", lit ? "text-ink/25" : "text-paper/25")}>{numerals[i]}</span>
+                {lit && <span className="rounded-full border border-ink px-3 py-1 text-xs font-bold tracking-widest uppercase">Most chosen</span>}
               </div>
-              <div key={String(full)} className="flex animate-fade-in flex-col gap-0.5">
-                <span className="text-sm text-muted">{full ? "Pay in full" : "From, with installments"}</span>
-                <span className="text-4xl font-extrabold tracking-tight">{price.usd}</span>
-                <span className="text-sm text-muted">{price.php} · per project</span>
+              <div className="flex flex-col gap-1">
+                <h3 className="font-diary text-3xl">{b.name}</h3>
+                <div key={String(full)} className="flex animate-fade-in items-baseline gap-2 pt-3">
+                  <span className="text-5xl font-extrabold tracking-tighter">{price.usd}</span>
+                  <span className={cn("text-sm", lit ? "text-muted" : "text-paper/60")}>{price.php}</span>
+                </div>
+                <span className={cn("text-xs font-semibold tracking-widest uppercase", lit ? "text-muted" : "text-paper/50")}>
+                  {full ? "Paid in full · per project" : "From, in installments"}
+                </span>
+                {b.save && full && (
+                  <span className="mt-3 self-start rounded-full bg-ok-bg px-2.5 py-1 text-xs font-bold text-ok">{b.save}</span>
+                )}
               </div>
-              {b.save && full && <span className="self-start rounded-full bg-ok-bg px-2.5 py-1 text-sm font-bold text-ok">{b.save}</span>}
-              <ul className="flex flex-1 flex-col gap-2.5">
+              <span aria-hidden className={cn("h-px w-full", lit ? "bg-ink/15" : "bg-paper/15")} />
+              <ul className="flex flex-1 flex-col gap-3">
                 {b.items.map((it) => (
-                  <li key={it} className="flex items-start gap-2.5 text-sm">
-                    <Check aria-hidden className="mt-0.5 size-4 shrink-0 stroke-3" /> {it}
+                  <li key={it} className={cn("flex items-start gap-3 text-sm", lit ? "text-ink" : "text-paper/85")}>
+                    <Check aria-hidden className="mt-0.5 size-3.5 shrink-0 stroke-3" /> {it}
                   </li>
                 ))}
               </ul>
-              <button type="button" onClick={() => choose(b.name)} className={buttonClass(b.popular ? "primary" : "secondary")}>
+              <button type="button" onClick={() => choose(b.name)} className={buttonClass(lit ? "primary" : "secondary", "w-full", !lit)}>
                 Choose {b.name}
               </button>
-            </article>
+            </motion.article>
           );
         })}
       </div>

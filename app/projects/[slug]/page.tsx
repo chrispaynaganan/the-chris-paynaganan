@@ -50,7 +50,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <ViewTransition enter={slide.enter} exit={slide.exit} default="none">
-    <main className="mx-auto flex max-w-6xl flex-col gap-6 px-6 pt-6 pb-20 md:px-10">
+    <main className="mx-auto flex max-w-site flex-col gap-6 px-gutter pt-6 pb-20">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Link href="/" transitionTypes={["nav-back"]} className={buttonClass("secondary")}>
           <ArrowLeft aria-hidden className="size-4" /> All projects

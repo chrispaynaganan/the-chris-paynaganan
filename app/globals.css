@@ -32,6 +32,8 @@
   --color-error: #8c1d13;
   --color-error-accent: #b42318;
   --color-error-bg: #fdecea;
+  /* Error red that stays readable on black (Chris for Business) */
+  --color-error-on-dark: #ff9b8f;
 
 
   /* ===== Line height =====
@@ -48,8 +50,11 @@
   --text-6xl--line-height: normal;
   --text-7xl--line-height: normal;
 
-  /* ===== Layout ===== */
-  --container-site: 90rem; /* 1440px */
+  /* ===== Layout =====
+     One container everywhere: up to 1512px wide, with side margins of 80px at a
+     1512px window, shrinking with the window (5.29vw), never under 24px on phones. */
+  --container-site: 94.5rem; /* 1512px */
+  --spacing-gutter: clamp(1.5rem, 5.291vw, 5rem);
 
   /* ===== Shadows ===== */
   --shadow-pill: 0 2px 10px rgb(0 0 0 / 0.08);
@@ -67,6 +72,7 @@
   --animate-pop: pop 0.3s var(--ease-soft) both;
   --animate-toast: toast-in 0.3s ease both;
   --animate-heart: heart-pop 0.35s ease;
+  --animate-marquee: marquee 48s linear infinite;
 
   @keyframes fade-up {
     from { opacity: 0; transform: translateY(14px); }
@@ -83,6 +89,10 @@
   @keyframes toast-in {
     from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: none; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
   @keyframes heart-pop {
     0% { transform: scale(1); }
@@ -122,6 +132,12 @@
   --lg-foreground: var(--color-ink);
   --lg-ring: rgb(0 0 0 / 0.5);
   --lg-ease: var(--ease-soft);
+}
+/* Glass on the black Chris for Business page: white accent */
+[data-theme="dark"] {
+  --lg-fill: var(--color-paper);
+  --lg-foreground: var(--color-paper);
+  --lg-ring: rgb(255 255 255 / 0.5);
 }
 
 /* ===== View transitions (page-to-page motion) ===== */
@@ -184,4 +200,9 @@
   ::view-transition-new(*) {
     animation: none !important;
   }
+}
+
+/* Pause an animation (used to stop the Business ticker on hover) */
+@utility paused {
+  animation-play-state: paused;
 }

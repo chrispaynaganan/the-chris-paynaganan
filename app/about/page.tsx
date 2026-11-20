@@ -17,7 +17,7 @@ export default async function AboutPage() {
   const stampCount = passport.filter((s) => s.earned).length;
 
   return (
-    <main className="mx-auto flex max-w-6xl flex-col gap-16 px-6 pt-12 pb-20 md:px-10">
+    <main className="mx-auto flex max-w-site flex-col gap-16 px-gutter pt-12 pb-20">
       <div className="flex flex-wrap items-start gap-16">
         <aside className="flex w-full flex-col gap-5 md:sticky md:top-28 md:w-80 md:shrink-0">
           <div className="grid animate-fade-up grid-cols-2 items-center gap-4 rounded-3xl p-7 shadow-card">

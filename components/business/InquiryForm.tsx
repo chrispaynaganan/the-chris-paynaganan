@@ -26,12 +26,14 @@ export function InquiryForm({
   businessBundles,
   paymentOptions,
   timelines,
+  dark = false,
 }: {
   email: string;
   bundles: string[];
   businessBundles: string[];
   paymentOptions: string[];
   timelines: string[];
+  dark?: boolean;
 }) {
   const [v, setV] = useState<Values>(empty);
   const [errors, setErrors] = useState<Errors>({});
@@ -53,9 +55,18 @@ export function InquiryForm({
 
   const field = (k: keyof Values) =>
     cn(
-      "min-h-10 w-full rounded-lg bg-paper px-3 py-2 text-sm text-ink transition",
-      errors[k] ? "border-2 border-error-accent" : "border border-field focus:border-ink",
+      "min-h-10 w-full rounded-lg px-3 py-2 text-sm transition",
+      dark ? "bg-ink text-paper placeholder:text-paper/40" : "bg-paper text-ink",
+      errors[k]
+        ? dark
+          ? "border-2 border-error-on-dark"
+          : "border-2 border-error-accent"
+        : dark
+          ? "border border-paper/30 focus:border-paper"
+          : "border border-field focus:border-ink",
     );
+
+  const labelClass = cn("text-sm font-semibold", dark && "text-paper/80");
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,7 +93,7 @@ export function InquiryForm({
 
   const err = (k: keyof Values) =>
     errors[k] ? (
-      <span id={`${k}-err`} className="text-sm text-error-accent">
+      <span id={`${k}-err`} className={cn("text-sm", dark ? "text-error-on-dark" : "text-error-accent")}>
         {errors[k]}
       </span>
     ) : null;
@@ -101,17 +112,17 @@ export function InquiryForm({
         </Notice>
       )}
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-name" className="text-sm font-semibold">Full name *</label>
+        <label htmlFor="f-name" className={labelClass}>Full name *</label>
         <input id="f-name" value={v.name} onChange={set("name")} className={field("name")} autoComplete="name" {...described("name")} />
         {err("name")}
       </div>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-email" className="text-sm font-semibold">Email *</label>
+        <label htmlFor="f-email" className={labelClass}>Email *</label>
         <input id="f-email" type="email" value={v.email} onChange={set("email")} className={field("email")} autoComplete="email" {...described("email")} />
         {err("email")}
       </div>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-tier" className="text-sm font-semibold">Bundle / tier *</label>
+        <label htmlFor="f-tier" className={labelClass}>Bundle / tier *</label>
         <select id="f-tier" value={v.tier} onChange={set("tier")} className={field("tier")} {...described("tier")}>
           <option value="">Choose one</option>
           <optgroup label="Professional">{bundles.map((b) => <option key={b}>{b}</option>)}</optgroup>
@@ -120,7 +131,7 @@ export function InquiryForm({
         {err("tier")}
       </div>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-pay" className="text-sm font-semibold">Payment option *</label>
+        <label htmlFor="f-pay" className={labelClass}>Payment option *</label>
         <select id="f-pay" value={v.pay} onChange={set("pay")} className={field("pay")} {...described("pay")}>
           <option value="">Choose one</option>
           {paymentOptions.map((p) => <option key={p}>{p}</option>)}
@@ -128,11 +139,11 @@ export function InquiryForm({
         {err("pay")}
       </div>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-company" className="text-sm font-semibold">Company</label>
+        <label htmlFor="f-company" className={labelClass}>Company</label>
         <input id="f-company" value={v.company} onChange={set("company")} className={field("company")} autoComplete="organization" />
       </div>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-time" className="text-sm font-semibold">Timeline *</label>
+        <label htmlFor="f-time" className={labelClass}>Timeline *</label>
         <select id="f-time" value={v.time} onChange={set("time")} className={field("time")} {...described("time")}>
           <option value="">Choose one</option>
           {timelines.map((t) => <option key={t}>{t}</option>)}
@@ -140,12 +151,12 @@ export function InquiryForm({
         {err("time")}
       </div>
       <div className="flex flex-col gap-1.5 sm:col-span-2">
-        <label htmlFor="f-details" className="text-sm font-semibold">Project details</label>
+        <label htmlFor="f-details" className={labelClass}>Project details</label>
         <textarea id="f-details" rows={4} value={v.details} onChange={set("details")} className={cn(field("details"), "resize-y")} />
       </div>
       <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
-        <button type="submit" className={buttonClass("primary")}>Send inquiry</button>
-        <a href={`mailto:${email}`} className={buttonClass("tertiary")}>Or email me directly</a>
+        <button type="submit" className={buttonClass("primary", undefined, dark)}>Send inquiry</button>
+        <a href={`mailto:${email}`} className={buttonClass("tertiary", undefined, dark)}>Or email me directly</a>
       </div>
     </form>
   );

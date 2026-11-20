@@ -15,7 +15,7 @@ export default async function HomePage() {
   const [projects, passport, site] = await Promise.all([getProjects(), getPassport(), getSite()]);
   return (
     <ViewTransition enter={slide.enter} exit={slide.exit} default="none">
-      <main className="mx-auto flex max-w-site flex-col gap-16 px-6 pt-8 pb-20 md:px-10">
+      <main className="mx-auto flex max-w-site flex-col gap-16 px-gutter pt-8 pb-20">
         <Reveal y={10} className="flex flex-col gap-1.5">
           <h1 className="text-2xl font-extrabold tracking-tight md:text-3xl">{site.heroLine}</h1>
           <p className="text-muted">

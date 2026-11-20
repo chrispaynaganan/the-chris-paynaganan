@@ -40,7 +40,7 @@ export async function Footer() {
 
   return (
     <footer className="w-full border-t border-line bg-surface">
-      <div className="mx-auto max-w-site px-6 pt-12 pb-8 md:px-10">
+      <div className="mx-auto max-w-site px-gutter pt-12 pb-8">
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-5">
           {columns.map((col) => (
             <div key={col.title} className="flex flex-col gap-3">

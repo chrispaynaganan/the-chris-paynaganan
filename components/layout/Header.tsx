@@ -72,8 +72,8 @@ export function Header({
 
   if (isBusiness) {
     return (
-      <header style={{ viewTransitionName: "site-header" }} className={cn("sticky top-0 z-30 bg-ink text-paper transition-shadow duration-300", scrolled && "shadow-toast")}>
-        <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-6 py-4 md:px-10">
+      <header style={{ viewTransitionName: "site-header" }} className={cn("sticky top-0 z-30 border-b bg-ink text-paper transition duration-300", scrolled ? "border-paper/15" : "border-transparent")}>
+        <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-gutter py-4">
           <Logo dark business />
           <nav aria-label="Business sections" className="hidden flex-wrap gap-5 text-sm font-semibold md:flex">
             {[
@@ -108,7 +108,7 @@ export function Header({
         scrolled ? "border-transparent shadow-pill" : "border-line",
       )}
     >
-      <div className="mx-auto grid max-w-site grid-cols-2 items-center gap-4 px-6 py-3.5 md:grid-cols-3 md:px-10">
+      <div className="mx-auto grid max-w-site grid-cols-2 items-center gap-4 px-gutter py-3.5 md:grid-cols-3">
         <Logo />
 
         <div className="hidden min-h-12 items-center justify-center md:flex">
