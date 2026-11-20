@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/* Fonts come from next/font in app/layout.tsx */
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-diary: var(--font-newsreader), Georgia, serif;
+}
+
+@theme {
+  /* ===== Colors =====
+     Black and white only. Color is reserved for status:
+     ok = green, info = blue, warn = yellow, error = red. */
+  --color-ink: #000000;
+  --color-paper: #ffffff;
+  --color-ink-soft: #222222;
+  --color-body: #333333;
+  --color-muted: #6a6a6a;
+  --color-line: #ebebeb;
+  --color-line-strong: #dddddd;
+  --color-field: #b0b0b0;
+  --color-surface: #f7f7f7;
+  --color-placeholder: #f2f2f2;
+  --color-placeholder-alt: #ebebeb;
+
+  --color-ok: #14632f;
+  --color-ok-bg: #e6f4ea;
+  --color-info: #1d3f99;
+  --color-info-accent: #1d4ed8;
+  --color-info-bg: #eff4ff;
+  --color-warn: #7a4a03;
+  --color-warn-bg: #fef3c7;
+  --color-error: #8c1d13;
+  --color-error-accent: #b42318;
+  --color-error-bg: #fdecea;
+
+  /* ===== Layout ===== */
+  --container-site: 90rem; /* 1440px */
+
+  /* ===== Shadows ===== */
+  --shadow-pill: 0 2px 10px rgb(0 0 0 / 0.08);
+  --shadow-pill-hover: 0 4px 18px rgb(0 0 0 / 0.12);
+  --shadow-card: 0 6px 24px rgb(0 0 0 / 0.1);
+  --shadow-lift: 0 14px 36px rgb(0 0 0 / 0.14);
+  --shadow-dialog: 0 16px 48px rgb(0 0 0 / 0.25);
+  --shadow-toast: 0 8px 24px rgb(0 0 0 / 0.2);
+  --shadow-arrow: 0 2px 6px rgb(0 0 0 / 0.12);
+
+  /* ===== Motion ===== */
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --animate-fade-up: fade-up 0.55s var(--ease-soft) both;
+  --animate-fade-in: fade-in 0.3s ease both;
+  --animate-pop: pop 0.3s var(--ease-soft) both;
+  --animate-toast: toast-in 0.3s ease both;
+  --animate-heart: heart-pop 0.35s ease;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: translateY(28px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes heart-pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.28); }
+    100% { transform: scale(1); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ink;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -40,4 +40,3 @@ blue "coming soon" message.
 ## Routes
 `/` projects · `/projects/[slug]` project page · `/gallery` · `/about` · `/business` (Chris for Business)
 · `/privacy-policy` · `/terms-and-conditions`
-# the-chris-paynaganan
