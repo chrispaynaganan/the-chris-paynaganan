@@ -24,7 +24,7 @@ export function GalleryGrid({ items }: { items: SiteContent["gallery"] }) {
             aria-pressed={f === x.id}
             onClick={() => setF(x.id)}
             className={cn(
-              "min-h-11 cursor-pointer rounded-full border px-4 text-sm font-semibold transition active:scale-97",
+              "h-9 cursor-pointer rounded-full border px-4 text-sm font-semibold transition active:scale-97",
               f === x.id ? "border-ink bg-ink text-paper" : "border-line-strong bg-paper hover:border-ink",
             )}
           >

@@ -9,7 +9,7 @@ import type { Bundle } from "@/types/content";
 export function Bundles({ bundles }: { bundles: Bundle[] }) {
   const [full, setFull] = useState(true);
   const seg = (on: boolean) =>
-    cn("min-h-10 cursor-pointer rounded-full px-4 text-sm font-semibold transition", on ? "bg-ink text-paper" : "text-ink hover:bg-placeholder-alt");
+    cn("h-9 cursor-pointer rounded-full px-4 text-sm font-semibold transition", on ? "bg-ink text-paper" : "text-ink hover:bg-placeholder-alt");
 
   const choose = (name: string) => {
     window.dispatchEvent(new CustomEvent("choose-bundle", { detail: name }));
@@ -46,7 +46,7 @@ export function Bundles({ bundles }: { bundles: Bundle[] }) {
               {b.save && full && <span className="self-start rounded-full bg-ok-bg px-2.5 py-1 text-sm font-bold text-ok">{b.save}</span>}
               <ul className="flex flex-1 flex-col gap-2.5">
                 {b.items.map((it) => (
-                  <li key={it} className="flex items-start gap-2.5 text-sm leading-snug">
+                  <li key={it} className="flex items-start gap-2.5 text-sm">
                     <Check aria-hidden className="mt-0.5 size-4 shrink-0 stroke-3" /> {it}
                   </li>
                 ))}

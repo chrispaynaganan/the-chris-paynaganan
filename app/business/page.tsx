@@ -16,13 +16,13 @@ export default async function BusinessPage() {
       <section className="bg-ink text-paper">
         <div className="mx-auto flex max-w-6xl animate-fade-up flex-col gap-5 px-6 pt-18 pb-22 md:px-10">
           <span className="text-sm font-bold tracking-widest uppercase">Chris for Business · for clients</span>
-          <h1 className="max-w-3xl text-5xl leading-none font-extrabold tracking-tighter md:text-6xl">{site.tagline}</h1>
-          <p className="max-w-2xl text-lg leading-relaxed">{b.intro}</p>
+          <h1 className="max-w-3xl text-5xl font-extrabold tracking-tighter md:text-6xl">{site.tagline}</h1>
+          <p className="max-w-2xl text-lg">{b.intro}</p>
           <div className="flex flex-wrap gap-3 pt-2">
-            <a href="#bundles" className="inline-flex min-h-12 items-center rounded-xl bg-paper px-5.5 font-semibold text-ink transition hover:bg-placeholder-alt active:scale-97">
+            <a href="#bundles" className="inline-flex h-10 items-center rounded-lg bg-paper px-4 text-sm font-semibold text-ink transition hover:bg-placeholder-alt active:scale-97">
               See bundles
             </a>
-            <a href={site.calendlyUrl} target="_blank" rel="noopener" className="inline-flex min-h-12 items-center rounded-xl border border-paper px-5.5 font-semibold transition hover:bg-ink-soft active:scale-97">
+            <a href={site.calendlyUrl} target="_blank" rel="noopener" className="inline-flex h-10 items-center rounded-lg border border-paper px-4 text-sm font-semibold transition hover:bg-ink-soft active:scale-97">
               Book a discovery call
             </a>
           </div>
@@ -55,7 +55,7 @@ export default async function BusinessPage() {
               <li key={a.name} className="flex justify-between gap-4 border-b border-line py-4">
                 <span className="flex min-w-0 flex-col gap-0.5">
                   <span className="font-semibold">{a.name}</span>
-                  <span className="text-sm leading-snug text-muted">{a.description}</span>
+                  <span className="text-sm text-muted">{a.description}</span>
                 </span>
                 <span className="flex shrink-0 flex-col items-end">
                   <span className="font-bold">{a.usd}</span>
@@ -73,7 +73,7 @@ export default async function BusinessPage() {
               <li key={s.title} className="flex animate-fade-up flex-col gap-2 rounded-2xl border border-line-strong p-4.5" style={{ animationDelay: `${i * 60}ms` }}>
                 <span className="text-sm font-bold text-muted">{String(i + 1).padStart(2, "0")}</span>
                 <span className="font-bold">{s.title}</span>
-                <span className="text-sm leading-snug text-muted">{s.body}</span>
+                <span className="text-sm text-muted">{s.body}</span>
               </li>
             ))}
           </ol>
@@ -87,7 +87,7 @@ export default async function BusinessPage() {
         <section id="inquire" aria-labelledby="i-title" className="flex scroll-mt-24 flex-wrap gap-10 rounded-3xl border border-line-strong p-6 shadow-card md:p-10">
           <div className="flex flex-1 basis-72 flex-col gap-3">
             <h2 id="i-title" className="text-3xl font-extrabold tracking-tight">Start a project</h2>
-            <p className="font-diary text-xl leading-normal italic">A rough idea is plenty. I read every message myself and usually reply within a day or two.</p>
+            <p className="font-diary text-xl italic">A rough idea is plenty. I read every message myself and usually reply within a day or two.</p>
             <p className="text-sm text-muted">Not sure which bundle? Pick the closest one. We’ll settle it together.</p>
           </div>
           <InquiryForm

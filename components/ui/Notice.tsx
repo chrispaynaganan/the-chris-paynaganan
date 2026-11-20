@@ -17,7 +17,7 @@ export function Notice({
 }) {
   const Icon = icons[tone];
   return (
-    <div role={role} className={cn("flex items-start gap-2.5 rounded-xl px-4 py-3.5 text-sm leading-relaxed", toneClass[tone], className)}>
+    <div role={role} className={cn("flex items-start gap-2.5 rounded-xl px-4 py-3.5 text-sm", toneClass[tone], className)}>
       <Icon aria-hidden className="mt-0.5 size-4.5 shrink-0" />
       <div>{children}</div>
     </div>

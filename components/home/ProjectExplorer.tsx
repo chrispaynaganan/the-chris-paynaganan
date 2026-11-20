@@ -88,7 +88,7 @@ export function ProjectExplorer({
           <Link href="/business" className="group flex animate-fade-up flex-col" style={{ animationDelay: `${shown.length * 60}ms` }}>
             <div className="flex aspect-20/19 flex-col justify-between rounded-2xl bg-ink p-6 text-paper transition duration-300 group-hover:scale-101">
               <span className="self-start rounded border border-paper px-2 py-1 text-xs font-bold tracking-widest uppercase">Chris for Business</span>
-              <span className="text-2xl leading-tight font-extrabold tracking-tight">I build websites that make you money.</span>
+              <span className="text-2xl font-extrabold tracking-tight">I build websites that make you money.</span>
             </div>
             <span className="flex flex-col gap-0.5 pt-3">
               <span className="font-bold">For clients</span>

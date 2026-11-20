@@ -25,7 +25,7 @@ export default async function HomePage() {
         <div className="flex size-24 shrink-0 items-center justify-center rounded-full bg-placeholder text-xs text-muted">[Photo]</div>
         <div className="flex min-w-0 flex-1 basis-96 flex-col gap-2">
           <h2 id="host-teaser" className="text-xl font-bold">Meet your host</h2>
-          <p className="max-w-3xl font-diary text-xl leading-normal italic">{site.hostTeaser}</p>
+          <p className="max-w-3xl font-diary text-xl italic">{site.hostTeaser}</p>
           <Link href="/about" className={buttonClass("tertiary", "self-start")}>
             Read my story
           </Link>

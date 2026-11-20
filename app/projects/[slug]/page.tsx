@@ -41,7 +41,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <main className="mx-auto flex max-w-6xl animate-fade-in flex-col gap-6 px-6 pt-6 pb-20 md:px-10">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Link href="/" className={buttonClass("secondary", "min-h-11 px-3.5 text-sm")}>
+        <Link href="/" className={buttonClass("secondary")}>
           <ArrowLeft aria-hidden className="size-4" /> All projects
         </Link>
         <TopActions slug={project.slug} name={project.name} subtitle={subtitle} url={url} />
@@ -83,7 +83,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 <span aria-hidden className="mt-0.5 size-6 shrink-0 rounded-md border-2 border-ink" />
                 <span className="flex flex-col gap-0.5">
                   <span className="font-semibold">{f.label}</span>
-                  <span className="text-sm leading-normal text-muted">{f.value}</span>
+                  <span className="text-sm text-muted">{f.value}</span>
                 </span>
               </li>
             ))}
@@ -94,7 +94,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               {project.stats.map((s) => (
                 <div key={s.label} className="flex flex-col gap-1 rounded-xl border border-line-strong p-4">
                   <span className="text-3xl font-extrabold tracking-tight">{s.value}</span>
-                  <span className="text-sm leading-snug text-muted">{s.label}</span>
+                  <span className="text-sm text-muted">{s.label}</span>
                 </div>
               ))}
             </div>
@@ -111,7 +111,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   <h3 className="text-xl font-bold">{e.label}</h3>
                   <span className="font-diary text-muted italic">{e.date}</span>
                 </div>
-                <p className="font-diary text-xl leading-relaxed">{e.body}</p>
+                <p className="font-diary text-xl">{e.body}</p>
               </article>
             ))}
           </div>
@@ -141,7 +141,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               {project.years} · {project.platform}
             </span>
           </div>
-          <p role="note" className={cn("rounded-xl px-3.5 py-3 text-sm leading-snug", toneClass[status.tone])}>
+          <p role="note" className={cn("rounded-xl px-3.5 py-3 text-sm", toneClass[status.tone])}>
             {status.note}
           </p>
           <WorkActions

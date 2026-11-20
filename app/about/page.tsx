@@ -58,13 +58,13 @@ export default async function AboutPage() {
               <li>{site.replyTime}</li>
             </ul>
             {site.story.map((p) => (
-              <p key={p.slice(0, 24)} className="font-diary text-xl leading-relaxed">{p}</p>
+              <p key={p.slice(0, 24)} className="font-diary text-xl">{p}</p>
             ))}
           </section>
 
           <section className="flex flex-col gap-4 border-b border-line pb-8">
             <h2 className="text-xl font-bold">What a karinderya taught me about design</h2>
-            <p className="font-diary text-xl leading-relaxed">{site.karinderya}</p>
+            <p className="font-diary text-xl">{site.karinderya}</p>
             <ul className="flex flex-wrap gap-2">
               {site.interests.map((i) => <li key={i} className={chip}>{i}</li>)}
             </ul>
@@ -76,7 +76,7 @@ export default async function AboutPage() {
               {site.houseRules.map((r) => (
                 <div key={r.title} className="flex flex-col gap-1">
                   <span className="font-semibold">{r.title}</span>
-                  <span className="text-sm leading-normal text-muted">{r.body}</span>
+                  <span className="text-sm text-muted">{r.body}</span>
                 </div>
               ))}
             </div>
@@ -100,7 +100,7 @@ export default async function AboutPage() {
             {site.testimonials.map((t) => (
               <figure key={t.name} className="flex max-w-xl flex-col gap-2.5 rounded-2xl border border-line-strong p-5">
                 <span aria-label="5 out of 5 stars" className="text-sm tracking-widest">★★★★★</span>
-                <blockquote className="leading-relaxed">{t.quote}</blockquote>
+                <blockquote className="">{t.quote}</blockquote>
                 <figcaption className="flex items-center gap-3 pt-1">
                   <span className="size-10 rounded-full bg-placeholder" />
                   <span className="flex flex-col">

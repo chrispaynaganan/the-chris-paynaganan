@@ -27,7 +27,7 @@ export function Header() {
               ["#process", "Process"],
               ["#faq", "FAQ"],
             ].map(([href, label]) => (
-              <a key={href} href={href} className="inline-flex min-h-11 items-center hover:underline hover:underline-offset-4">
+              <a key={href} href={href} className="hover:underline hover:underline-offset-4">
                 {label}
               </a>
             ))}
@@ -36,7 +36,7 @@ export function Header() {
             <Link href="/" className="font-semibold text-paper underline underline-offset-4 hover:decoration-2">
               Back to projects
             </Link>
-            <a href="#inquire" className="inline-flex min-h-11 items-center rounded-xl bg-paper px-4.5 font-semibold text-ink transition hover:bg-placeholder-alt active:scale-97">
+            <a href="#inquire" className="inline-flex h-10 items-center rounded-lg bg-paper px-4 text-sm font-semibold text-ink transition hover:bg-placeholder-alt active:scale-97">
               Start a project
             </a>
           </div>
@@ -58,7 +58,7 @@ export function Header() {
                 href={t.href}
                 aria-current={on ? "page" : undefined}
                 className={cn(
-                  "inline-flex min-h-11 items-center rounded-full px-4 font-semibold transition",
+                  "inline-flex h-10 items-center rounded-full px-4 text-sm font-semibold transition",
                   on ? "bg-placeholder text-ink" : "text-muted hover:bg-surface hover:text-ink",
                 )}
               >
@@ -68,7 +68,7 @@ export function Header() {
           })}
           <Link
             href="/business"
-            className="inline-flex min-h-11 items-center gap-2 rounded-full px-4 font-semibold text-muted transition hover:bg-surface hover:text-ink"
+            className="inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold text-muted transition hover:bg-surface hover:text-ink"
           >
             Chris
             <span className="rounded bg-ink px-1.5 py-0.5 text-xs font-bold tracking-wider text-paper uppercase">for Business</span>
@@ -78,7 +78,7 @@ export function Header() {
           <Link href="/about" className={buttonClass("tertiary")} aria-current={pathname.startsWith("/about") ? "page" : undefined}>
             About me
           </Link>
-          <Link href="/about#contact" className={buttonClass("primary", "min-h-11 px-4.5")}>
+          <Link href="/about#contact" className={buttonClass("primary")}>
             Let&apos;s talk
           </Link>
         </div>

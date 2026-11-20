@@ -70,7 +70,7 @@ export function ShareDialog({
             readOnly
             value={url}
             onFocus={(e) => e.currentTarget.select()}
-            className="min-h-11 rounded-xl border border-line-strong px-3 text-sm"
+            className="h-10 rounded-lg border border-line-strong px-3 text-sm"
           />
         </div>
         <div className="grid grid-cols-2 gap-2.5">

@@ -53,7 +53,7 @@ export function InquiryForm({
 
   const field = (k: keyof Values) =>
     cn(
-      "min-h-11 w-full rounded-xl bg-paper px-3 py-2.5 text-sm text-ink transition",
+      "min-h-10 w-full rounded-lg bg-paper px-3 py-2 text-sm text-ink transition",
       errors[k] ? "border-2 border-error-accent" : "border border-field focus:border-ink",
     );
 

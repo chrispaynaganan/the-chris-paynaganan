@@ -24,7 +24,7 @@ export function Faq({ items }: { items: { q: string; a: string }[] }) {
                 <ChevronDown aria-hidden className={cn("size-4 shrink-0 stroke-3 transition duration-300", on && "rotate-180")} />
               </button>
             </h3>
-            <div id={`faq-${i}`} hidden={!on} className="animate-fade-in pb-4.5 leading-relaxed text-body">
+            <div id={`faq-${i}`} hidden={!on} className="animate-fade-in pb-4.5 text-body">
               {f.a}
             </div>
           </div>

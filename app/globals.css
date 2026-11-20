@@ -33,6 +33,21 @@
   --color-error-accent: #b42318;
   --color-error-bg: #fdecea;
 
+
+  /* ===== Line height =====
+     Every text size uses "normal" line height (Figma's Auto), not Tailwind's taller defaults. */
+  --text-xs--line-height: normal;
+  --text-sm--line-height: normal;
+  --text-base--line-height: normal;
+  --text-lg--line-height: normal;
+  --text-xl--line-height: normal;
+  --text-2xl--line-height: normal;
+  --text-3xl--line-height: normal;
+  --text-4xl--line-height: normal;
+  --text-5xl--line-height: normal;
+  --text-6xl--line-height: normal;
+  --text-7xl--line-height: normal;
+
   /* ===== Layout ===== */
   --container-site: 90rem; /* 1440px */
 
@@ -78,6 +93,7 @@
 
 @layer base {
   html {
+    line-height: normal;
     scroll-behavior: smooth;
   }
   body {
