@@ -2,11 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Heart, Share } from "lucide-react";
-import { cn } from "@/lib/cn";
+import { Share } from "lucide-react";
 import { buttonClass } from "@/components/ui/button";
-import { useSaved } from "@/components/ui/SavedProvider";
-import { savedToast, useToast } from "@/components/ui/Toast";
 import { ShareDialog } from "./ShareDialog";
 
 type Props = {
@@ -21,25 +18,13 @@ function useShare() {
   return { open, openShare: () => setOpen(true), close: () => setOpen(false) };
 }
 
-/** Share + Save, top right of the project page. */
-export function TopActions({ slug, name, subtitle, url }: Props) {
+/** Share, top right of the project page. */
+export function TopActions({ name, subtitle, url }: Props) {
   const share = useShare();
-  const { saved, toggle } = useSaved();
-  const toast = useToast();
-  const isSaved = saved.includes(slug);
   return (
     <div className="flex items-center gap-2">
       <button type="button" onClick={share.openShare} className={buttonClass("tertiary", "text-sm")}>
         <Share aria-hidden className="size-4" /> Share
-      </button>
-      <button
-        type="button"
-        aria-pressed={isSaved}
-        onClick={() => savedToast(toast, toggle(slug), name)}
-        className={buttonClass("tertiary", "text-sm")}
-      >
-        <Heart aria-hidden className={cn("size-4 stroke-ink", isSaved ? "animate-heart fill-ink" : "fill-none")} />
-        {isSaved ? "Saved" : "Save"}
       </button>
       <ShareDialog open={share.open} onClose={share.close} url={url} title={name} subtitle={subtitle} />
     </div>

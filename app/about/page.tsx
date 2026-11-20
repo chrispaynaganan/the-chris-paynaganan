@@ -20,7 +20,7 @@ export default async function AboutPage() {
   return (
     <main className="mx-auto flex max-w-site flex-col gap-16 px-gutter pt-12 pb-20">
       <div className="flex flex-wrap items-start gap-16">
-        <aside className="flex w-full flex-col gap-5 md:sticky md:top-28 md:w-80 md:shrink-0">
+        <aside className="flex w-full flex-col gap-5 md:sticky md:top-20 md:w-80 md:shrink-0">
           <div className="grid animate-fade-up grid-cols-2 items-center gap-4 rounded-3xl p-7 shadow-card">
             <div className="flex flex-col items-center gap-2 text-center">
               <div className="flex size-26 items-center justify-center rounded-full bg-placeholder text-xs text-muted">[Photo]</div>
@@ -134,7 +134,7 @@ export default async function AboutPage() {
 
           <Reveal>
 
-          <section id="contact" aria-labelledby="contact-title" className="flex scroll-mt-28 flex-col gap-4">
+          <section id="contact" aria-labelledby="contact-title" className="flex scroll-mt-20 flex-col gap-4">
             <h2 id="contact-title" className="text-xl font-semibold">Let’s talk</h2>
             <p className="text-xl">Roles, projects, rough ideas or just design talk. No detailed pitch needed.</p>
             <div className="flex flex-wrap items-center gap-2.5">

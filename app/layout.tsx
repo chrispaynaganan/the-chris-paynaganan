@@ -6,7 +6,6 @@ import { SearchDockProvider } from "@/components/home/SearchDock";
 import { getProjects, getSite } from "@/lib/content";
 import { Footer } from "@/components/layout/Footer";
 import { ToastProvider } from "@/components/ui/Toast";
-import { SavedProvider } from "@/components/ui/SavedProvider";
 import "./globals.css";
 
 const livvic = Livvic({
@@ -32,19 +31,17 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     <html lang="en" data-theme="light" className={livvic.variable}>
       <body className="flex min-h-screen flex-col">
         <ToastProvider>
-          <SavedProvider>
             <SearchDockProvider projects={searchProjects}>
-              <Header
-                calendly={site.calendlyUrl}
-                resumeUrl={site.resumeUrl}
-                enterpriseUrl={site.enterprise.url}
-                linkedIn={site.socials.find((s) => s.label === "LinkedIn")?.url ?? ""}
-              />
-              <div className="flex-1 pb-24 md:pb-0">{children}</div>
-              <Footer />
-              <MobileTabBar />
+            <Header
+              calendly={site.calendlyUrl}
+              resumeUrl={site.resumeUrl}
+              enterpriseUrl={site.enterprise.url}
+              linkedIn={site.socials.find((s) => s.label === "LinkedIn")?.url ?? ""}
+            />
+            <div className="flex-1 pb-24 md:pb-0">{children}</div>
+            <Footer />
+            <MobileTabBar />
             </SearchDockProvider>
-          </SavedProvider>
         </ToastProvider>
       </body>
     </html>

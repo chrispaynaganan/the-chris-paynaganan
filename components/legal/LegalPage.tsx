@@ -4,7 +4,7 @@ import type { LegalDoc } from "@/content/legal";
 export function LegalPage({ doc, other }: { doc: LegalDoc; other: { label: string; href: string } }) {
   return (
     <main className="mx-auto grid max-w-site gap-12 px-gutter pt-12 pb-20 lg:grid-cols-12">
-      <aside className="flex flex-col gap-3 lg:sticky lg:top-28 lg:col-span-3 lg:self-start">
+      <aside className="flex flex-col gap-3 lg:sticky lg:top-20 lg:col-span-3 lg:self-start">
         <span className="text-sm text-muted">Last updated {doc.updated}</span>
         <nav aria-label="On this page" className="flex flex-col gap-2 text-sm">
           {doc.sections.map((s, i) => (
@@ -23,7 +23,7 @@ export function LegalPage({ doc, other }: { doc: LegalDoc; other: { label: strin
           <p className="text-lg text-body">{doc.intro}</p>
         </div>
         {doc.sections.map((s, i) => (
-          <section key={s.heading} id={`s-${i}`} className="flex scroll-mt-28 flex-col gap-3 border-t border-line pt-6">
+          <section key={s.heading} id={`s-${i}`} className="flex scroll-mt-20 flex-col gap-3 border-t border-line pt-6">
             <h2 className="text-xl font-semibold">{s.heading}</h2>
             {s.body.map((p) => (
               <p key={p.slice(0, 30)} className="text-body">

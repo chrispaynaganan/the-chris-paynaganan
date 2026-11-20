@@ -63,10 +63,6 @@
   --shadow-dialog: 0 16px 48px rgb(0 0 0 / 0.25);
   --shadow-toast: 0 8px 24px rgb(0 0 0 / 0.2);
   --shadow-arrow: 0 2px 6px rgb(0 0 0 / 0.12);
-  /* Passport book: the crease shading by the spine, and the book's shadow */
-  --shadow-spine-left: inset -22px 0 26px -20px rgb(0 0 0 / 0.16);
-  --shadow-spine-right: inset 22px 0 26px -20px rgb(0 0 0 / 0.16);
-  --shadow-book: 0 24px 60px rgb(0 0 0 / 0.18), 0 6px 16px rgb(0 0 0 / 0.08);
 
   /* ===== Motion ===== */
   --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -219,4 +215,24 @@
 @keyframes shimmer {
   from { background-position: 100% 0; }
   to { background-position: -100% 0; }
+}
+
+/* ===== Smooth corners =====
+   iOS-style continuous corners (squircles) wherever the browser supports them.
+   A squircle looks tighter than a plain arc at the same radius, so the radius
+   scale is bumped ~1.3x to keep the same softness. Pills and circles stay round. */
+@supports (corner-shape: squircle) {
+  :root {
+    --radius-xs: 0.1625rem;
+    --radius-sm: 0.325rem;
+    --radius-md: 0.4875rem;
+    --radius-lg: 0.65rem;
+    --radius-xl: 0.975rem;
+    --radius-2xl: 1.3rem;
+    --radius-3xl: 1.95rem;
+    --radius-4xl: 2.6rem;
+  }
+  [class*="rounded"]:not([class*="rounded-full"]) {
+    corner-shape: squircle;
+  }
 }

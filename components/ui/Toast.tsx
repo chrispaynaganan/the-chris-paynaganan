@@ -83,18 +83,3 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     </ToastContext.Provider>
   );
 }
-
-/** Shared wording for the heart button's toast. */
-export function savedToast(show: Show, nowSaved: boolean, name: string) {
-  const initials = name
-    .split(/\s+/)
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-  show("ok", nowSaved ? "Saved to your list" : "Removed from saved", {
-    thumb: initials,
-    title: name,
-    action: { label: "View saved", href: "/saved" },
-  });
-}

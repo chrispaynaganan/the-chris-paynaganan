@@ -33,7 +33,7 @@ export function ProjectExplorer({
   useEffect(() => {
     const el = pillRef.current;
     if (!el) return;
-    const io = new IntersectionObserver(([entry]) => setDocked(!entry.isIntersecting), { rootMargin: "-80px 0px 0px 0px" });
+    const io = new IntersectionObserver(([entry]) => setDocked(!entry.isIntersecting), { rootMargin: "-56px 0px 0px 0px" });
     io.observe(el);
     return () => {
       io.disconnect();
@@ -195,7 +195,7 @@ export function ProjectExplorer({
         </div>
       </div>
 
-      <motion.div id="results" layout className="grid scroll-mt-28 grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <motion.div id="results" layout className="grid scroll-mt-20 grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <AnimatePresence mode="popLayout" initial={false}>
           {shown.map((p, i) => (
             <motion.div

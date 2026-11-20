@@ -40,7 +40,6 @@ function SiteMenu({ linkedIn, calendly, enterpriseUrl, resumeUrl }: { linkedIn: 
       align="end"
       icon={<MenuIcon aria-hidden className="size-4.5" />}
       items={[
-        { label: "Saved projects", onSelect: () => router.push("/saved") },
         { label: "About me", onSelect: () => router.push("/about") },
         { label: "Passport stamps", onSelect: () => router.push("/#passport") },
         { label: "Gallery", onSelect: () => router.push("/gallery") },
@@ -87,7 +86,7 @@ export function Header({
   if (isBusiness) {
     return (
       <header style={{ viewTransitionName: "site-header" }} className={cn("sticky top-0 z-30 border-b bg-ink text-paper transition duration-300", scrolled ? "border-paper/15" : "border-transparent")}>
-        <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-gutter py-4">
+        <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-gutter py-2">
           <Logo dark business />
           <nav aria-label="Business sections" className="hidden flex-wrap gap-5 text-sm font-medium md:flex">
             {[
@@ -122,13 +121,43 @@ export function Header({
         scrolled ? "border-transparent shadow-pill" : "border-line",
       )}
     >
-      <div className="mx-auto grid max-w-site grid-cols-2 items-center gap-4 px-gutter py-3.5 md:grid-cols-3">
+      <div className="mx-auto grid max-w-site grid-cols-2 items-center gap-4 px-gutter py-2 md:grid-cols-3">
         <Logo />
 
-        <div className="hidden min-h-12 items-center justify-center md:flex">
+        <div className="relative hidden min-h-10 items-center justify-center md:flex">
           <AnimatePresence mode="wait" initial={false}>
             {isOpen ? (
-              <span key="open-spacer" className="h-12" />
+              <div key="open" className="absolute top-1/2 left-1/2 z-10 w-xs -translate-x-1/2 -translate-y-1/2 lg:w-md xl:w-xl">
+                <motion.div
+                  layoutId="header-search"
+                  transition={{ type: "spring", stiffness: 380, damping: 34 }}
+                  className="flex h-10 items-center rounded-full border border-line-strong bg-paper py-1 pr-1 pl-4 shadow-pill-hover"
+                >
+                  <label htmlFor="header-search-input" className="sr-only">
+                    Search the diary
+                  </label>
+                  <Search aria-hidden className="mr-2.5 size-4 shrink-0 text-muted" />
+                  <input
+                    id="header-search-input"
+                    autoFocus
+                    type="text"
+                    inputMode="search"
+                    enterKeyHint="search"
+                    autoComplete="off"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && showResults()}
+                    placeholder="Search the diary: project, industry or platform"
+                    className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted"
+                  />
+                  <button type="button" onClick={() => setExpanded(false)} aria-label="Close search" className="mx-1 flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full transition hover:bg-surface">
+                    <X aria-hidden className="size-4" />
+                  </button>
+                  <button type="button" onClick={showResults} className="flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-ink px-3.5 text-sm font-medium text-paper transition active:scale-97">
+                    Search
+                  </button>
+                </motion.div>
+              </div>
             ) : showDock ? (
               <motion.button
                 key="dock"
@@ -140,7 +169,7 @@ export function Header({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 14, scale: 0.92 }}
                 transition={{ duration: 0.28, ease }}
-                className="flex h-12 cursor-pointer items-center gap-3 rounded-full border border-line-strong py-1.5 pr-1.5 pl-5 text-sm font-medium shadow-pill transition-shadow hover:shadow-pill-hover"
+                className="flex h-10 cursor-pointer items-center gap-3 rounded-full border border-line-strong py-1 pr-1 pl-4 text-sm font-medium shadow-pill transition-shadow hover:shadow-pill-hover"
               >
                 <span className="max-w-48 truncate">{query || "Search the diary"}</span>
                 <span className="h-5 w-px bg-line-strong" />
@@ -217,51 +246,14 @@ export function Header({
           </AnimatePresence>,
           document.body,
         )}
+      {/* Suggestions float below the header as a card; the header itself stays the same height */}
       <AnimatePresence>
         {isOpen && (
-          <>
-            <motion.div
-              key="search-panel"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-x-0 top-full border-b border-line bg-paper"
-            >
-              <div className="mx-auto flex max-w-3xl flex-col gap-4 px-gutter pt-2 pb-6">
-                <motion.div
-                  layoutId="header-search"
-                  transition={{ type: "spring", stiffness: 380, damping: 34 }}
-                  className="flex items-center rounded-full border border-line-strong bg-paper py-2 pr-2 pl-6 shadow-pill-hover"
-                >
-                  <div className="flex min-w-0 flex-1 flex-col pr-4">
-                    <label htmlFor="header-search-input" className="text-xs font-medium">
-                      Search the diary
-                    </label>
-                    <input
-                      id="header-search-input"
-                      autoFocus
-                      type="text"
-                      inputMode="search"
-                      enterKeyHint="search"
-                      autoComplete="off"
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && showResults()}
-                      placeholder="Project, industry or platform"
-                      className="min-w-0 bg-transparent pt-0.5 text-sm outline-none placeholder:text-muted"
-                    />
-                  </div>
-                  <button type="button" onClick={() => setExpanded(false)} aria-label="Close search" className="mr-2 flex size-9 cursor-pointer items-center justify-center rounded-full transition hover:bg-surface">
-                    <X aria-hidden className="size-4" />
-                  </button>
-                  <button type="button" onClick={showResults} className="flex h-12 cursor-pointer items-center gap-2 rounded-full bg-ink px-5 text-sm font-medium text-paper transition active:scale-97">
-                    <Search aria-hidden className="size-4 stroke-3" /> Search
-                  </button>
-                </motion.div>
-                <SearchSuggestions id="header-suggestions" onDone={showResults} />
-              </div>
-            </motion.div>
-          </>
+          <div className="pointer-events-none absolute inset-x-0 top-full flex justify-center px-gutter pt-3">
+            <div className="pointer-events-auto w-full max-w-3xl">
+              <SearchSuggestions id="header-suggestions" onDone={showResults} />
+            </div>
+          </div>
         )}
       </AnimatePresence>
     </header>

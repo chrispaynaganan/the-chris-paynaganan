@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { ArrowLeft } from "lucide-react";
-import { getProject, getProjects, getStampsFor, getStories } from "@/lib/content";
+import { getProject, getProjects, getStampsFor } from "@/lib/content";
 import { buttonClass } from "@/components/ui/button";
 import { StatusBadge, statusInfo, toneClass } from "@/components/ui/StatusBadge";
 import { Shot } from "@/components/project/Shot";
@@ -16,7 +16,6 @@ import { Reveal } from "@/components/motion/Reveal";
 import { CountUp } from "@/components/motion/CountUp";
 import { StatBar } from "@/components/motion/StatBar";
 import { DiaryEntry } from "@/components/project/DiaryEntry";
-import { StoryButton } from "@/components/stories/StoryButton";
 
 const slide = {
   enter: { "nav-forward": "nav-forward", "nav-back": "nav-back", default: "none" },
@@ -42,7 +41,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const project = await getProject(slug);
   if (!project) notFound();
 
-  const [all, stamps, stories] = await Promise.all([getProjects(), getStampsFor(project), getStories()]);
+  const [all, stamps] = await Promise.all([getProjects(), getStampsFor(project)]);
   const i = all.findIndex((p) => p.slug === slug);
   const prev = all[(i - 1 + all.length) % all.length];
   const next = all[(i + 1) % all.length];
@@ -71,9 +70,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <span aria-hidden className="text-muted">·</span>
           <span className="text-muted">{project.category}</span>
         </div>
-        <div className="pt-2">
-          <StoryButton projects={stories} start={i} />
-        </div>
+
       </div>
 
       <section aria-label="Screenshots" className="relative grid grid-cols-2 gap-2 overflow-hidden rounded-2xl md:grid-cols-4">
@@ -153,7 +150,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <aside
           id="explore"
           aria-labelledby="work-title"
-          className="flex w-full scroll-mt-28 flex-col gap-3.5 rounded-2xl border border-line-strong p-6 shadow-card md:sticky md:top-28 md:w-80 md:shrink-0"
+          className="flex w-full scroll-mt-20 flex-col gap-3.5 rounded-2xl border border-line-strong p-6 shadow-card md:sticky md:top-20 md:w-80 md:shrink-0"
         >
           <div className="flex flex-col gap-0.5">
             <h2 id="work-title" className="text-xl font-semibold">Explore the work</h2>

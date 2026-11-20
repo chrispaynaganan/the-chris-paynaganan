@@ -3,12 +3,10 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, ViewTransition } from "react";
 import { useReducedMotion } from "motion/react";
-import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { Project } from "@/types/content";
 import { StatusBadge } from "@/components/ui/StatusBadge";
-import { useSaved } from "@/components/ui/SavedProvider";
-import { savedToast, useToast } from "@/components/ui/Toast";
 import { Shot } from "@/components/project/Shot";
 
 const PREVIEW_MS = 1500;
@@ -16,10 +14,7 @@ const PREVIEW_MS = 1500;
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [slide, setSlide] = useState(0);
   const [previewing, setPreviewing] = useState(false);
-  const { saved, toggle } = useSaved();
-  const toast = useToast();
   const reduce = useReducedMotion();
-  const isSaved = saved.includes(project.slug);
   const count = project.screenshots.length;
   const go = (d: number) => setSlide((s) => (s + d + count) % count);
   const href = `/projects/${project.slug}`;
@@ -64,15 +59,6 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         </ViewTransition>
         <Link href={href} transitionTypes={["nav-forward"]} className="absolute inset-0" tabIndex={-1} aria-hidden />
         <StatusBadge status={project.status} className="absolute top-3 left-3" />
-        <button
-          type="button"
-          onClick={() => savedToast(toast, toggle(project.slug), project.name)}
-          aria-pressed={isSaved}
-          aria-label={isSaved ? `Remove ${project.name} from saved` : `Save ${project.name}`}
-          className="absolute top-2 right-2 flex size-11 cursor-pointer items-center justify-center transition active:scale-85"
-        >
-          <Heart aria-hidden className={cn("size-6.5 stroke-paper stroke-2", isSaved ? "animate-heart fill-ink" : "fill-ink/35")} />
-        </button>
         {count > 1 && (
           <>
             <button

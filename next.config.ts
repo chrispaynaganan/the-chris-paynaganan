@@ -7,7 +7,8 @@ const nextConfig: NextConfig = {
       { source: "/services", destination: "/business", permanent: true },
       { source: "/projects", destination: "/", permanent: true },
       { source: "/faq", destination: "/business#faq", permanent: true },
-      { source: "/wishlist", destination: "/saved", permanent: true },
+      { source: "/saved", destination: "/", permanent: true },
+      { source: "/wishlist", destination: "/", permanent: true },
     ];
   },
   images: {

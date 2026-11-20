@@ -46,8 +46,3 @@ export async function getStampsFor(project: Project): Promise<PassportStamp[]> {
 
 export { categories } from "./categories";
 
-/** The slimmed-down project list the story viewer needs. */
-export async function getStories() {
-  const all = await getProjects();
-  return all.map(({ slug, name, kind, years, status, entries }) => ({ slug, name, kind, years, status, entries }));
-}

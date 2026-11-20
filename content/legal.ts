@@ -12,8 +12,7 @@ export const privacy: LegalDoc = {
     {
       heading: "What this site collects",
       body: [
-        "The site doesn’t ask you to sign up, and it doesn’t use advertising or analytics cookies.",
-        "When you heart a project, the list of saved projects is kept in your own browser (local storage). It never leaves your device, and clearing your browser data removes it.",
+        "The site doesn’t ask you to sign up, doesn’t store anything in your browser, and doesn’t use advertising or analytics cookies.",
       ],
     },
     {
