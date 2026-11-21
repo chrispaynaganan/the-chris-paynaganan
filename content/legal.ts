@@ -18,21 +18,21 @@ export const privacy: LegalDoc = {
     {
       heading: "When you contact me",
       body: [
-        "The contact and project forms don’t send anything by themselves. They open your email app with your message filled in, and nothing reaches me unless you send that email.",
-        "If you do, I receive what you wrote: usually your name, email address, company and message. I use it only to reply to you and, if we work together, to run the project.",
+        "When you send the contact or project form, what you wrote (your name, email address, company and message, plus the bundle, payment option and timeline on the project form) is saved in my private database and emailed to me.",
+        "I use it only to reply to you and, if we work together, to run the project.",
         "I don’t sell, rent or share your details with anyone for marketing.",
       ],
     },
     {
       heading: "Other services",
       body: [
-        "The site is hosted on Vercel, which may keep standard server logs (such as IP address and browser type) to run and secure the service.",
+        "The site is hosted on Vercel, which may keep standard server logs (such as IP address and browser type) to run and secure the service. Form messages are stored with Supabase and the notification email is sent through Resend.",
         "Booking a call uses Calendly, and the LinkedIn, Facebook, Instagram and share links open those services. Each has its own privacy policy, which applies once you’re on their site.",
       ],
     },
     {
       heading: "How long I keep it",
-      body: ["Emails are kept for as long as our conversation or project needs them, and as long as records must be kept for invoicing."],
+      body: ["Messages are kept for as long as our conversation or project needs them, and as long as records must be kept for invoicing. Ask and I’ll delete yours."],
     },
     {
       heading: "Your rights",

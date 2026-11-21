@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { submitInquiry } from "@/app/actions/inquiry";
 import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/button";
 import { Notice } from "@/components/ui/Notice";
@@ -39,7 +40,8 @@ export function InquiryForm({
   const [v, setV] = useState<Values>(empty);
   const [errors, setErrors] = useState<Errors>({});
   const [tried, setTried] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [sent, setSent] = useState<null | "saved" | "email">(null);
+  const [pending, startTransition] = useTransition();
 
   useEffect(() => {
     const onChoose = (e: Event) => setV((prev) => ({ ...prev, tier: (e as CustomEvent<string>).detail }));
@@ -50,7 +52,7 @@ export function InquiryForm({
   const set = (k: keyof Values) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const next = { ...v, [k]: e.target.value };
     setV(next);
-    setSent(false);
+    setSent(null);
     if (tried) setErrors(validate(next));
   };
 
@@ -75,21 +77,37 @@ export function InquiryForm({
     setTried(true);
     setErrors(errs);
     if (Object.keys(errs).length) return;
-    // No backend yet: open the visitor's email app with everything filled in.
-    const body = [
-      `Name: ${v.name}`,
-      `Email: ${v.email}`,
-      `Company: ${v.company || "—"}`,
-      `Bundle: ${v.tier}`,
-      `Payment: ${v.pay}`,
-      `Timeline: ${v.time}`,
-      "",
-      v.details,
-    ].join("\n");
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(`Project inquiry: ${v.tier}`)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
-    setTried(false);
-    setV(empty);
+    const values = v;
+    startTransition(async () => {
+      const res = await submitInquiry({
+        source: "project",
+        name: values.name,
+        email: values.email,
+        company: values.company,
+        tier: values.tier,
+        payment: values.pay,
+        timeline: values.time,
+        details: values.details,
+        businessBundles,
+      });
+      if (!res.ok) {
+        // Couldn't save it: fall back to the visitor's email app so the request still gets through
+        const body = [
+          `Name: ${values.name}`,
+          `Email: ${values.email}`,
+          `Company: ${values.company || "—"}`,
+          `Bundle: ${values.tier}`,
+          `Payment: ${values.pay}`,
+          `Timeline: ${values.time}`,
+          "",
+          values.details,
+        ].join("\n");
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(`Project inquiry: ${values.tier}`)}&body=${encodeURIComponent(body)}`;
+      }
+      setSent(res.ok ? "saved" : "email");
+      setTried(false);
+      setV(empty);
+    });
   };
 
   const err = (k: keyof Values) =>
@@ -102,7 +120,17 @@ export function InquiryForm({
 
   return (
     <>
-    <Confirmation open={sent} onClose={() => setSent(false)} dark={dark} title="Your project request is ready" steps={["Send the email that just opened in your email app.", "I’ll reply within a day or two with the intake form and a call scheduler.", "We meet on a discovery call, then I send a quotation."]} />
+    <Confirmation
+      open={sent !== null}
+      onClose={() => setSent(null)}
+      dark={dark}
+      title={sent === "email" ? "Your project request is ready" : "Project request sent"}
+      steps={[
+        sent === "email" ? "Send the email that just opened in your email app." : "Your request is with me now.",
+        "I’ll reply within a day or two with the intake form and a call scheduler.",
+        "We meet on a discovery call, then I send a quotation.",
+      ]}
+    />
     <form onSubmit={submit} noValidate className="grid flex-2 basis-md gap-4 sm:grid-cols-2">
       {Object.keys(errors).length > 0 && (
         <Notice tone="error" role="alert" className="sm:col-span-2">
@@ -153,7 +181,7 @@ export function InquiryForm({
         <textarea id="f-details" rows={4} value={v.details} onChange={set("details")} className={cn(field("details"), "resize-y")} />
       </div>
       <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
-        <button type="submit" className={buttonClass("primary", undefined, dark)}>Send inquiry</button>
+        <button type="submit" disabled={pending} className={buttonClass("primary", undefined, dark)}>{pending ? "Sending…" : "Send inquiry"}</button>
         <a href={`mailto:${email}`} className={buttonClass("tertiary", undefined, dark)}>Or email me directly</a>
       </div>
     </form>

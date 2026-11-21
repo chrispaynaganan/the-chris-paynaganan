@@ -40,3 +40,24 @@ blue "coming soon" message.
 ## Routes
 `/` projects · `/projects/[slug]` project page · `/gallery` · `/about` · `/business` (Chris for Business)
 · `/privacy-policy` · `/terms-and-conditions`
+
+## Studio (the CMS)
+
+`/studio` is a Monday.com-style editor for everything on the site, for one person: Chris.
+Boards: **Projects**, **Inquiries** (contact + project form messages), **Business**, **Site & About**.
+
+### Setup (once)
+1. `npm install`
+2. Supabase (the same project as the old site) → **SQL Editor**: run `supabase/0001_studio.sql`, then `supabase/0002_seed.sql`.
+   New tables are prefixed `studio_`; the old `cms_*` tables are untouched; `inquiries` only gains columns.
+3. Supabase → **Authentication → Users → Add user**: `mark.payns@gmail.com` with a password (auto-confirm).
+   Then **Authentication → Sign In / Providers → Email**: turn **off** "Allow new users to sign up".
+4. `.env.local` holds the Supabase and Resend settings (see `.env.example`). Add the same to Vercel.
+5. `npm run dev` → http://localhost:3000/studio
+
+### How it works
+- Only the owner email can sign in or edit. It's set in two places: `studio_is_owner()` in
+  `supabase/0001_studio.sql` and `STUDIO_OWNER_EMAIL` in `lib/supabase/env.ts`.
+- Saving in Studio refreshes the public pages right away (and every 5 minutes as a fallback).
+- If Supabase isn't set up or a table is empty, the site falls back to the files in `/content`.
+- Re-create the seed from the content files with `npm run seed`.

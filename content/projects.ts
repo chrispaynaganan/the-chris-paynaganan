@@ -3,6 +3,45 @@ import type { Project } from "@/types/content";
 // Project write-ups, in Chris's diary voice. Add docsUrl and designSystemUrl when they're ready.
 export const projects: Project[] = [
   {
+    slug: "hustle-and-muscle",
+    name: "Hustle & Muscle",
+    kind: "Gym website",
+    category: "Fitness · Web design & build",
+    tags: ["web", "brand"],
+    stamps: ["fitness"],
+    year: 2026,
+    years: "May–Nov 2026",
+    roleShort: "Designer & builder · passion project",
+    role: "Designer and developer, passion project, building with Claude as an AI pair programmer",
+    platform: "Web",
+    status: "live",
+    liveUrl: "https://hustle-and-muscle.vercel.app/",
+    docsUrl: "https://claude.ai/artifact/E8uSJ4pSD4oieDSy91Dntj",
+    designSystemUrl: "/docs/hustle-and-muscle-design-system.pdf",
+    screenshots: [
+      { label: "Homepage", src: "/projects/hustle-and-muscle/home.webp" },
+      { label: "Class cards", src: "/projects/hustle-and-muscle/classes.webp" },
+      { label: "Coach J.R. chat", src: "/projects/hustle-and-muscle/coach-jr.webp" },
+    ],
+    facts: [
+      { label: "Designed in May, built in November", value: "Hi-fi Figma designs first, then the build, in ten commits over two days." },
+      { label: "3 designs, 29 pages", value: "The shop, cart, classes and coach profiles were built from the design system alone." },
+      { label: "Coach J.R.", value: "A guided chat bot in English and Filipino, with a witty Bisaya voice." },
+    ],
+    stats: [
+      { value: "29", label: "pages from 3 Figma designs" },
+      { value: "2 days", label: "from Figma to a deployed site" },
+      { value: "2", label: "languages Coach J.R. speaks" },
+    ],
+    entries: [
+      { stage: "overview", label: "Overview", date: "Dear diary, May 2026", body: "A good friend turned out to own a gym, so I designed Hustle & Muscle a website in hi-fi Figma: the homepage, contact and coaches pages. Black ground, huge type, one hot orange and cut corners." },
+      { stage: "challenge", label: "Context & challenge", date: "November 2026", body: "Six months later I wanted those designs to be a real site. Three designed pages had to become every page a member would reach for (plans, classes, coaches, a shop, policies) without a backend and without the look falling apart." },
+      { stage: "approach", label: "Approach", date: "Along the way", body: "Tokens first: every color, size and corner from Figma became a named Tailwind token, so the 26 undesigned pages could match the three designed ones. Then one cart for everything, forms that open with the topic filled in, and Coach J.R., a guided bot instead of an AI one, because a gym bot should never make up a price." },
+      { stage: "outcome", label: "Outcome", date: "November 2026", body: "It's deployed on Vercel. Kirsten Corpuz, the gym's co-founder, has seen it, called it great, and plans to take it live after the third branch opens." },
+      { stage: "reflection", label: "Reflection", date: "Looking back", body: "Building with Claude turned six-month-old Figma frames into a working site in two days. The design calls stayed mine. Deciding what not to build (no AI, no backend, no payments yet) kept it honest." },
+    ],
+  },
+  {
     slug: "resonate",
     name: "Resonate",
     kind: "Coaching & voiceover platform",

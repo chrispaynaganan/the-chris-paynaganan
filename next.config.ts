@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 
+// Screenshots uploaded in Studio live in Supabase Storage; let next/image show them
+const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname : null;
+
 const nextConfig: NextConfig = {
   // Addresses from the old site, sent to where that content lives now
   async redirects() {
@@ -13,6 +16,7 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ["image/avif", "image/webp"],
+    remotePatterns: supabaseHost ? [{ protocol: "https", hostname: supabaseHost, pathname: "/storage/v1/object/public/**" }] : [],
   },
   turbopack: {
     root: process.cwd(),

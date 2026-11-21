@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { submitInquiry } from "@/app/actions/inquiry";
 import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/button";
 import { Notice } from "@/components/ui/Notice";
@@ -24,12 +25,13 @@ export function ContactForm({ email, reasons }: { email: string; reasons: string
   const [v, setV] = useState<Values>(empty);
   const [errors, setErrors] = useState<Errors>({});
   const [tried, setTried] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [sent, setSent] = useState<null | "saved" | "email">(null);
+  const [pending, startTransition] = useTransition();
 
   const set = (k: keyof Values) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const next = { ...v, [k]: e.target.value };
     setV(next);
-    setSent(false);
+    setSent(null);
     if (tried) setErrors(validate(next));
   };
   const field = (k: keyof Values) =>
@@ -44,16 +46,33 @@ export function ContactForm({ email, reasons }: { email: string; reasons: string
     setTried(true);
     setErrors(errs);
     if (Object.keys(errs).length) return;
-    const body = [`Name: ${v.name}`, `Email: ${v.email}`, `Company: ${v.company || "—"}`, "", v.message].join("\n");
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(`${v.reason}: ${v.name}`)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
-    setTried(false);
-    setV(empty);
+    const values = v;
+    startTransition(async () => {
+      const res = await submitInquiry({ source: "contact", name: values.name, email: values.email, company: values.company, reason: values.reason, message: values.message });
+      if (!res.ok) {
+        // Couldn't save it: fall back to the visitor's email app so the message still gets through
+        const body = [`Name: ${values.name}`, `Email: ${values.email}`, `Company: ${values.company || "—"}`, "", values.message].join("\n");
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(`${values.reason}: ${values.name}`)}&body=${encodeURIComponent(body)}`;
+      }
+      setSent(res.ok ? "saved" : "email");
+      setTried(false);
+      setV(empty);
+    });
   };
 
   return (
     <>
-    <Confirmation open={sent} onClose={() => setSent(false)} dark={false} title="Your message is ready" steps={["Send the email that just opened in your email app.", "I read every message myself and reply within a day or two.", "If it’s a fit, we’ll set up a call."]} />
+    <Confirmation
+      open={sent !== null}
+      onClose={() => setSent(null)}
+      dark={false}
+      title={sent === "email" ? "Your message is ready" : "Message sent"}
+      steps={
+        sent === "email"
+          ? ["Send the email that just opened in your email app.", "I read every message myself and reply within a day or two.", "If it’s a fit, we’ll set up a call."]
+          : ["Your message is with me now.", "I read every message myself and reply within a day or two.", "If it’s a fit, we’ll set up a call."]
+      }
+    />
     <form onSubmit={submit} noValidate className="grid gap-4 sm:grid-cols-2">
       {Object.keys(errors).length > 0 && (
         <Notice tone="error" role="alert" className="sm:col-span-2">A few fields need a look before this can go out.</Notice>
@@ -86,7 +105,7 @@ export function ContactForm({ email, reasons }: { email: string; reasons: string
         {err("message")}
       </div>
       <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
-        <button type="submit" className={buttonClass("primary")}>Send message</button>
+        <button type="submit" disabled={pending} className={buttonClass("primary")}>{pending ? "Sending…" : "Send message"}</button>
         <a href={`mailto:${email}`} className={buttonClass("tertiary")}>Or email me directly</a>
       </div>
     </form>

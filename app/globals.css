@@ -3,6 +3,7 @@
 /* Fonts come from next/font in app/layout.tsx */
 @theme inline {
   --font-sans: var(--font-livvic), ui-sans-serif, system-ui, sans-serif;
+  --font-studio: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme {
@@ -48,6 +49,27 @@
   --text-5xl--line-height: normal;
   --text-6xl--line-height: normal;
   --text-7xl--line-height: normal;
+
+  /* ===== Studio (the CMS) only =====
+     Monday.com's palette. The public site never uses these. */
+  --color-studio-app: #eceff8;
+  --color-studio-surface: #f6f7fb;
+  --color-studio-line: #d0d4e4;
+  --color-studio-line-soft: #e6e9ef;
+  --color-studio-text: #323338;
+  --color-studio-muted: #676879;
+  --color-studio-primary: #0073ea;
+  --color-studio-primary-hover: #0060b9;
+  --color-studio-selected: #cce5ff;
+  --color-studio-hover: #dcdfec;
+  --color-studio-green: #00c875;
+  --color-studio-orange: #fdab3d;
+  --color-studio-red: #df2f4a;
+  --color-studio-blue: #579bfc;
+  --color-studio-purple: #a25ddc;
+  --color-studio-lime: #9cd326;
+  --color-studio-grey: #c4c4c4;
+  --color-studio-dark: #333333;
 
   /* ===== Layout =====
      One container everywhere: up to 1512px wide, with side margins of 80px at a
