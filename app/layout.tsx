@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const [site, projects] = await Promise.all([getSite(), getProjects()]);
-  const searchProjects = projects.map(({ slug, name, kind, category, platform, status, tags }) => ({ slug, name, kind, category, platform, status, tags }));
+  const searchProjects = projects.map(({ slug, name, kind, category, platform, status, tags, stamps }) => ({ slug, name, kind, category, platform, status, tags, stamps }));
   return (
     <html lang="en" data-theme="light" className={livvic.variable}>
       <body className="flex min-h-screen flex-col">

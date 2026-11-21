@@ -45,14 +45,24 @@ export function Bundles({ bundles }: { bundles: Bundle[] }) {
               transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: i * 0.12 }}
               className="h-full transition duration-500 ease-soft hover:-translate-y-1.5"
             >
-              {/* Pixels twinkle in from the pointer on hover: white on the black cards, black on the white one */}
+              {/* React Bits PixelCard: pixels frame the card (faded toward the middle so the text stays clear) */}
               <PixelCard
                 theme={lit ? "light" : "dark"}
-                colors={lit ? ["#000000", "#404040", "#a3a3a3"] : ["#ffffff", "#e5e5e5", "#a3a3a3"]}
+                colors={lit ? ["#000000", "#404040", "#a3a3a3"] : ["#ffffff", "#f5f5f5", "#d4d4d4"]}
                 glowColor={lit ? "#737373" : "#d4d4d4"}
-                gap={lit ? 6 : 5}
-                speed={30}
-                origin="pointer"
+                shape="square"
+                origin="center"
+                gap={5}
+                pixelSize={2}
+                speed={35}
+                revealDuration={600}
+                spotlight={0.5}
+                glow={0.5}
+                opacity={0.35}
+                fade={0.7}
+                trigger="hover"
+                clickPulse
+                intro
                 introDelay={i * 180}
                 noFocus
               >

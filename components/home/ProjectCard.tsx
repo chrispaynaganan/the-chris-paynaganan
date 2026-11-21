@@ -3,17 +3,21 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, ViewTransition } from "react";
 import { useReducedMotion } from "motion/react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Share } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { Project } from "@/types/content";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { Shot } from "@/components/project/Shot";
+import { ShareDialog } from "@/components/project/ShareDialog";
+
+const SITE = "https://www.chrispaynaganan.com";
 
 const PREVIEW_MS = 1500;
 
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [slide, setSlide] = useState(0);
   const [previewing, setPreviewing] = useState(false);
+  const [sharing, setSharing] = useState(false);
   const reduce = useReducedMotion();
   const count = project.screenshots.length;
   const go = (d: number) => setSlide((s) => (s + d + count) % count);
@@ -59,6 +63,17 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         </ViewTransition>
         <Link href={href} transitionTypes={["nav-forward"]} className="absolute inset-0" tabIndex={-1} aria-hidden />
         <StatusBadge status={project.status} className="absolute top-3 left-3" />
+        {/* Share, where a travel site puts its heart: one tap to pass the project on */}
+        <button
+          type="button"
+          onClick={() => setSharing(true)}
+          aria-label={`Share ${project.name}`}
+          className="group/share absolute top-2 right-2 flex size-11 cursor-pointer items-center justify-center"
+        >
+          <span className="flex size-8 items-center justify-center rounded-full bg-paper/90 shadow-float transition group-hover/share:scale-106 group-hover/share:bg-paper group-active/share:scale-94">
+            <Share aria-hidden className="size-4" />
+          </span>
+        </button>
         {count > 1 && (
           <>
             <button
@@ -96,6 +111,13 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         <span className="text-muted">{project.kind}</span>
         <span className="text-muted">{project.roleShort}</span>
       </Link>
+      <ShareDialog
+        open={sharing}
+        onClose={() => setSharing(false)}
+        url={`${SITE}/projects/${project.slug}`}
+        title={project.name}
+        subtitle={`${project.kind} · ${project.years}`}
+      />
     </article>
   );
 }

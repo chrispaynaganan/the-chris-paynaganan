@@ -41,7 +41,7 @@ function SiteMenu({ linkedIn, calendly, enterpriseUrl, resumeUrl }: { linkedIn: 
       icon={<MenuIcon aria-hidden className="size-4.5" />}
       items={[
         { label: "About me", onSelect: () => router.push("/about") },
-        { label: "Passport stamps", onSelect: () => router.push("/#passport") },
+        { label: "Niches I’ve explored", onSelect: () => router.push("/#niches") },
         { label: "Gallery", onSelect: () => router.push("/gallery") },
         "separator",
         { label: "Contact", onSelect: () => router.push("/contact") },

@@ -13,7 +13,7 @@ export async function Footer() {
       title: "Chris",
       links: [
         { label: "About me", href: "/about" },
-        { label: "Passport stamps", href: "/#passport" },
+        { label: "Niches I’ve explored", href: "/#niches" },
         { label: "Gallery", href: "/gallery" },
         ...(site.resumeUrl ? [{ label: "Résumé", href: site.resumeUrl, external: true }] : []),
         { label: "Book a virtual coffee", href: site.calendlyUrl, external: true },

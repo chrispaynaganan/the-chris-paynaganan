@@ -18,11 +18,14 @@ const ease = [0.2, 0.7, 0.2, 1] as const;
 export function ProjectExplorer({
   projects,
   categories,
+  intro,
 }: {
   projects: Project[];
   categories: readonly { id: string; label: string }[];
+  /** Shown between the search bar and the categories (the page headline). */
+  intro?: React.ReactNode;
 }) {
-  const { query, setQuery, cat, setCat, liveOnly, setLiveOnly, setDocked, inputRef } = useSearchDock();
+  const { query, setQuery, cat, setCat, liveOnly, setLiveOnly, niche, setNiche, setDocked, inputRef } = useSearchDock();
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const pillRef = useRef<HTMLDivElement>(null);
@@ -61,11 +64,12 @@ export function ProjectExplorer({
       projects.filter((p) => {
         const inCat = cat === "all" || p.tags.includes(cat);
         const hay = `${p.name} ${p.kind} ${p.category} ${p.platform}`.toLowerCase();
-        return inCat && (!liveOnly || p.status === "live") && (!q || hay.includes(q));
+        const inNiche = !niche || p.stamps.includes(niche.id);
+        return inCat && inNiche && (!liveOnly || p.status === "live") && (!q || hay.includes(q));
       }),
-    [projects, cat, q, liveOnly],
+    [projects, cat, q, liveOnly, niche],
   );
-  const showBiz = cat === "all" && !q && !liveOnly;
+  const showBiz = cat === "all" && !q && !liveOnly && !niche;
 
   return (
     <div className="flex flex-col gap-8">
@@ -149,6 +153,8 @@ export function ProjectExplorer({
           </AnimatePresence>
         </div>
 
+        {intro && <div className="w-full pt-4">{intro}</div>}
+
         <div className="flex w-full items-center gap-6 border-t border-line">
           <div role="toolbar" aria-label="Filter by category" className="flex flex-1 justify-start gap-8 overflow-x-auto md:justify-center">
             {categories.map((c) => {
@@ -194,6 +200,22 @@ export function ProjectExplorer({
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {niche && (
+          <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} className="-mt-2 flex items-center gap-3">
+            <span className="text-sm text-muted">Niche</span>
+            <button
+              type="button"
+              onClick={() => setNiche(null)}
+              className="flex h-8 cursor-pointer items-center gap-2 rounded-full bg-ink px-3.5 text-sm font-medium text-paper transition active:scale-97"
+              aria-label={`Clear the ${niche.label} niche filter`}
+            >
+              {niche.label} <X aria-hidden className="size-3.5" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <motion.div id="results" layout className="grid scroll-mt-20 grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <AnimatePresence mode="popLayout" initial={false}>
