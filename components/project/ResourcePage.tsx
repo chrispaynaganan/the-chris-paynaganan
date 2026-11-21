@@ -5,6 +5,8 @@ import { getProject } from "@/lib/content";
 import { buttonClass } from "@/components/ui/button";
 import { Notice } from "@/components/ui/Notice";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { ReaderRoute } from "@/components/reader/ReaderRoute";
+import { isPdf } from "@/lib/resource";
 
 type Kind = "documentation" | "design-system";
 
@@ -23,16 +25,27 @@ const copy: Record<Kind, { title: string; what: string; covers: string[] }> = {
 
 /**
  * /projects/[slug]/documentation and /projects/[slug]/design-system.
- * When the project has a link for it, this page forwards straight there.
+ * A PDF opens in the site's reader; any other link is forwarded to.
  * Until then it explains what's coming and offers a walkthrough instead.
  */
 export async function ResourcePage({ slug, kind }: { slug: string; kind: Kind }) {
   const project = await getProject(slug);
   if (!project) notFound();
   const url = kind === "documentation" ? project.docsUrl : project.designSystemUrl;
+  const c = copy[kind];
+  if (isPdf(url)) {
+    return (
+      <main className="mx-auto flex max-w-site flex-col gap-6 px-gutter pt-8 pb-20">
+        <Link href={`/projects/${project.slug}`} transitionTypes={["nav-back"]} className={buttonClass("secondary", "self-start")}>
+          <ArrowLeft aria-hidden className="size-4" /> Back to {project.name}
+        </Link>
+        <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{project.name} · {c.title}</h1>
+        <ReaderRoute src={url} title={`${project.name} · ${c.title}`} backHref={`/projects/${project.slug}`} />
+      </main>
+    );
+  }
   if (url) redirect(url);
 
-  const c = copy[kind];
   return (
     <main className="mx-auto flex max-w-site flex-col gap-8 px-gutter pt-8 pb-20">
       <Link href={`/projects/${project.slug}`} transitionTypes={["nav-back"]} className={buttonClass("secondary", "self-start")}>

@@ -16,7 +16,7 @@ export const projects: Project[] = [
     platform: "Web",
     status: "live",
     liveUrl: "https://hustle-and-muscle.vercel.app/",
-    docsUrl: "https://claude.ai/artifact/E8uSJ4pSD4oieDSy91Dntj",
+    docsUrl: "/docs/hustle-and-muscle-documentation.pdf",
     designSystemUrl: "/docs/hustle-and-muscle-design-system.pdf",
     screenshots: [
       { label: "Homepage", src: "/projects/hustle-and-muscle/home.webp" },

@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Share } from "lucide-react";
 import { buttonClass } from "@/components/ui/button";
 import { ShareDialog } from "./ShareDialog";
+import { ReaderButton } from "@/components/reader/ReaderButton";
+import { isPdf } from "@/lib/resource";
 
 type Props = {
   slug: string;
@@ -38,12 +40,22 @@ export function WorkActions({
   subtitle,
   url,
   liveUrl,
-}: Props & { liveUrl?: string }) {
+  docsUrl,
+  designSystemUrl,
+}: Props & { liveUrl?: string; docsUrl?: string; designSystemUrl?: string }) {
   const share = useShare();
   return (
     <div className="flex flex-col gap-3">
-      <Link href={`/projects/${slug}/documentation`} className={buttonClass("primary")}>Project documentation</Link>
-      <Link href={`/projects/${slug}/design-system`} className={buttonClass("secondary")}>Design system</Link>
+      {isPdf(docsUrl) ? (
+        <ReaderButton src={docsUrl} title={`${name} · Project documentation`} className={buttonClass("primary")}>Project documentation</ReaderButton>
+      ) : (
+        <Link href={`/projects/${slug}/documentation`} className={buttonClass("primary")}>Project documentation</Link>
+      )}
+      {isPdf(designSystemUrl) ? (
+        <ReaderButton src={designSystemUrl} title={`${name} · Design system`} className={buttonClass("secondary")}>Design system</ReaderButton>
+      ) : (
+        <Link href={`/projects/${slug}/design-system`} className={buttonClass("secondary")}>Design system</Link>
+      )}
       {liveUrl && (
         <a href={liveUrl} target="_blank" rel="noopener" className={buttonClass("secondary")}>Visit live site</a>
       )}

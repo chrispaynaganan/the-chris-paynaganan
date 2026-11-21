@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "node --experimental-strip-types --no-warnings scripts/generate-seed.mts"
+    "seed": "node --experimental-strip-types --no-warnings scripts/generate-seed.mts",
+    "postinstall": "node scripts/copy-pdf-worker.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
@@ -17,6 +18,7 @@
     "lucide-react": "^1.63.0",
     "motion": "^14.7.1",
     "next": "16.4.3",
+    "pdfjs-dist": "^6.5.438",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "resend": "^6.25.0",
