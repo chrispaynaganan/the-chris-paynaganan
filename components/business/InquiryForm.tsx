@@ -63,8 +63,8 @@ export function InquiryForm({
           ? "border-2 border-error-on-dark"
           : "border-2 border-error-accent"
         : dark
-          ? "border border-paper/30 focus:border-paper"
-          : "border border-field focus:border-ink",
+          ? "border border-paper/30 focus:border-paper focus:ring-1 focus:ring-paper focus:outline-none"
+          : "border border-field focus:border-ink focus:ring-1 focus:ring-ink focus:outline-none",
     );
 
   const labelClass = cn("text-sm font-medium", dark && "text-paper/80");

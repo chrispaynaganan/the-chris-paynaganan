@@ -78,7 +78,7 @@ export function ProjectExplorer({
             transition={{ duration: 0.5, ease }}
             className={cn(
               "group/pill flex w-full items-center rounded-full border py-2 pr-2 pl-6 transition duration-300",
-              open ? "border-transparent bg-surface shadow-pill-hover" : "border-line-strong bg-paper shadow-pill hover:shadow-pill-hover",
+              open ? "border-transparent bg-surface shadow-float" : "border-line-strong bg-paper shadow-float hover:shadow-float",
             )}
           >
             <div className="flex min-w-0 flex-1 flex-col pr-4">
@@ -195,7 +195,7 @@ export function ProjectExplorer({
         </div>
       </div>
 
-      <motion.div id="results" layout className="grid scroll-mt-20 grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <motion.div id="results" layout className="grid scroll-mt-20 grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <AnimatePresence mode="popLayout" initial={false}>
           {shown.map((p, i) => (
             <motion.div
@@ -219,7 +219,7 @@ export function ProjectExplorer({
               transition={{ duration: 0.35, ease }}
             >
               <Link href="/business" className="group flex animate-fade-up flex-col" style={{ animationDelay: `${shown.length * 70}ms` }}>
-                <div className="relative flex aspect-20/19 flex-col justify-between overflow-hidden rounded-2xl bg-ink p-6 text-paper">
+                <div className="relative flex aspect-20/19 flex-col justify-between overflow-hidden rounded-card bg-ink p-6 text-paper">
                   <span className="self-start rounded border border-paper px-2 py-1 text-xs font-medium tracking-widest uppercase">Chris for Business</span>
                   <span className="text-2xl font-semibold tracking-tight transition duration-500 ease-soft group-hover:-translate-y-1">
                     I build websites that make you money.

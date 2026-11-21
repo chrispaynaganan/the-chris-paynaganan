@@ -47,7 +47,7 @@ export function ShareDialog({
         if (e.target === ref.current) onClose();
       }}
       aria-labelledby="share-title"
-      className="m-auto w-full max-w-lg animate-pop rounded-2xl bg-paper p-6 text-ink shadow-dialog backdrop:animate-fade-in backdrop:bg-ink/45"
+      className="m-auto w-full max-w-lg animate-pop rounded-card bg-paper p-6 text-ink shadow-float backdrop:animate-fade-in backdrop:bg-ink/50"
     >
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
@@ -70,7 +70,7 @@ export function ShareDialog({
             readOnly
             value={url}
             onFocus={(e) => e.currentTarget.select()}
-            className="h-10 rounded-lg border border-line-strong px-3 text-sm"
+            className="h-10 rounded-lg border border-line-strong px-3 text-sm focus:border-ink focus:ring-1 focus:ring-ink focus:outline-none"
           />
         </div>
         <div className="grid grid-cols-2 gap-2.5">

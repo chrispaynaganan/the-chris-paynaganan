@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored React Bits components (GlowCursor, PixelCard), kept as their author wrote them.
+    // Their WebGL helper named `use` and render-time settings refs trip the React Compiler rules
+    // but work as intended (this app doesn't enable the React Compiler).
+    "components/reactbits/**",
   ]),
 ]);
 

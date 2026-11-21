@@ -90,7 +90,7 @@ export function Confirmation({
                   initial={reduce ? false : { opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, ease, delay: 0.7 + i * 0.12 }}
-                  className={`flex items-center gap-4 rounded-2xl border p-4 ${dark ? "border-paper/15" : "border-line-strong"}`}
+                  className={`flex items-center gap-4 rounded-card border p-4 ${dark ? "border-paper/15" : "border-line-strong"}`}
                 >
                   <span className={`flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-medium ${dark ? "bg-paper text-ink" : "bg-ink text-paper"}`}>
                     {i + 1}

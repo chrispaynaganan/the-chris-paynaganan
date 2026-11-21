@@ -45,7 +45,7 @@ export function Sheet({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-ink/45"
+            className="absolute inset-0 bg-ink/50"
           />
           <motion.div
             role="dialog"
@@ -55,7 +55,7 @@ export function Sheet({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 60, opacity: 0 }}
             transition={{ type: "spring", stiffness: 340, damping: 34 }}
-            className="relative flex max-h-screen w-full flex-col rounded-t-3xl bg-paper shadow-dialog md:max-h-11/12 md:max-w-2xl md:rounded-3xl"
+            className="relative flex max-h-screen w-full flex-col rounded-t-3xl bg-paper shadow-float md:max-h-11/12 md:max-w-2xl md:rounded-panel"
           >
             <div className="flex items-center gap-3 border-b border-line px-4 py-3">
               <button ref={closeRef} type="button" onClick={onClose} aria-label="Close" className="flex size-10 cursor-pointer items-center justify-center rounded-full transition hover:bg-surface">

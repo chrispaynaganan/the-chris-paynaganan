@@ -118,7 +118,7 @@ export function Header({
       style={{ viewTransitionName: "site-header" }}
       className={cn(
         "sticky top-0 z-30 border-b bg-paper transition duration-300",
-        scrolled ? "border-transparent shadow-pill" : "border-line",
+        scrolled ? "border-transparent shadow-float" : "border-line",
       )}
     >
       <div className="mx-auto grid max-w-site grid-cols-2 items-center gap-4 px-gutter py-2 md:grid-cols-3">
@@ -131,7 +131,7 @@ export function Header({
                 <motion.div
                   layoutId="header-search"
                   transition={{ type: "spring", stiffness: 380, damping: 34 }}
-                  className="flex h-10 items-center rounded-full border border-line-strong bg-paper py-1 pr-1 pl-4 shadow-pill-hover"
+                  className="flex h-10 items-center rounded-full border border-line-strong bg-paper py-1 pr-1 pl-4 shadow-float"
                 >
                   <label htmlFor="header-search-input" className="sr-only">
                     Search the diary
@@ -169,7 +169,7 @@ export function Header({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 14, scale: 0.92 }}
                 transition={{ duration: 0.28, ease }}
-                className="flex h-10 cursor-pointer items-center gap-3 rounded-full border border-line-strong py-1 pr-1 pl-4 text-sm font-medium shadow-pill transition-shadow hover:shadow-pill-hover"
+                className="flex h-10 cursor-pointer items-center gap-3 rounded-full border border-line-strong py-1 pr-1 pl-4 text-sm font-medium shadow-float transition-shadow"
               >
                 <span className="max-w-48 truncate">{query || "Search the diary"}</span>
                 <span className="h-5 w-px bg-line-strong" />

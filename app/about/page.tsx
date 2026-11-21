@@ -21,7 +21,7 @@ export default async function AboutPage() {
     <main className="mx-auto flex max-w-site flex-col gap-16 px-gutter pt-12 pb-20">
       <div className="flex flex-wrap items-start gap-16">
         <aside className="flex w-full flex-col gap-5 md:sticky md:top-20 md:w-80 md:shrink-0">
-          <div className="grid animate-fade-up grid-cols-2 items-center gap-4 rounded-3xl p-7 shadow-card">
+          <div className="grid animate-fade-up grid-cols-2 items-center gap-4 rounded-panel p-7 shadow-float">
             <div className="flex flex-col items-center gap-2 text-center">
               <div className="flex size-26 items-center justify-center rounded-full bg-placeholder text-xs text-muted">[Photo]</div>
               <span className="text-2xl font-semibold tracking-tight">Chris</span>
@@ -41,7 +41,7 @@ export default async function AboutPage() {
               ))}
             </dl>
           </div>
-          <div className="flex flex-col gap-3 rounded-2xl border border-line-strong p-6">
+          <div className="flex flex-col gap-3 rounded-card border border-line-strong p-6">
             <span className="text-lg font-semibold">Chris’s confirmed information</span>
             {["Email address", "LinkedIn profile", `${live} live client sites`].map((t) => (
               <span key={t} className="flex items-center gap-2.5">
@@ -116,7 +116,7 @@ export default async function AboutPage() {
           <section className="flex flex-col gap-4 border-b border-line pb-8">
             <h2 className="text-xl font-semibold">What clients say</h2>
             {site.testimonials.map((t) => (
-              <figure key={t.name} className="flex max-w-xl flex-col gap-2.5 rounded-2xl border border-line-strong p-5">
+              <figure key={t.name} className="flex max-w-xl flex-col gap-2.5 rounded-card border border-line-strong p-5">
                 <span aria-label="5 out of 5 stars" className="text-sm tracking-widest">★★★★★</span>
                 <blockquote className="">{t.quote}</blockquote>
                 <figcaption className="flex items-center gap-3 pt-1">

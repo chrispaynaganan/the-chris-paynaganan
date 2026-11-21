@@ -49,7 +49,7 @@ export async function ResourcePage({ slug, kind }: { slug: string; kind: Kind })
       <Notice tone="info" className="max-w-2xl">
         The public version of {c.what} is being prepared. Want to see it sooner? I’m happy to walk you through it on a call.
       </Notice>
-      <section aria-labelledby="covers-title" className="flex max-w-2xl flex-col gap-4 rounded-2xl border border-line-strong p-6">
+      <section aria-labelledby="covers-title" className="flex max-w-2xl flex-col gap-4 rounded-card border border-line-strong p-6">
         <h2 id="covers-title" className="text-lg font-semibold">What it will cover</h2>
         <ul className="grid gap-3 sm:grid-cols-2">
           {c.covers.map((x) => (

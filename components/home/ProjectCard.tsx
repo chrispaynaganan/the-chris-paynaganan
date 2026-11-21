@@ -40,7 +40,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
 
   return (
     <article className="group relative flex flex-col" data-index={index} onMouseEnter={startPreview} onMouseLeave={stopPreview}>
-      <div className="relative aspect-20/19 overflow-hidden rounded-2xl bg-placeholder">
+      <div className="relative aspect-20/19 overflow-hidden rounded-card bg-placeholder">
         {/* Same name as the hero on the project page, so this thumbnail morphs into it */}
         <ViewTransition name={`shot-${project.slug}`} share="morph" default="none">
           <div className="relative h-full overflow-hidden">
@@ -65,7 +65,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
               type="button"
               onClick={() => go(-1)}
               aria-label="Previous screenshot"
-              className="absolute top-1/2 left-2.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-line-strong bg-paper opacity-0 shadow-arrow transition group-hover:opacity-100 hover:scale-106 focus-visible:opacity-100"
+              className="absolute top-1/2 left-2.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-line-strong bg-paper opacity-0 shadow-float transition group-hover:opacity-100 hover:scale-106 focus-visible:opacity-100"
             >
               <ChevronLeft aria-hidden className="size-4" />
             </button>
@@ -73,7 +73,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
               type="button"
               onClick={() => go(1)}
               aria-label="Next screenshot"
-              className="absolute top-1/2 right-2.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-line-strong bg-paper opacity-0 shadow-arrow transition group-hover:opacity-100 hover:scale-106 focus-visible:opacity-100"
+              className="absolute top-1/2 right-2.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-line-strong bg-paper opacity-0 shadow-float transition group-hover:opacity-100 hover:scale-106 focus-visible:opacity-100"
             >
               <ChevronRight aria-hidden className="size-4" />
             </button>

@@ -40,7 +40,7 @@ export default async function ContactPage() {
                     href={w.href}
                     target={w.external ? "_blank" : undefined}
                     rel={w.external ? "noopener" : undefined}
-                    className="group flex items-center gap-4 rounded-2xl border border-line-strong p-4 transition hover:border-ink hover:shadow-card"
+                    className="group flex items-center gap-4 rounded-card border border-line-strong p-4 transition hover:border-ink hover:shadow-float"
                   >
                     <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-placeholder">
                       <w.icon aria-hidden className="size-4.5" />
@@ -64,7 +64,7 @@ export default async function ContactPage() {
           </p>
         </section>
 
-        <section aria-labelledby="form-title" className="flex flex-col gap-4 rounded-3xl border border-line-strong p-6 shadow-card md:p-8 lg:col-span-7">
+        <section aria-labelledby="form-title" className="flex flex-col gap-4 rounded-panel border border-line-strong p-6 shadow-float md:p-8 lg:col-span-7">
           <h2 id="form-title" className="text-lg font-semibold">Send a message</h2>
           <ContactForm email={site.email} reasons={["Job opportunity", "Freelance project", "Collaboration", "Just saying hi"]} />
         </section>

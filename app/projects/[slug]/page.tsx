@@ -61,7 +61,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight">
+        <h1 className="text-2xl font-medium tracking-tight">
           {project.name}: {project.kind}
         </h1>
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
@@ -73,7 +73,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       </div>
 
-      <section aria-label="Screenshots" className="relative grid grid-cols-2 gap-2 overflow-hidden rounded-2xl md:grid-cols-4">
+      <section aria-label="Screenshots" className="relative grid grid-cols-2 gap-2 overflow-hidden rounded-card md:grid-cols-4">
         {hero && (
           <ViewTransition name={`shot-${project.slug}`} share="morph" default="none">
             <Shot shot={{ ...hero, label: "Hero screenshot" }} name={project.name} big className="col-span-2 h-72 md:row-span-2 md:h-full" />
@@ -150,7 +150,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <aside
           id="explore"
           aria-labelledby="work-title"
-          className="flex w-full scroll-mt-20 flex-col gap-3.5 rounded-2xl border border-line-strong p-6 shadow-card md:sticky md:top-20 md:w-80 md:shrink-0"
+          className="flex w-full scroll-mt-20 flex-col gap-3.5 rounded-card border border-line-strong p-6 shadow-float md:sticky md:top-20 md:w-80 md:shrink-0"
         >
           <div className="flex flex-col gap-0.5">
             <h2 id="work-title" className="text-xl font-semibold">Explore the work</h2>

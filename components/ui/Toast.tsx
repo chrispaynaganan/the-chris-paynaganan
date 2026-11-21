@@ -52,7 +52,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 12, scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                className="pointer-events-auto flex w-full max-w-sm items-center gap-3 rounded-2xl bg-paper p-2.5 pr-4 text-ink shadow-dialog"
+                className="pointer-events-auto flex w-full max-w-sm items-center gap-3 rounded-card bg-paper p-2.5 pr-4 text-ink shadow-float"
               >
                 <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-placeholder text-sm font-medium">
                   {toast.thumb}
@@ -73,7 +73,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 8 }}
-                className={cn("rounded-xl px-4.5 py-3 text-sm font-medium shadow-toast", kindClass[toast.kind])}
+                className={cn("rounded-xl px-4.5 py-3 text-sm font-medium shadow-float", kindClass[toast.kind])}
               >
                 {toast.text}
               </motion.div>

@@ -55,14 +55,19 @@
   --container-site: 94.5rem; /* 1512px */
   --spacing-gutter: clamp(1.5rem, 5.291vw, 5rem);
 
-  /* ===== Shadows ===== */
-  --shadow-pill: 0 2px 10px rgb(0 0 0 / 0.08);
-  --shadow-pill-hover: 0 4px 18px rgb(0 0 0 / 0.12);
-  --shadow-card: 0 6px 24px rgb(0 0 0 / 0.1);
-  --shadow-lift: 0 14px 36px rgb(0 0 0 / 0.14);
-  --shadow-dialog: 0 16px 48px rgb(0 0 0 / 0.25);
-  --shadow-toast: 0 8px 24px rgb(0 0 0 / 0.2);
-  --shadow-arrow: 0 2px 6px rgb(0 0 0 / 0.12);
+  /* ===== Shadow =====
+     One elevation tier only (as Airbnb does): cards on hover, the search bar,
+     menus, dialogs and toasts all float the same way. Everything else is flat. */
+  --shadow-float: 0 0 0 1px rgb(0 0 0 / 0.02), 0 2px 6px rgb(0 0 0 / 0.04), 0 4px 8px rgb(0 0 0 / 0.1);
+
+  /* ===== Radius by role =====
+     Buttons and inputs use rounded-lg (8px); pills and circles rounded-full. */
+  --radius-card: 0.875rem; /* 14px: cards, photos, side cards */
+  --radius-panel: 1.25rem; /* 20px: large panels and feature cards */
+
+  /* ===== Type ===== */
+  --text-caption: 0.8125rem; /* 13px: legal line and fine print */
+  --text-caption--line-height: normal;
 
   /* ===== Motion ===== */
   --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -231,8 +236,15 @@
     --radius-2xl: 1.3rem;
     --radius-3xl: 1.95rem;
     --radius-4xl: 2.6rem;
+    --radius-card: 1.1375rem;
+    --radius-panel: 1.625rem;
   }
   [class*="rounded"]:not([class*="rounded-full"]) {
     corner-shape: squircle;
   }
+}
+
+/* No grey flash when tapping interactive cards on mobile (React Bits PixelCard) */
+@utility no-tap-highlight {
+  -webkit-tap-highlight-color: transparent;
 }

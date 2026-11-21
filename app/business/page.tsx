@@ -8,6 +8,7 @@ import { Notice } from "@/components/ui/Notice";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitWords } from "@/components/motion/SplitWords";
 import { buttonClass } from "@/components/ui/button";
+import { BusinessGlow } from "@/components/business/BusinessGlow";
 
 export const metadata: Metadata = { title: "Chris for Business" };
 
@@ -42,7 +43,9 @@ export default async function BusinessPage() {
   const industries = ["Healthcare", "Fitness", "Accounting", "Voice & audio", "Coaching", "Maritime", "Personal brands", "SaaS"];
 
   return (
-    <div data-theme="dark" className="bg-ink text-paper">
+    <div data-theme="dark" className="relative isolate bg-ink text-paper">
+      <BusinessGlow />
+      <div className="relative z-1">
       {/* Hero */}
       <section className="mx-auto flex max-w-site flex-col gap-16 px-gutter pt-20 pb-16 md:pt-28">
         <div className="grid gap-12 lg:grid-cols-12">
@@ -86,7 +89,7 @@ export default async function BusinessPage() {
           <Chapter n="01" label="Bundles" id="b-title" title="Three ways to work together." />
           <Bundles bundles={b.bundles} />
           <Reveal className="flex flex-col gap-4">
-            <div className="flex flex-wrap items-center justify-between gap-6 rounded-3xl border border-paper/15 p-8 transition duration-500 hover:border-paper/50">
+            <div className="flex flex-wrap items-center justify-between gap-6 rounded-panel border border-paper/15 p-8 transition duration-500 hover:border-paper/50">
               <div className="flex flex-col gap-2">
                 <span className="text-xs font-medium tracking-widest text-paper/60 uppercase">For companies</span>
                 <span className="text-3xl">{b.businessBundles.join(" · ")}</span>
@@ -136,7 +139,7 @@ export default async function BusinessPage() {
         </section>
 
         {/* Proof */}
-        <Reveal className="grid gap-8 rounded-3xl bg-paper p-10 text-ink md:grid-cols-3 md:p-14">
+        <Reveal className="grid gap-8 rounded-panel bg-paper p-10 text-ink md:grid-cols-3 md:p-14">
           <div className="flex flex-col gap-2">
             <span className="text-6xl">{projects.length}</span>
             <span className="text-sm text-muted">Projects designed, from healthcare to voice</span>
@@ -182,6 +185,7 @@ export default async function BusinessPage() {
           </div>
         </section>
       </main>
+      </div>
     </div>
   );
 }

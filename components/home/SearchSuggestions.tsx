@@ -26,7 +26,7 @@ export function SearchSuggestions({ id, onDone }: { id: string; onDone: () => vo
       exit={{ opacity: 0, y: -8, scale: 0.98 }}
       transition={{ duration: 0.22, ease }}
       style={{ transformOrigin: "top center" }}
-      className="w-full rounded-3xl border border-line bg-paper p-6 shadow-dialog"
+      className="w-full rounded-panel border border-line bg-paper p-6 shadow-float"
     >
       <div className="grid gap-8 md:grid-cols-2">
         <div className="flex flex-col gap-3">

@@ -5,7 +5,7 @@ import { getProjects, getSite } from "@/lib/content";
 // Full-width footer, laid out in columns like a travel site's.
 export async function Footer() {
   const [site, projects] = await Promise.all([getSite(), getProjects()]);
-  const linkClass = "text-sm text-body hover:text-ink hover:underline hover:underline-offset-4";
+  const linkClass = "text-sm text-ink hover:underline hover:underline-offset-4";
 
   const columns: { title: string; links: { label: string; href: string; external?: boolean }[] }[] = [
     { title: "Projects", links: projects.map((p) => ({ label: p.name, href: `/projects/${p.slug}` })) },
@@ -40,12 +40,12 @@ export async function Footer() {
   ];
 
   return (
-    <footer className="w-full border-t border-line bg-surface">
+    <footer className="w-full border-t border-line-strong bg-paper">
       <div className="mx-auto max-w-site px-gutter pt-12 pb-8">
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-5">
           {columns.map((col) => (
             <div key={col.title} className="flex flex-col gap-3">
-              <h2 className="text-sm font-medium">{col.title}</h2>
+              <h2 className="font-medium">{col.title}</h2>
               <ul className="flex flex-col gap-2.5">
                 {col.links.map((l) => (
                   <li key={l.label}>
@@ -69,7 +69,7 @@ export async function Footer() {
               href={site.enterprise.url}
               target="_blank"
               rel="noopener"
-              className="group flex flex-col gap-2 rounded-2xl border border-line-strong bg-paper p-4 transition hover:border-ink hover:shadow-card"
+              className="group flex flex-col gap-2 rounded-card border border-line-strong bg-paper p-4 transition hover:border-ink hover:shadow-float"
             >
               <span className="flex items-center justify-between text-base font-medium">
                 Oh, Yvi!
@@ -80,7 +80,7 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-line-strong pt-6 text-sm md:flex-row md:items-center md:justify-between">
+        <div className="mt-12 flex flex-col gap-4 border-t border-line-strong pt-6 text-caption text-muted md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <span>© {new Date().getFullYear()} Chris Paynaganan</span>
             <span aria-hidden>·</span>
@@ -93,9 +93,9 @@ export async function Footer() {
             </a>
           </div>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-            <span className="text-muted">{site.location}</span>
+            <span>{site.location}</span>
             {site.socials.map((s) => (
-              <a key={s.label} href={s.url} target="_blank" rel="noopener" className="font-medium hover:underline hover:underline-offset-4">
+              <a key={s.label} href={s.url} target="_blank" rel="noopener" className="text-ink hover:underline hover:underline-offset-4">
                 {s.label}
               </a>
             ))}

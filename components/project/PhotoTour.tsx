@@ -37,7 +37,7 @@ export function PhotoTour({ name, shots }: { name: string; shots: Screenshot[] }
         ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
-        className={buttonClass("secondary", "absolute right-4 bottom-4 h-9 px-3 shadow-pill")}
+        className={buttonClass("secondary", "absolute right-4 bottom-4 h-9 px-3 shadow-float")}
       >
         <Grid2x2 aria-hidden className="size-4" /> Show all photos
       </button>
