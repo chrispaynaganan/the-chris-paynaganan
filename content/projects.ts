@@ -3,6 +3,43 @@ import type { Project } from "@/types/content";
 // Project write-ups, in Chris's diary voice. Add docsUrl and designSystemUrl when they're ready.
 export const projects: Project[] = [
   {
+    slug: "the-brahmans-journal",
+    name: "The Brahmans’ Journal",
+    kind: "Student publication website",
+    category: "Education · Web design & build",
+    tags: ["web"],
+    stamps: ["education"],
+    year: 2024,
+    years: "2024–Nov 2026",
+    roleShort: "Designer & builder · alum project",
+    role: "Designer and developer, UB Lipa alumnus, building with Claude as an AI pair programmer",
+    platform: "Web",
+    status: "live",
+    liveUrl: "https://the-brahmans-journal.vercel.app/",
+    screenshots: [
+      { label: "Homepage", src: "/projects/the-brahmans-journal/home.webp" },
+      { label: "Article with byline", src: "/projects/the-brahmans-journal/article.webp" },
+      { label: "Graphics: cartoons", src: "/projects/the-brahmans-journal/graphics.webp" },
+    ],
+    facts: [
+      { label: "Designed in 2024, built in November 2026", value: "Hi-fi Figma frames first, then the build, two years later in one evening." },
+      { label: "9 designs, 141 pages", value: "Every section, article, cartoon, comic and photo journal gets its own page, built from the design's own tokens." },
+      { label: "A source you can check", value: "Every story carries its date, writer and photographer, under one official name." },
+    ],
+    stats: [
+      { value: "141", label: "pages from 9 Figma designs" },
+      { value: "8", label: "sections, News to Graphics" },
+      { value: "1", label: "official source for UB Lipa news" },
+    ],
+    entries: [
+      { stage: "overview", label: "Overview", date: "Dear diary, 2024", body: "I designed a website for The Brahmans’ Journal, the official student publication of the University of Batangas Lipa City, my alma mater. Inquisitive Words, Empowered Voice, set in a maroon script masthead, a serif for every story and a single gold dot." },
+      { stage: "challenge", label: "Context & challenge", date: "2024", body: "The Journal was worried about where students get their news. Nowadays almost every club, organization and department has its own Facebook page, and it’s hard to know which one to trust. The publication exists to be that trusted source, but on a feed it looks like every other page." },
+      { stage: "approach", label: "Approach", date: "November 2026", body: "Give the news a home of its own. Every section from the paper (News, Sports, Opinion, DevComm, Features, Literary, Graphics), and every story with its date, writer and photographer in plain sight. Tokens first again: every color, size and spacing from Figma became a named Tailwind token, so the pages I never designed (the article for every story, listings, search, the single-cartoon view) still look like the Journal." },
+      { stage: "outcome", label: "Outcome", date: "November 2026", body: "It’s deployed on Vercel. The Journal had a glimpse of it and saw it was worth developing." },
+      { stage: "reflection", label: "Reflection", date: "Looking back", body: "The design sat in Figma for two years. What it needed wasn’t more design but a reason, and the Journal’s worry about trust gave it one. A publication’s website isn’t decoration. It’s proof of where the news comes from." },
+    ],
+  },
+  {
     slug: "hustle-and-muscle",
     name: "Hustle & Muscle",
     kind: "Gym website",
