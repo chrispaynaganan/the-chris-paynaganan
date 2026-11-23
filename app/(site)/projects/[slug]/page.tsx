@@ -168,7 +168,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <p role="note" className={cn("rounded-xl px-3.5 py-3 text-sm", toneClass[status.tone])}>
             {status.note}
           </p>
-          <WorkActions slug={project.slug} name={project.name} subtitle={subtitle} url={url} liveUrl={project.liveUrl} docsUrl={project.docsUrl} designSystemUrl={project.designSystemUrl} />
+          <WorkActions slug={project.slug} name={project.name} subtitle={subtitle} url={url} liveUrl={project.liveUrl} previewUrl={project.previewUrl} docsUrl={project.docsUrl} designSystemUrl={project.designSystemUrl} />
         </aside>
       </div>
       <MobileWorkBar years={project.years} status={status.label} />

@@ -159,6 +159,7 @@ export const projects: Project[] = [
     role: "Product Designer, from sole designer to one of two designers on the team",
     platform: "Mobile app + web dashboard",
     status: "not-shipped",
+    previewUrl: "https://cishifts.vercel.app",
     screenshots: [{ label: "Nurse app" }, { label: "Clinic dashboard" }, { label: "Shift feed" }],
     facts: [
       { label: "Two platforms, one system", value: "A mobile app for nurses and a web dashboard for clinics and agencies." },

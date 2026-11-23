@@ -40,6 +40,8 @@ export interface Project {
   platform: string;
   status: ProjectStatus;
   liveUrl?: string;
+  /** Clickable prototype of work that never shipped. Shown as a preview, never as a live site. */
+  previewUrl?: string;
   docsUrl?: string;
   designSystemUrl?: string;
   screenshots: Screenshot[];

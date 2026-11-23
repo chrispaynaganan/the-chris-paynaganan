@@ -13,7 +13,7 @@ import { BoardSkeleton, LoadError } from "./states";
 type Row = {
   id: string; slug: string; position: number; published: boolean; name: string; kind: string; category: string;
   tags: string[]; stamps: string[]; year: number; years: string; role_short: string; role: string; platform: string;
-  status: "live" | "not-shipped" | "handed-off"; live_url: string | null; docs_url: string | null; design_system_url: string | null;
+  status: "live" | "not-shipped" | "handed-off"; live_url: string | null; preview_url: string | null; docs_url: string | null; design_system_url: string | null;
   screenshots: { label: string; src?: string }[]; facts: Record<string, unknown>[]; stats: Record<string, unknown>[];
   entries: Record<string, unknown>[]; updated_at: string;
 };
@@ -222,6 +222,7 @@ export function ProjectsBoard() {
             <Section title="Status and links" hint="The Documentation and Design system buttons open these links once they’re set.">
               <SelectField label="Status" value={open.status} options={statuses.map((s) => ({ value: s.value, label: s.label }))} onChange={(v) => void patch(open.id, { status: v as Row["status"] })} />
               <TextField label="Live site" type="url" value={open.live_url ?? ""} onCommit={(v) => void patch(open.id, { live_url: v || null })} />
+              <TextField label="Preview (prototype of unshipped work)" type="url" value={open.preview_url ?? ""} onCommit={(v) => void patch(open.id, { preview_url: v || null })} placeholder="Shows as “Try the preview”, not as a live site" />
               <TextField label="Project documentation" type="url" value={open.docs_url ?? ""} onCommit={(v) => void patch(open.id, { docs_url: v || null })} />
               <TextField label="Design system" type="url" value={open.design_system_url ?? ""} onCommit={(v) => void patch(open.id, { design_system_url: v || null })} />
             </Section>
