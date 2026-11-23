@@ -43,7 +43,7 @@ export default async function AboutPage() {
           </div>
           <div className="flex flex-col gap-3 rounded-card border border-line-strong p-6">
             <span className="text-lg font-semibold">Chris’s confirmed information</span>
-            {["Email address", "LinkedIn profile", `${live} live client sites`].map((t) => (
+            {["Email address", "LinkedIn profile", `${live} live sites`].map((t) => (
               <span key={t} className="flex items-center gap-2.5">
                 <Check aria-hidden className="size-4.5 stroke-3 text-ok" /> {t}
               </span>

@@ -13,4 +13,5 @@ export const stampDefs: StampDef[] = [
   { id: "fitness", label: "Fitness", motto: "Reps & routines", shape: "rect" },
   { id: "accounting", label: "Accounting", motto: "Books balanced", shape: "circle" },
   { id: "education", label: "Education", motto: "Class in session", shape: "rect" },
+  { id: "ecommerce", label: "E-commerce", motto: "Added to bag", shape: "circle" },
 ];

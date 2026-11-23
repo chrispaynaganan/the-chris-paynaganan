@@ -4,6 +4,11 @@ import type { NextConfig } from "next";
 const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname : null;
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Put the (small, Tailwind) stylesheet straight into the page instead of a separate
+    // render-blocking request. Most visitors are first-timers, so this paints sooner.
+    inlineCss: true,
+  },
   // Addresses from the old site, sent to where that content lives now
   async redirects() {
     return [

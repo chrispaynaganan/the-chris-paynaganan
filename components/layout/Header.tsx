@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
@@ -12,6 +12,7 @@ import { buttonClass } from "@/components/ui/button";
 import { useSearchDock } from "@/components/home/SearchDock";
 import { SearchSuggestions } from "@/components/home/SearchSuggestions";
 import { Logo } from "./Logo";
+import { useSitePath } from "./useSitePath";
 
 const tabs = [
   { href: "/", label: "Projects", match: (p: string) => p === "/" || p.startsWith("/projects") },
@@ -68,7 +69,7 @@ export function Header({
   enterpriseUrl: string;
   resumeUrl?: string;
 }) {
-  const pathname = usePathname();
+  const pathname = useSitePath();
   const scrolled = useScrolled();
   const { docked, query, setQuery, expanded, setExpanded, showResults } = useSearchDock();
   const isBusiness = pathname.startsWith("/business");

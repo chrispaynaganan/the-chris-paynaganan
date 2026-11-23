@@ -234,14 +234,23 @@
 }
 
 /* Loading shimmer for images and skeletons */
+/* The highlight slides with transform, so the browser can animate it on the GPU. */
 @utility shimmer {
-  background-image: linear-gradient(90deg, var(--color-placeholder) 0%, var(--color-surface) 50%, var(--color-placeholder) 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-placeholder);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(90deg, transparent 0%, var(--color-surface) 50%, transparent 100%);
+    transform: translateX(-100%);
+    animation: shimmer 1.4s ease-in-out infinite;
+    pointer-events: none;
+  }
 }
 @keyframes shimmer {
-  from { background-position: 100% 0; }
-  to { background-position: -100% 0; }
+  to { transform: translateX(100%); }
 }
 
 /* ===== Smooth corners =====

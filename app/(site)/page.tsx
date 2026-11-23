@@ -20,12 +20,14 @@ export default async function HomePage() {
           projects={projects}
           categories={categories}
           intro={
-            <Reveal y={10} className="flex flex-col gap-1.5">
+            // Not wrapped in Reveal: the headline is the first thing people see, so it shows
+            // straight away instead of waiting for JavaScript to fade it in.
+            <div className="flex flex-col gap-1.5">
               <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">{site.heroLine}</h1>
               <p className="text-muted">
-                {projects.length} projects, written up like diary entries. Healthcare, maritime, coaching and voice.
+                {projects.length} projects, written up like diary entries. Healthcare, maritime, coaching, voice and e-commerce.
               </p>
-            </Reveal>
+            </div>
           }
         />
 

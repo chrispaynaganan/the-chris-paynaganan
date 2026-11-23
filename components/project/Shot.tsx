@@ -3,9 +3,25 @@ import type { Screenshot } from "@/types/content";
 import { ShotImage } from "./ShotImage";
 
 /** A screenshot, or a labelled grey placeholder until one is uploaded. */
-export function Shot({ shot, name, alt, className, big }: { shot: Screenshot; name?: string; alt?: boolean; className?: string; big?: boolean }) {
+export function Shot({
+  shot,
+  name,
+  alt,
+  className,
+  big,
+  eager,
+  highPriority,
+}: {
+  shot: Screenshot;
+  name?: string;
+  alt?: boolean;
+  className?: string;
+  big?: boolean;
+  eager?: boolean;
+  highPriority?: boolean;
+}) {
   if (shot.src) {
-    return <ShotImage src={shot.src} alt={`${name ?? ""} ${shot.label}`.trim()} className={className} />;
+    return <ShotImage src={shot.src} alt={`${name ?? ""} ${shot.label}`.trim()} className={className} eager={eager} highPriority={highPriority} />;
   }
   return (
     <div className={cn("flex flex-col items-center justify-center gap-2 p-5 text-center", alt ? "bg-placeholder-alt" : "bg-placeholder", className)}>

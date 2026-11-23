@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Livvic } from "next/font/google";
 import { ToastProvider } from "@/components/ui/Toast";
+// The liquid-glass components inject their CSS with JavaScript; loading it here too
+// means the mobile tab bar is styled from the first paint (no layout shift).
+import "glisse/styles.css";
 import "./globals.css";
 
 const livvic = Livvic({

@@ -76,7 +76,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <section aria-label="Screenshots" className="relative grid grid-cols-2 gap-2 overflow-hidden rounded-card md:grid-cols-4">
         {hero && (
           <ViewTransition name={`shot-${project.slug}`} share="morph" default="none">
-            <Shot shot={{ ...hero, label: "Hero screenshot" }} name={project.name} big className="col-span-2 h-72 md:row-span-2 md:h-full" />
+            <Shot shot={{ ...hero, label: "Hero screenshot" }} name={project.name} big eager highPriority className="col-span-2 h-72 md:row-span-2 md:h-full" />
           </ViewTransition>
         )}
         {rest.map((s, n) => (

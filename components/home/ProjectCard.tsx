@@ -55,6 +55,9 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
                   shot={s}
                   name={project.name}
                   alt={i % 2 === 1}
+                  // the first screenshot of the first row is on screen when the page opens
+                  eager={i === 0 && index < 4}
+                  highPriority={i === 0 && index === 0}
                   className={cn("absolute inset-0 transition-opacity duration-700 ease-soft", i === slide ? "opacity-100" : "opacity-0")}
                 />
               ))}
