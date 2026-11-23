@@ -49,6 +49,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const subtitle = `${project.kind} · ${project.years}`;
   const status = statusInfo[project.status];
   const [hero, ...rest] = project.screenshots;
+  // The grid beside the hero holds four tiles. Projects with five or more screenshots fill it;
+  // otherwise a "Figma file" placeholder takes the next spot.
+  const tiles = rest.slice(0, 4);
+  const needsFigma = tiles.length < 4;
+  const figmaShot = { label: "Figma file" };
 
   return (
     <ViewTransition enter={slide.enter} exit={slide.exit} default="none">
@@ -79,15 +84,17 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <Shot shot={{ ...hero, label: "Hero screenshot" }} name={project.name} big eager highPriority className="col-span-2 h-72 md:row-span-2 md:h-full" />
           </ViewTransition>
         )}
-        {rest.map((s, n) => (
+        {tiles.map((s, n) => (
           <Reveal key={s.label} delay={0.15 + n * 0.08} y={10} className="hidden md:block">
             <Shot shot={s} className="h-52 transition duration-500 ease-soft hover:brightness-95" />
           </Reveal>
         ))}
-        <Reveal delay={0.31} y={10} className="hidden md:block">
-          <Shot shot={{ label: "Figma file" }} className="h-52" />
-        </Reveal>
-        <PhotoTour name={project.name} shots={[...project.screenshots, { label: "Figma file" }]} />
+        {needsFigma && (
+          <Reveal delay={0.15 + tiles.length * 0.08} y={10} className="hidden md:block">
+            <Shot shot={figmaShot} className="h-52" />
+          </Reveal>
+        )}
+        <PhotoTour name={project.name} shots={needsFigma ? [...project.screenshots, figmaShot] : project.screenshots} />
       </section>
 
       <div className="flex flex-wrap items-start gap-14 pt-2">

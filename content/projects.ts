@@ -20,6 +20,8 @@ export const projects: Project[] = [
       { label: "Homepage", src: "/projects/oh-yvi/home.webp" },
       { label: "Collections", src: "/projects/oh-yvi/collections.webp" },
       { label: "Affiliate program", src: "/projects/oh-yvi/affiliate.webp" },
+      { label: "About the brand", src: "/projects/oh-yvi/about.webp" },
+      { label: "Articles", src: "/projects/oh-yvi/articles.webp" },
     ],
     facts: [
       { label: "Designed in Figma, built from scratch", value: "Georgia, PT Mono and one warm brown, turned into a Next.js store." },
@@ -222,6 +224,8 @@ export const projects: Project[] = [
       { label: "Scrapbook homepage", src: "/projects/boses-filipina/home.webp" },
       { label: "Cassette demo reels", src: "/projects/boses-filipina/demos.webp" },
       { label: "Her Studio", src: "/projects/boses-filipina/studio.webp" },
+      { label: "Video reels", src: "/projects/boses-filipina/reels.webp" },
+      { label: "Voice rate card", src: "/projects/boses-filipina/rates.webp" },
     ],
     facts: [
       { label: "Audio-first", value: "Agencies hear the work, get her specialization and contact her directly." },
