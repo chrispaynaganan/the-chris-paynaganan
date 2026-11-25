@@ -206,7 +206,14 @@ export const projects: Project[] = [
     role: "Product Designer, sole designer, working directly with the founder",
     platform: "iOS + Android",
     status: "handed-off",
-    screenshots: [{ label: "Swipe browsing" }, { label: "Owner path" }, { label: "Crew path" }],
+    previewUrl: "https://sailswipe.vercel.app",
+    screenshots: [
+      { label: "Swipe browsing", src: "/projects/sailswipe/swipe.webp" },
+      { label: "Messaging", src: "/projects/sailswipe/messaging.webp" },
+      { label: "Boats & opportunities", src: "/projects/sailswipe/posting.webp" },
+      { label: "Marketplace", src: "/projects/sailswipe/marketplace.webp" },
+      { label: "Port info", src: "/projects/sailswipe/port.webp" },
+    ],
     facts: [
       { label: "Sole designer", value: "Worked straight with the founder on product and business. No developer embedded during design." },
       { label: "January 2025 – April 2025", value: "Four months, mobile-first for iOS and Android." },
