@@ -5,7 +5,7 @@ const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL ? new URL(process.env.
 
 const nextConfig: NextConfig = {
   // NDA screenshots sit in /private and are read by app/nda/[slug]/[file]/route.ts
-  outputFileTracingIncludes: { "/nda/[slug]/[file]": ["./private/**/*"] },
+  outputFileTracingIncludes: { "/nda/[slug]/[file]": ["./private/**/*"], "/files/[slug]/[file]": ["./private/**/*"] },
   experimental: {
     // Put the (small, Tailwind) stylesheet straight into the page instead of a separate
     // render-blocking request. Most visitors are first-timers, so this paints sooner.

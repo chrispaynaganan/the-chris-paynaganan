@@ -7,7 +7,7 @@ import { categories } from "@/lib/categories";
 import { BoardHeader, GroupedTable, ItemPanel, Kanban, useSaver, type Column, type Group } from "./Board";
 import { Pill, StatusCell } from "./StatusCell";
 import type { Label } from "./colors";
-import { ChipsField, DeleteButton, ImagesField, Repeater, Section, SelectField, TextField, Toggle } from "./fields";
+import { ChipsField, DeleteButton, ImagesField, PdfField, Repeater, Section, SelectField, TextField, Toggle } from "./fields";
 import { BoardSkeleton, LoadError } from "./states";
 import { ProjectLock } from "./ProjectLock";
 
@@ -225,8 +225,15 @@ export function ProjectsBoard() {
               <TextField label="Live site" type="url" value={open.live_url ?? ""} onCommit={(v) => void patch(open.id, { live_url: v || null })} />
               <TextField label="Preview (prototype of unshipped work)" type="url" value={open.preview_url ?? ""} onCommit={(v) => void patch(open.id, { preview_url: v || null })} placeholder="Shows as “Try the preview”, not as a live site" />
               <TextField label="Mobile preview (optional second prototype)" type="url" value={open.preview_mobile_url ?? ""} onCommit={(v) => void patch(open.id, { preview_mobile_url: v || null })} placeholder="With both set: “Try the web preview” and “Try the mobile preview”" />
-              <TextField label="Project documentation" type="url" value={open.docs_url ?? ""} onCommit={(v) => void patch(open.id, { docs_url: v || null })} />
-              <TextField label="Design system" type="url" value={open.design_system_url ?? ""} onCommit={(v) => void patch(open.id, { design_system_url: v || null })} />
+              <PdfField label="Project documentation" kind="documentation" slug={open.slug} value={open.docs_url ?? ""} onCommit={(v) => void patch(open.id, { docs_url: v || null })} />
+              <PdfField
+                label="Design system"
+                kind="design-system"
+                slug={open.slug}
+                value={open.design_system_url ?? ""}
+                onCommit={(v) => void patch(open.id, { design_system_url: v || null })}
+                hint={open.locked ? "This project is under NDA, so its PDFs only open for people with the password." : "PDFs open in the site’s reader."}
+              />
             </Section>
 
             <ProjectLock key={open.id} slug={open.slug} locked={!!open.locked} onLockedChange={(v) => void patch(open.id, { locked: v })} run={run} />

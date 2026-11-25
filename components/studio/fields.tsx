@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useId, useRef, useState } from "react";
-import { ArrowDown, ArrowUp, ImagePlus, Loader2, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ExternalLink, FileText, ImagePlus, Loader2, Trash2, Upload } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { studioClient } from "@/lib/supabase/browser";
 
@@ -315,5 +315,88 @@ export function DeleteButton({ label, onConfirm }: { label: string; onConfirm: (
     <button type="button" onClick={() => setArmed(true)} className="flex h-8 cursor-pointer items-center gap-1.5 rounded-md px-2 text-sm text-studio-red transition hover:bg-error-bg">
       <Trash2 aria-hidden className="size-4" /> {label}
     </button>
+  );
+}
+
+
+/**
+ * A project document (PDF): upload it here, or paste a link. Uploads go to the private
+ * "studio-files" bucket and open through /files/<slug>/<file>, which respects the NDA lock.
+ */
+export function PdfField({
+  label,
+  value,
+  slug,
+  kind,
+  onCommit,
+  hint,
+}: {
+  label: string;
+  value: string;
+  slug: string;
+  kind: string;
+  onCommit: (v: string) => void;
+  hint?: string;
+}) {
+  const input = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const uploaded = value.startsWith(`/files/`);
+
+  const upload = async (file: File) => {
+    if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) return setError("Choose a PDF file.");
+    if (file.size > 50 * 1024 * 1024) return setError("That PDF is over 50 MB.");
+    setBusy(true);
+    setError("");
+    const name = `${kind}-${Date.now()}.pdf`;
+    const { error: err } = await studioClient().storage.from("studio-files").upload(`${slug}/${name}`, file, { contentType: "application/pdf", upsert: false });
+    setBusy(false);
+    if (err) return setError(/bucket/i.test(err.message) ? "Run supabase/0014_studio_files.sql in Supabase first." : "Upload failed. Check the file and try again.");
+    onCommit(`/files/${slug}/${name}`);
+  };
+
+  return (
+    <div className="flex flex-col gap-2">
+      <input
+        ref={input}
+        type="file"
+        accept="application/pdf,.pdf"
+        className="sr-only"
+        tabIndex={-1}
+        aria-hidden
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          e.target.value = "";
+          if (f) void upload(f);
+        }}
+      />
+      {uploaded ? (
+        <div className="flex flex-col gap-1.5">
+          <span className="text-sm text-studio-muted">{label}</span>
+          <div className="flex items-center gap-3 rounded-md border border-studio-line bg-paper px-3 py-2">
+            <FileText aria-hidden className="size-5 shrink-0 text-studio-red" />
+            <span className="min-w-0 flex-1 truncate text-sm">{value.split("/").pop()}</span>
+            <a href={value} target="_blank" rel="noopener" aria-label={`Open ${label}`} className="flex size-7 items-center justify-center rounded text-studio-muted hover:bg-studio-hover hover:text-studio-text">
+              <ExternalLink aria-hidden className="size-4" />
+            </a>
+            <IconBtn label={`Remove ${label}`} onClick={() => onCommit("")}>
+              <Trash2 className="size-3.5" />
+            </IconBtn>
+          </div>
+        </div>
+      ) : (
+        <TextField label={label} type="url" value={value} onCommit={onCommit} placeholder="Paste a link, or upload a PDF below" />
+      )}
+      <button
+        type="button"
+        disabled={busy}
+        onClick={() => input.current?.click()}
+        className="flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-studio-line text-sm text-studio-muted transition hover:border-studio-primary hover:text-studio-primary disabled:cursor-wait"
+      >
+        {busy ? <Loader2 aria-hidden className="size-4 animate-spin" /> : <Upload aria-hidden className="size-4" />}
+        {busy ? "Uploading…" : uploaded ? "Replace PDF" : "Upload PDF"}
+      </button>
+      {error ? <p role="alert" className="text-sm text-studio-red">{error}</p> : hint && <p className="text-xs text-studio-muted">{hint}</p>}
+    </div>
   );
 }

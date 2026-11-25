@@ -2,9 +2,9 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { isUnlocked } from "@/lib/lock";
 
-// Screenshots of NDA projects. They live in /private (not /public), so the only way to load
+// Screenshots and documents (PDFs) of NDA projects. They live in /private (not /public), so the only way to load
 // them is through here, and this only answers visitors who have unlocked the project.
-const TYPES: Record<string, string> = { webp: "image/webp", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", avif: "image/avif" };
+const TYPES: Record<string, string> = { webp: "image/webp", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", avif: "image/avif", pdf: "application/pdf" };
 
 export async function GET(_req: Request, ctx: RouteContext<"/nda/[slug]/[file]">) {
   const { slug, file } = await ctx.params;
