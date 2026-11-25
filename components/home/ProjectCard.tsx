@@ -49,12 +49,20 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         <ViewTransition name={`shot-${project.slug}`} share="morph" default="none">
           <div className="relative h-full overflow-hidden">
             {project.locked && (
-              // Under NDA: no screenshots until the visitor unlocks the project page
-              <div className="flex h-full flex-col items-center justify-center gap-3 bg-placeholder transition-transform duration-700 ease-soft group-hover:scale-103">
-                <span className="flex size-12 items-center justify-center rounded-full bg-ink text-paper">
+              // Under NDA: a heavily blurred, darkened cover (a pre-blurred file, so nothing readable is public)
+              <div className="relative flex h-full flex-col items-center justify-center gap-3 overflow-hidden bg-ink-soft transition-transform duration-700 ease-soft group-hover:scale-103">
+                <img
+                  src={`/projects/${project.slug}/locked-cover.webp`}
+                  alt=""
+                  aria-hidden
+                  onError={(e) => (e.currentTarget.style.display = "none")}
+                  className="absolute inset-0 size-full scale-110 object-cover"
+                />
+                <span aria-hidden className="absolute inset-0 bg-ink/40" />
+                <span className="relative flex size-12 items-center justify-center rounded-full bg-paper text-ink shadow-float">
                   <LockKeyhole aria-hidden className="size-5" />
                 </span>
-                <span className="text-sm font-medium">Under NDA · password protected</span>
+                <span className="relative text-sm font-medium text-paper">Under NDA · password protected</span>
               </div>
             )}
             <div className="relative h-full transition-transform duration-700 ease-soft group-hover:scale-103">
