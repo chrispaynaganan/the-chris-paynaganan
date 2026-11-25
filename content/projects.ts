@@ -16,6 +16,7 @@ export const projects: Project[] = [
     platform: "Web",
     status: "live",
     liveUrl: "https://www.ohyvi.com",
+    designSystemUrl: "/docs/oh-yvi-design-system.pdf",
     screenshots: [
       { label: "Homepage", src: "/projects/oh-yvi/home.webp" },
       { label: "Collections", src: "/projects/oh-yvi/collections.webp" },
