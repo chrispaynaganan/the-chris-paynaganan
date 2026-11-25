@@ -131,7 +131,13 @@ export const projects: Project[] = [
     platform: "Web",
     status: "live",
     liveUrl: "https://erwin-natividad-2026.vercel.app/",
-    screenshots: [{ label: "Home" }, { label: "Discovery-call flow" }, { label: "Admin dashboard" }],
+    screenshots: [
+      { label: "Homepage", src: "/projects/resonate/home.webp" },
+      { label: "Discovery-call booking", src: "/projects/resonate/discovery-call.webp" },
+      { label: "Projects", src: "/projects/resonate/projects.webp" },
+      { label: "Services", src: "/projects/resonate/services.webp" },
+      { label: "Project page", src: "/projects/resonate/project-page.webp" },
+    ],
     facts: [
       { label: "Solo, problem to launch", value: "Designed and built the whole platform, working directly with Erwin." },
       { label: "March 2026 – July 2026", value: "About five months from first call to live site." },
