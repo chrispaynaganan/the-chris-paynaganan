@@ -176,7 +176,7 @@ export function InquiriesBoard() {
                   .map(([k, v]) => (
                     <div key={k} className="contents">
                       <dt className="text-studio-muted">{k}</dt>
-                      <dd className="col-span-2 break-words">{v}</dd>
+                      <dd className="col-span-2 wrap-break-word">{v}</dd>
                     </div>
                   ))}
               </dl>

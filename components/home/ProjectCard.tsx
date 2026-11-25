@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, ViewTransition } from "react";
 import { useReducedMotion } from "motion/react";
-import { ChevronLeft, ChevronRight, Share } from "lucide-react";
+import { ChevronLeft, ChevronRight, LockKeyhole, Share } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { Project } from "@/types/content";
 import { StatusBadge } from "@/components/ui/StatusBadge";
@@ -48,6 +48,15 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         {/* Same name as the hero on the project page, so this thumbnail morphs into it */}
         <ViewTransition name={`shot-${project.slug}`} share="morph" default="none">
           <div className="relative h-full overflow-hidden">
+            {project.locked && (
+              // Under NDA: no screenshots until the visitor unlocks the project page
+              <div className="flex h-full flex-col items-center justify-center gap-3 bg-placeholder transition-transform duration-700 ease-soft group-hover:scale-103">
+                <span className="flex size-12 items-center justify-center rounded-full bg-ink text-paper">
+                  <LockKeyhole aria-hidden className="size-5" />
+                </span>
+                <span className="text-sm font-medium">Under NDA · password protected</span>
+              </div>
+            )}
             <div className="relative h-full transition-transform duration-700 ease-soft group-hover:scale-103">
               {project.screenshots.map((s, i) => (
                 <Shot

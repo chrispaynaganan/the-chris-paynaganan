@@ -42,6 +42,10 @@ export interface Project {
   liveUrl?: string;
   /** Clickable prototype of work that never shipped. Shown as a preview, never as a live site. */
   previewUrl?: string;
+  /** Second prototype link, e.g. the mobile app when previewUrl is the web dashboard. */
+  previewMobileUrl?: string;
+  /** Under NDA: visitors need a password (set in Studio) to see anything past the title. */
+  locked?: boolean;
   docsUrl?: string;
   designSystemUrl?: string;
   screenshots: Screenshot[];

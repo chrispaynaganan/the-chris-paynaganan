@@ -30,6 +30,8 @@ export function ShotImage({
         src={src}
         alt={alt}
         fill
+        // NDA screenshots come from a password-checked route, which the image optimizer can't call
+        unoptimized={src.startsWith("/nda/")}
         sizes="(min-width: 768px) 50vw, 100vw"
         loading={eager ? "eager" : "lazy"}
         fetchPriority={highPriority ? "high" : undefined}

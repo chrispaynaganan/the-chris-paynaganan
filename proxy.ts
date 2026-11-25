@@ -2,11 +2,32 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { STUDIO_OWNER_EMAIL, SUPABASE_ANON_KEY, SUPABASE_URL, supabaseConfigured } from "@/lib/supabase/env";
 
+// NDA projects: project pages are static and show a password box for locked projects.
+// A visitor holding that project's unlock cookie (or any Studio sign-in) is quietly served
+// /projects/<slug>/unlocked instead, which checks the cookie properly. Cookie presence is
+// all this looks at, so it costs nothing for everyone else.
+const PROJECT = /^\/projects\/([a-z0-9-]+)(?:\/(documentation|design-system))?\/?$/;
+
+function ndaRewrite(request: NextRequest) {
+  const m = request.nextUrl.pathname.match(PROJECT);
+  if (!m) return null;
+  const [, slug, kind] = m;
+  const cookies = request.cookies.getAll();
+  const hasUnlock = cookies.some((c) => c.name === `nda-${slug}`);
+  const signedIn = cookies.some((c) => c.name.startsWith("sb-") && c.name.includes("-auth-token"));
+  if (!hasUnlock && !signedIn) return NextResponse.next();
+  const url = request.nextUrl.clone();
+  url.pathname = `/projects/${slug}/unlocked${kind ? `/${kind}` : ""}`;
+  return NextResponse.rewrite(url);
+}
+
 // Runs before /studio pages (Next.js 16 calls this file proxy.ts):
 // keeps the Studio sign-in fresh, and lets only the owner past the login page.
 export async function proxy(request: NextRequest) {
-  let response = NextResponse.next({ request });
   const { pathname, search } = request.nextUrl;
+  if (pathname.startsWith("/projects/")) return ndaRewrite(request) ?? NextResponse.next();
+
+  let response = NextResponse.next({ request });
   const isLogin = pathname === "/studio/login";
 
   if (!supabaseConfigured) {
@@ -48,5 +69,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/studio/:path*"],
+  matcher: ["/studio/:path*", "/projects/:path*"],
 };

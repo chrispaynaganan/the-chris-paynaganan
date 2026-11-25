@@ -41,9 +41,10 @@ export function WorkActions({
   url,
   liveUrl,
   previewUrl,
+  previewMobileUrl,
   docsUrl,
   designSystemUrl,
-}: Props & { liveUrl?: string; previewUrl?: string; docsUrl?: string; designSystemUrl?: string }) {
+}: Props & { liveUrl?: string; previewUrl?: string; previewMobileUrl?: string; docsUrl?: string; designSystemUrl?: string }) {
   const share = useShare();
   return (
     <div className="flex flex-col gap-3">
@@ -61,7 +62,14 @@ export function WorkActions({
         <a href={liveUrl} target="_blank" rel="noopener" className={buttonClass("secondary")}>Visit live site</a>
       )}
       {!liveUrl && previewUrl && (
-        <a href={previewUrl} target="_blank" rel="noopener" className={buttonClass("secondary")}>Try the preview</a>
+        <a href={previewUrl} target="_blank" rel="noopener" className={buttonClass("secondary")}>
+          {previewMobileUrl ? "Try the web preview" : "Try the preview"}
+        </a>
+      )}
+      {!liveUrl && previewMobileUrl && (
+        <a href={previewMobileUrl} target="_blank" rel="noopener" className={buttonClass("secondary")}>
+          {previewUrl ? "Try the mobile preview" : "Try the preview"}
+        </a>
       )}
       <button type="button" onClick={share.openShare} className={buttonClass("tertiary", "self-center")}>
         Share this project

@@ -28,9 +28,11 @@ const copy: Record<Kind, { title: string; what: string; covers: string[] }> = {
  * A PDF opens in the site's reader; any other link is forwarded to.
  * Until then it explains what's coming and offers a walkthrough instead.
  */
-export async function ResourcePage({ slug, kind }: { slug: string; kind: Kind }) {
+export async function ResourcePage({ slug, kind, unlocked = false }: { slug: string; kind: Kind; unlocked?: boolean }) {
   const project = await getProject(slug);
   if (!project) notFound();
+  // NDA: only the unlocked route (see proxy.ts) passes `unlocked`
+  if (project.locked && !unlocked) redirect(`/projects/${slug}`);
   const url = kind === "documentation" ? project.docsUrl : project.designSystemUrl;
   const c = copy[kind];
   if (isPdf(url)) {

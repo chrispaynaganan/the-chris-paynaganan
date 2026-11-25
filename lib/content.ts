@@ -16,7 +16,7 @@ export { categories } from "./categories";
 type ProjectRow = {
   slug: string; position: number; name: string; kind: string; category: string; tags: string[]; stamps: string[];
   year: number; years: string; role_short: string; role: string; platform: string; status: Project["status"];
-  live_url: string | null; preview_url?: string | null; docs_url: string | null; design_system_url: string | null;
+  live_url: string | null; preview_url?: string | null; preview_mobile_url?: string | null; locked?: boolean | null; docs_url: string | null; design_system_url: string | null;
   screenshots: Project["screenshots"]; facts: Project["facts"]; stats: Project["stats"]; entries: Project["entries"];
 };
 type ItemRow = { board: "business" | "site"; group_key: string; position: number; title: string; data: Record<string, unknown> };
@@ -34,7 +34,7 @@ const loadProjects = cache(async (): Promise<Project[]> => {
     return (data as ProjectRow[]).map((r) => ({
       slug: r.slug, name: r.name, kind: r.kind, category: r.category, tags: r.tags ?? [], stamps: r.stamps ?? [],
       year: r.year, years: r.years, roleShort: r.role_short, role: r.role, platform: r.platform, status: r.status,
-      liveUrl: r.live_url || undefined, previewUrl: r.preview_url || undefined, docsUrl: r.docs_url || undefined, designSystemUrl: r.design_system_url || undefined,
+      liveUrl: r.live_url || undefined, previewUrl: r.preview_url || undefined, previewMobileUrl: r.preview_mobile_url || undefined, locked: r.locked || undefined, docsUrl: r.docs_url || undefined, designSystemUrl: r.design_system_url || undefined,
       screenshots: r.screenshots ?? [], facts: r.facts ?? [], stats: r.stats ?? [], entries: r.entries ?? [],
     }));
   } catch {
@@ -129,10 +129,20 @@ export async function getSite(): Promise<SiteContent> {
   return loadSite();
 }
 
+/**
+ * What anyone may see of a project under NDA: its name and the outline on its card.
+ * Lists (home, footer, about) only ever get this, so nothing locked ends up in their HTML.
+ */
+const redact = (p: Project): Project =>
+  p.locked
+    ? { ...p, screenshots: [], facts: [], stats: [], entries: [], liveUrl: undefined, previewUrl: undefined, previewMobileUrl: undefined, docsUrl: undefined, designSystemUrl: undefined }
+    : p;
+
 export async function getProjects(): Promise<Project[]> {
-  return loadProjects();
+  return (await loadProjects()).map(redact);
 }
 
+/** The full project. Pages must check isUnlocked() (lib/lock.ts) before showing a locked one. */
 export async function getProject(slug: string): Promise<Project | undefined> {
   return (await loadProjects()).find((p) => p.slug === slug);
 }

@@ -4,7 +4,7 @@ import { ResourcePage } from "@/components/project/ResourcePage";
 
 export async function generateStaticParams() {
   const projects = await getProjects();
-  return projects.map((p) => ({ slug: p.slug }));
+  return projects.filter((p) => !p.locked).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

@@ -160,7 +160,15 @@ export const projects: Project[] = [
     platform: "Mobile app + web dashboard",
     status: "not-shipped",
     previewUrl: "https://cishifts.vercel.app",
-    screenshots: [{ label: "Nurse app" }, { label: "Clinic dashboard" }, { label: "Shift feed" }],
+    previewMobileUrl: "https://cishifts.vercel.app/nurse",
+    locked: true,
+    screenshots: [
+      { label: "Clinic calendar", src: "/nda/cishifts/clinic-calendar.webp" },
+      { label: "Shift popovers", src: "/nda/cishifts/clinic-shift-popover.webp" },
+      { label: "Nurse app: finding shifts", src: "/nda/cishifts/nurse-finding-shifts.webp" },
+      { label: "Nurse app: working a shift", src: "/nda/cishifts/nurse-working-a-shift.webp" },
+      { label: "Clinic sign-up", src: "/nda/cishifts/clinic-sign-up.webp" },
+    ],
     facts: [
       { label: "Two platforms, one system", value: "A mobile app for nurses and a web dashboard for clinics and agencies." },
       { label: "22 months", value: "March 2023 to December 2024." },
