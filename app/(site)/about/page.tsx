@@ -2,7 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Check } from "lucide-react";
 import { getPassport, getProjects, getSite } from "@/lib/content";
-import { buttonClass } from "@/components/ui/button";
+import { buttonClass, glassButtonClass } from "@/components/ui/button";
+import { GlassFill } from "@/components/ui/Glass";
 import { Notice } from "@/components/ui/Notice";
 import { Reveal } from "@/components/motion/Reveal";
 import { PassportSection } from "@/components/stamps/PassportSection";
@@ -138,8 +139,8 @@ export default async function AboutPage() {
             <h2 id="contact-title" className="text-xl font-semibold">Let’s talk</h2>
             <p className="text-xl">Roles, projects, rough ideas or just design talk. No detailed pitch needed.</p>
             <div className="flex flex-wrap items-center gap-2.5">
-              <Link href="/contact" className={buttonClass("primary")}>Send a message</Link>
-              <a href={`mailto:${site.email}`} className={buttonClass("secondary")}>Email me</a>
+              <Link href="/contact" className={glassButtonClass("primary")}><GlassFill variant="primary" />Send a message</Link>
+              <a href={`mailto:${site.email}`} className={glassButtonClass("secondary")}><GlassFill variant="secondary" />Email me</a>
               <a href={site.calendlyUrl} target="_blank" rel="noopener" className={buttonClass("tertiary")}>Book a virtual coffee</a>
               {site.resumeUrl && <a href={site.resumeUrl} target="_blank" rel="noopener" className={buttonClass("tertiary")}>Résumé</a>}
               {site.socials.map((s) => (

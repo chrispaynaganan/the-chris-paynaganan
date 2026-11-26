@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { getProject } from "@/lib/content";
-import { buttonClass } from "@/components/ui/button";
+import { buttonClass, glassButtonClass } from "@/components/ui/button";
+import { GlassFill } from "@/components/ui/Glass";
 import { Notice } from "@/components/ui/Notice";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { ReaderRoute } from "@/components/reader/ReaderRoute";
@@ -38,7 +39,7 @@ export async function ResourcePage({ slug, kind, unlocked = false }: { slug: str
   if (isPdf(url)) {
     return (
       <main className="mx-auto flex max-w-site flex-col gap-6 px-gutter pt-8 pb-20">
-        <Link href={`/projects/${project.slug}`} transitionTypes={["nav-back"]} className={buttonClass("secondary", "self-start")}>
+        <Link href={`/projects/${project.slug}`} transitionTypes={["nav-back"]} className={glassButtonClass("secondary", "self-start")}><GlassFill variant="secondary" />
           <ArrowLeft aria-hidden className="size-4" /> Back to {project.name}
         </Link>
         <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{project.name} · {c.title}</h1>
@@ -50,7 +51,7 @@ export async function ResourcePage({ slug, kind, unlocked = false }: { slug: str
 
   return (
     <main className="mx-auto flex max-w-site flex-col gap-8 px-gutter pt-8 pb-20">
-      <Link href={`/projects/${project.slug}`} transitionTypes={["nav-back"]} className={buttonClass("secondary", "self-start")}>
+      <Link href={`/projects/${project.slug}`} transitionTypes={["nav-back"]} className={glassButtonClass("secondary", "self-start")}><GlassFill variant="secondary" />
         <ArrowLeft aria-hidden className="size-4" /> Back to {project.name}
       </Link>
       <div className="flex flex-col gap-3">
@@ -75,7 +76,7 @@ export async function ResourcePage({ slug, kind, unlocked = false }: { slug: str
         </ul>
       </section>
       <div className="flex flex-wrap items-center gap-3">
-        <Link href="/contact" className={buttonClass("primary")}>Ask for a walkthrough</Link>
+        <Link href="/contact" className={glassButtonClass("primary")}><GlassFill variant="primary" />Ask for a walkthrough</Link>
         <Link href={`/projects/${project.slug}`} transitionTypes={["nav-back"]} className={buttonClass("tertiary")}>
           Read the {project.name} diary
         </Link>

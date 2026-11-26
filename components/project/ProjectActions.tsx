@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Share } from "lucide-react";
-import { buttonClass } from "@/components/ui/button";
+import { buttonClass, glassButtonClass } from "@/components/ui/button";
+import { GlassFill } from "@/components/ui/Glass";
 import { ShareDialog } from "./ShareDialog";
 import { ReaderButton } from "@/components/reader/ReaderButton";
 import { isPdf } from "@/lib/resource";
@@ -49,25 +50,25 @@ export function WorkActions({
   return (
     <div className="flex flex-col gap-3">
       {isPdf(docsUrl) ? (
-        <ReaderButton src={docsUrl} title={`${name} · Project documentation`} className={buttonClass("primary")}>Project documentation</ReaderButton>
+        <ReaderButton src={docsUrl} title={`${name} · Project documentation`} className={glassButtonClass("primary")}><GlassFill variant="primary" />Project documentation</ReaderButton>
       ) : (
-        <Link href={`/projects/${slug}/documentation`} className={buttonClass("primary")}>Project documentation</Link>
+        <Link href={`/projects/${slug}/documentation`} className={glassButtonClass("primary")}><GlassFill variant="primary" />Project documentation</Link>
       )}
       {isPdf(designSystemUrl) ? (
-        <ReaderButton src={designSystemUrl} title={`${name} · Design system`} className={buttonClass("secondary")}>Design system</ReaderButton>
+        <ReaderButton src={designSystemUrl} title={`${name} · Design system`} className={glassButtonClass("secondary")}><GlassFill variant="secondary" />Design system</ReaderButton>
       ) : (
-        <Link href={`/projects/${slug}/design-system`} className={buttonClass("secondary")}>Design system</Link>
+        <Link href={`/projects/${slug}/design-system`} className={glassButtonClass("secondary")}><GlassFill variant="secondary" />Design system</Link>
       )}
       {liveUrl && (
-        <a href={liveUrl} target="_blank" rel="noopener" className={buttonClass("secondary")}>Visit live site</a>
+        <a href={liveUrl} target="_blank" rel="noopener" className={glassButtonClass("secondary")}><GlassFill variant="secondary" />Visit live site</a>
       )}
       {!liveUrl && previewUrl && (
-        <a href={previewUrl} target="_blank" rel="noopener" className={buttonClass("secondary")}>
+        <a href={previewUrl} target="_blank" rel="noopener" className={glassButtonClass("secondary")}><GlassFill variant="secondary" />
           {previewMobileUrl ? "Try the web preview" : "Try the preview"}
         </a>
       )}
       {!liveUrl && previewMobileUrl && (
-        <a href={previewMobileUrl} target="_blank" rel="noopener" className={buttonClass("secondary")}>
+        <a href={previewMobileUrl} target="_blank" rel="noopener" className={glassButtonClass("secondary")}><GlassFill variant="secondary" />
           {previewUrl ? "Try the mobile preview" : "Try the preview"}
         </a>
       )}

@@ -6,7 +6,8 @@ import { useId, useState, useTransition } from "react";
 import { motion, useAnimationControls } from "motion/react";
 import { Eye, EyeOff, LockKeyhole } from "lucide-react";
 import { unlockProject } from "@/app/actions/unlock";
-import { buttonClass } from "@/components/ui/button";
+import { buttonClass, glassButtonClass } from "@/components/ui/button";
+import { GlassFill } from "@/components/ui/Glass";
 import { cn } from "@/lib/cn";
 
 /** Password box for an NDA project. The right password reloads the page with everything showing. */
@@ -77,7 +78,7 @@ export function LockGate({ slug, name }: { slug: string; name: string }) {
         {wrong && (
           <p id={`${id}-err`} role="alert" className="text-left text-sm text-error-accent">That&rsquo;s not it. Check for typos and try again.</p>
         )}
-        <button type="submit" disabled={pending || !password.trim()} className={buttonClass("primary", "h-12")}>
+        <button type="submit" disabled={pending || !password.trim()} className={glassButtonClass("primary", "h-12")}><GlassFill variant="primary" />
           {pending ? "Checking…" : "Unlock project"}
         </button>
       </motion.form>

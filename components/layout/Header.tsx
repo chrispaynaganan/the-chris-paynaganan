@@ -8,7 +8,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { Menu as GlassMenu } from "glisse";
 import { Menu as MenuIcon, Search, X } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { buttonClass } from "@/components/ui/button";
+import { buttonClass, glassButtonClass } from "@/components/ui/button";
+import { GlassFill } from "@/components/ui/Glass";
 import { useSearchDock } from "@/components/home/SearchDock";
 import { SearchSuggestions } from "@/components/home/SearchSuggestions";
 import GradualBlur from "@/components/reactbits/GradualBlur";
@@ -110,7 +111,12 @@ export function Header({
 
   if (isBusiness) {
     return (
-      <header style={{ viewTransitionName: "site-header" }} className="sticky top-0 z-30 text-paper">
+      <header
+        style={{ viewTransitionName: "site-header" }}
+        // The header sits above the black page, over the white <body>, so it carries its own black
+        // until you scroll; then the gradual blur over the black page takes over.
+        className={cn("sticky top-0 z-30 text-paper transition-colors duration-300", !scrolled && "bg-ink")}
+      >
         <NavBlur on={scrolled} tint="color-mix(in srgb, var(--color-ink) 92%, transparent)" />
         <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-gutter py-2">
           <Logo dark business />
@@ -196,7 +202,8 @@ export function Header({
                   <button type="button" onClick={() => setExpanded(false)} aria-label="Close search" className="mx-1 flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full transition hover:bg-surface">
                     <X aria-hidden className="size-4" />
                   </button>
-                  <button type="button" onClick={showResults} className="flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-ink px-3.5 text-sm font-medium text-paper transition active:scale-97">
+                  <button type="button" onClick={showResults} className="relative isolate flex h-8 shrink-0 cursor-pointer items-center gap-1.5 overflow-hidden rounded-full px-3.5 text-sm font-medium text-paper transition active:scale-97">
+                    <GlassFill variant="primary" radius={999} />
                     Search
                   </button>
                 </motion.div>
@@ -212,8 +219,9 @@ export function Header({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 14, scale: 0.92 }}
                 transition={{ duration: 0.28, ease }}
-                className="flex h-10 cursor-pointer items-center gap-3 rounded-full border border-line-strong py-1 pr-1 pl-4 text-sm font-medium shadow-float transition-shadow"
+                className="relative isolate flex h-10 cursor-pointer items-center gap-3 overflow-hidden rounded-full py-1 pr-1 pl-4 text-sm font-medium transition-shadow"
               >
+                <GlassFill variant="secondary" radius={999} />
                 <span className="max-w-48 truncate">{query || "Search the diary"}</span>
                 <span className="h-5 w-px bg-line-strong" />
                 <span className="text-muted">Product designer</span>
@@ -265,7 +273,7 @@ export function Header({
           <Link href="/about" className={buttonClass("tertiary", "hidden lg:inline-flex")} aria-current={pathname.startsWith("/about") ? "page" : undefined}>
             About me
           </Link>
-          <Link href="/contact" className={buttonClass("primary", "hidden sm:inline-flex")} aria-current={pathname.startsWith("/contact") ? "page" : undefined}>
+          <Link href="/contact" className={glassButtonClass("primary", "hidden sm:inline-flex")} aria-current={pathname.startsWith("/contact") ? "page" : undefined}><GlassFill variant="primary" />
             Let&apos;s talk
           </Link>
           <SiteMenu linkedIn={linkedIn} calendly={calendly} enterpriseUrl={enterpriseUrl} resumeUrl={resumeUrl} />

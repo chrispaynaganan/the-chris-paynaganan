@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
-import { buttonClass } from "@/components/ui/button";
+import { buttonClass, glassButtonClass } from "@/components/ui/button";
+import { GlassFill } from "@/components/ui/Glass";
 import { useToast } from "@/components/ui/Toast";
 
 export function ShareDialog({
@@ -74,13 +75,13 @@ export function ShareDialog({
           />
         </div>
         <div className="grid grid-cols-2 gap-2.5">
-          <button type="button" onClick={copy} className={buttonClass("primary", "col-span-2")}>
+          <button type="button" onClick={copy} className={glassButtonClass("primary", "col-span-2")}><GlassFill variant="primary" />
             Copy link
           </button>
-          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${enc}`} target="_blank" rel="noopener" className={buttonClass("secondary")}>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${enc}`} target="_blank" rel="noopener" className={glassButtonClass("secondary")}><GlassFill variant="secondary" />
             LinkedIn
           </a>
-          <a href={`https://www.facebook.com/sharer/sharer.php?u=${enc}`} target="_blank" rel="noopener" className={buttonClass("secondary")}>
+          <a href={`https://www.facebook.com/sharer/sharer.php?u=${enc}`} target="_blank" rel="noopener" className={glassButtonClass("secondary")}><GlassFill variant="secondary" />
             Facebook
           </a>
           <a

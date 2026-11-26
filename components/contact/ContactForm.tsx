@@ -3,7 +3,8 @@
 import { useState, useTransition } from "react";
 import { submitInquiry } from "@/app/actions/inquiry";
 import { cn } from "@/lib/cn";
-import { buttonClass } from "@/components/ui/button";
+import { buttonClass, glassButtonClass } from "@/components/ui/button";
+import { GlassFill } from "@/components/ui/Glass";
 import { Notice } from "@/components/ui/Notice";
 import { Confirmation } from "@/components/ui/Confirmation";
 
@@ -105,7 +106,7 @@ export function ContactForm({ email, reasons }: { email: string; reasons: string
         {err("message")}
       </div>
       <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
-        <button type="submit" disabled={pending} className={buttonClass("primary")}>{pending ? "Sending…" : "Send message"}</button>
+        <button type="submit" disabled={pending} className={glassButtonClass("primary")}><GlassFill variant="primary" />{pending ? "Sending…" : "Send message"}</button>
         <a href={`mailto:${email}`} className={buttonClass("tertiary")}>Or email me directly</a>
       </div>
     </form>

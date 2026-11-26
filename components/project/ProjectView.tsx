@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { ArrowLeft } from "lucide-react";
 import { getProject, getProjects, getStampsFor } from "@/lib/content";
-import { buttonClass } from "@/components/ui/button";
+import { glassButtonClass } from "@/components/ui/button";
+import { GlassFill } from "@/components/ui/Glass";
 import { StatusBadge, statusInfo, toneClass } from "@/components/ui/StatusBadge";
 import { Shot } from "@/components/project/Shot";
 import { TopActions, WorkActions } from "@/components/project/ProjectActions";
@@ -51,7 +52,7 @@ export async function ProjectView({ slug, unlocked = false }: { slug: string; un
     <ViewTransition enter={slide.enter} exit={slide.exit} default="none">
     <main className="mx-auto flex max-w-site flex-col gap-6 px-gutter pt-6 pb-20">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Link href="/" transitionTypes={["nav-back"]} className={buttonClass("secondary")}>
+        <Link href="/" transitionTypes={["nav-back"]} className={glassButtonClass("secondary")}><GlassFill variant="secondary" />
           <ArrowLeft aria-hidden className="size-4" /> All projects
         </Link>
         <TopActions slug={project.slug} name={project.name} subtitle={subtitle} url={url} />
@@ -74,8 +75,8 @@ export async function ProjectView({ slug, unlocked = false }: { slug: string; un
         <>
           <LockGate slug={project.slug} name={project.name} />
           <div className="flex flex-wrap justify-between gap-3 pt-1">
-            <Link href={`/projects/${prev.slug}`} transitionTypes={["nav-back"]} className={buttonClass("secondary")}>← {prev.name}</Link>
-            <Link href={`/projects/${next.slug}`} transitionTypes={["nav-forward"]} className={buttonClass("secondary")}>{next.name} →</Link>
+            <Link href={`/projects/${prev.slug}`} transitionTypes={["nav-back"]} className={glassButtonClass("secondary")}><GlassFill variant="secondary" />← {prev.name}</Link>
+            <Link href={`/projects/${next.slug}`} transitionTypes={["nav-forward"]} className={glassButtonClass("secondary")}><GlassFill variant="secondary" />{next.name} →</Link>
           </div>
         </>
       ) : (
@@ -151,8 +152,8 @@ export async function ProjectView({ slug, unlocked = false }: { slug: string; un
           )}
 
           <div className="flex flex-wrap justify-between gap-3 pt-7">
-            <Link href={`/projects/${prev.slug}`} transitionTypes={["nav-back"]} className={buttonClass("secondary")}>← {prev.name}</Link>
-            <Link href={`/projects/${next.slug}`} transitionTypes={["nav-forward"]} className={buttonClass("secondary")}>{next.name} →</Link>
+            <Link href={`/projects/${prev.slug}`} transitionTypes={["nav-back"]} className={glassButtonClass("secondary")}><GlassFill variant="secondary" />← {prev.name}</Link>
+            <Link href={`/projects/${next.slug}`} transitionTypes={["nav-forward"]} className={glassButtonClass("secondary")}><GlassFill variant="secondary" />{next.name} →</Link>
           </div>
         </div>
 

@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronLeft, Grid2x2 } from "lucide-react";
-import { buttonClass } from "@/components/ui/button";
+import { glassButtonClass } from "@/components/ui/button";
+import { GlassFill } from "@/components/ui/Glass";
 import type { Screenshot } from "@/types/content";
 import { Shot } from "./Shot";
 
@@ -37,8 +38,8 @@ export function PhotoTour({ name, shots }: { name: string; shots: Screenshot[] }
         ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
-        className={buttonClass("secondary", "absolute right-4 bottom-4 h-9 px-3 shadow-float")}
-      >
+        className={glassButtonClass("secondary", "absolute right-4 bottom-4 h-9 px-3 shadow-float")}
+      ><GlassFill variant="secondary" />
         <Grid2x2 aria-hidden className="size-4" /> Show all photos
       </button>
       {typeof document !== "undefined" &&

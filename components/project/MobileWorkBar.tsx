@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { buttonClass } from "@/components/ui/button";
+import { glassButtonClass } from "@/components/ui/button";
+import { GlassFill } from "@/components/ui/Glass";
 
 /** Phones: a bottom bar like a booking app's, pointing to the "Explore the work" card. */
 export function MobileWorkBar({ years, status }: { years: string; status: string }) {
@@ -18,7 +19,7 @@ export function MobileWorkBar({ years, status }: { years: string; status: string
         <span className="text-sm font-medium">{years}</span>
         <span className="text-xs text-muted">{status}</span>
       </span>
-      <a href="#explore" className={buttonClass("primary")}>
+      <a href="#explore" className={glassButtonClass("primary")}><GlassFill variant="primary" />
         Explore the work
       </a>
     </motion.div>
