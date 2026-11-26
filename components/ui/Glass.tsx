@@ -10,7 +10,7 @@ export type GlassVariant = "primary" | "secondary";
  * label, and bends whatever is behind the button at its edges.
  * primary = smoky dark glass with white text, secondary = clear glass with black text.
  */
-export function GlassFill({ variant = "secondary", radius = 10 }: { variant?: GlassVariant; radius?: number }) {
+export function GlassFill({ variant = "secondary", radius = 999 }: { variant?: GlassVariant; radius?: number }) {
   const dark = variant === "primary";
   return (
     <GlassSurface

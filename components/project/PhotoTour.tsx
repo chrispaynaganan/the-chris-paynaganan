@@ -72,7 +72,7 @@ export function PhotoTour({ name, shots }: { name: string; shots: Screenshot[] }
                       transition={{ duration: 0.5, ease, delay: 0.15 + i * 0.08 }}
                       className={i % 3 === 0 ? "col-span-2" : ""}
                     >
-                      <Shot shot={s} name={i % 3 === 0 ? name : undefined} alt={i % 2 === 1} className="aspect-4/3 rounded-xl" />
+                      <Shot shot={s} name={i % 3 === 0 ? name : undefined} alt={i % 2 === 1} className="aspect-4/3 rounded-card" />
                     </motion.div>
                   ))}
                 </div>

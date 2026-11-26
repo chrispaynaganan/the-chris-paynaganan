@@ -125,7 +125,7 @@ export async function ProjectView({ slug, unlocked = false }: { slug: string; un
           {project.stats.length > 0 && (
             <div className="grid grid-cols-3 gap-3 border-b border-line py-6">
               {project.stats.map((s) => (
-                <div key={s.label} className="flex flex-col gap-2 rounded-xl border border-line-strong p-4">
+                <div key={s.label} className="flex flex-col gap-2 rounded-card border border-line-strong p-4">
                   <span className="text-3xl font-semibold tracking-tight"><CountUp value={s.value} /></span>
                   <span className="text-sm text-muted">{s.label}</span>
                   <StatBar delay={0.2} />

@@ -83,9 +83,9 @@
   --shadow-float: 0 0 0 1px rgb(0 0 0 / 0.02), 0 2px 6px rgb(0 0 0 / 0.04), 0 4px 8px rgb(0 0 0 / 0.1);
 
   /* ===== Radius by role =====
-     Buttons and inputs use rounded-lg (8px); pills and circles rounded-full. */
-  --radius-card: 0.875rem; /* 14px: cards, photos, side cards */
-  --radius-panel: 1.25rem; /* 20px: large panels and feature cards */
+     Buttons and pills are fully round (rounded-full); inputs use rounded-lg (8px). */
+  --radius-card: 1.5rem; /* 24px: cards, photos, side cards */
+  --radius-panel: 2rem; /* 32px: large panels and feature cards */
 
   /* ===== Type ===== */
   --text-caption: 0.8125rem; /* 13px: legal line and fine print */
@@ -267,8 +267,8 @@
     --radius-2xl: 1.3rem;
     --radius-3xl: 1.95rem;
     --radius-4xl: 2.6rem;
-    --radius-card: 1.1375rem;
-    --radius-panel: 1.625rem;
+    --radius-card: 1.95rem;
+    --radius-panel: 2.6rem;
   }
   [class*="rounded"]:not([class*="rounded-full"]) {
     corner-shape: squircle;
