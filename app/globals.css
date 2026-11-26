@@ -275,6 +275,15 @@
   }
 }
 
+/* ===== Square corners on Chris for Business =====
+   The business page is meant to feel sharper than the portfolio, so while it is open
+   (its root carries data-edge) every corner on the page is square: the page itself,
+   the header and footer around it, and dialogs portalled to <body>. */
+:root:has([data-edge]) :is(*, *::before, *::after) {
+  border-radius: 0 !important;
+  corner-shape: round;
+}
+
 /* No grey flash when tapping interactive cards on mobile (React Bits PixelCard) */
 @utility no-tap-highlight {
   -webkit-tap-highlight-color: transparent;

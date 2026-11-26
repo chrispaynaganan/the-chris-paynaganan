@@ -6,7 +6,7 @@ import { InquiryForm } from "@/components/business/InquiryForm";
 import { Marquee } from "@/components/business/Marquee";
 import { Notice } from "@/components/ui/Notice";
 import { Reveal } from "@/components/motion/Reveal";
-import { SplitWords } from "@/components/motion/SplitWords";
+import FoldText from "@/components/reactbits/FoldText";
 import { buttonClass } from "@/components/ui/button";
 import { BusinessGlow } from "@/components/business/BusinessGlow";
 
@@ -43,7 +43,8 @@ export default async function BusinessPage() {
   const industries = ["Healthcare", "Fitness", "Accounting", "Voice & audio", "Coaching", "Maritime", "Personal brands", "SaaS"];
 
   return (
-    <div data-theme="dark" className="relative isolate bg-ink text-paper">
+    // data-edge squares off every corner while this page is open (see globals.css)
+    <div data-theme="dark" data-edge className="relative isolate bg-ink text-paper">
       <BusinessGlow />
       <div className="relative z-1">
       {/* Hero */}
@@ -54,8 +55,26 @@ export default async function BusinessPage() {
               <span className="rounded-full border border-paper/40 px-3 py-1">Chris for Business</span>
               <span className="text-paper/60">Private studio · for clients</span>
             </Reveal>
-            <h1 className="text-5xl tracking-tight md:text-7xl">
-              <SplitWords text={site.tagline} delay={0.1} />
+            <h1 className="text-5xl md:text-7xl">
+              {/* React Bits FoldText: each letter swings down from its top edge, and folds away near the cursor */}
+              <FoldText
+                text={site.tagline}
+                foldStyle="paper"
+                splitBy="char"
+                hinge="top"
+                trigger="mount"
+                foldAngle={92}
+                duration={0.65}
+                stagger={0.03}
+                ease="power3.out"
+                hoverRefold
+                refoldRadius={140}
+                refoldAngle={45}
+                perspective={700}
+                creaseShading={0.55}
+                fontSize="1em"
+                fontWeight={400}
+              />
             </h1>
           </div>
           <Reveal delay={0.5} className="flex flex-col justify-end gap-6 lg:col-span-4">
