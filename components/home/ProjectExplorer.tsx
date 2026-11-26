@@ -194,7 +194,7 @@ export function ProjectExplorer({
               );
             })}
           </div>
-          <div className="hidden shrink-0 items-center gap-3 rounded-xl border border-line-strong py-2 pr-2 pl-4 lg:flex">
+          <div className="hidden shrink-0 items-center gap-3 rounded-full border border-line-strong py-2 pr-2 pl-5 lg:flex">
             <span id="live-only" className="text-sm font-medium">Shipped only</span>
             <Switch aria-labelledby="live-only" checked={liveOnly} onCheckedChange={setLiveOnly} />
           </div>

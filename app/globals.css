@@ -85,7 +85,7 @@
   --shadow-glass: inset 0 1px 0 rgb(255 255 255 / 0.9), inset 0 0 0 1px rgb(0 0 0 / 0.06), 0 2px 8px rgb(0 0 0 / 0.08);
 
   /* ===== Radius by role =====
-     Buttons and pills are fully round (rounded-full); inputs use rounded-lg (8px). */
+     Buttons, pills and one-line inputs are fully round (rounded-full); text areas rounded-3xl. */
   --radius-card: 1.5rem; /* 24px: cards, photos, side cards */
   --radius-panel: 2rem; /* 32px: large panels and feature cards */
 

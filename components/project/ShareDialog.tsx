@@ -71,7 +71,7 @@ export function ShareDialog({
             readOnly
             value={url}
             onFocus={(e) => e.currentTarget.select()}
-            className="h-10 rounded-lg border border-line-strong px-3 text-sm focus:border-ink focus:ring-1 focus:ring-ink focus:outline-none"
+            className="h-10 rounded-full border border-line-strong px-4 text-sm focus:border-ink focus:ring-1 focus:ring-ink focus:outline-none"
           />
         </div>
         <div className="grid grid-cols-2 gap-2.5">

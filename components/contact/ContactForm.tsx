@@ -36,7 +36,7 @@ export function ContactForm({ email, reasons }: { email: string; reasons: string
     if (tried) setErrors(validate(next));
   };
   const field = (k: keyof Values) =>
-    cn("min-h-10 w-full rounded-lg border bg-paper px-3 py-2 text-sm transition", errors[k] ? "border-2 border-error-accent" : "border-field focus:border-ink focus:ring-1 focus:ring-ink focus:outline-none");
+    cn("min-h-10 w-full rounded-full border bg-paper px-4 py-2 text-sm transition", errors[k] ? "border-2 border-error-accent" : "border-field focus:border-ink focus:ring-1 focus:ring-ink focus:outline-none");
   const err = (k: keyof Values) =>
     errors[k] ? <span id={`c-${k}-err`} className="text-sm text-error-accent">{errors[k]}</span> : null;
   const aria = (k: keyof Values) => (errors[k] ? { "aria-invalid": true, "aria-describedby": `c-${k}-err` } : {});
@@ -102,7 +102,7 @@ export function ContactForm({ email, reasons }: { email: string; reasons: string
       </div>
       <div className="flex flex-col gap-1.5 sm:col-span-2">
         <label htmlFor="c-message" className="text-sm font-medium">Message *</label>
-        <textarea id="c-message" rows={5} value={v.message} onChange={set("message")} className={cn(field("message"), "resize-y")} {...aria("message")} />
+        <textarea id="c-message" rows={5} value={v.message} onChange={set("message")} className={cn(field("message"), "resize-y rounded-3xl")} {...aria("message")} />
         {err("message")}
       </div>
       <div className="flex flex-wrap items-center gap-4 sm:col-span-2">

@@ -62,7 +62,7 @@ export function LockGate({ slug, name }: { slug: string; name: string }) {
             aria-invalid={wrong}
             aria-describedby={wrong ? `${id}-err` : undefined}
             className={cn(
-              "h-12 w-full rounded-lg border bg-paper pr-12 pl-4 outline-none transition focus:ring-2 focus:ring-ink/15",
+              "h-12 w-full rounded-full border bg-paper pr-12 pl-5 outline-none transition focus:ring-2 focus:ring-ink/15",
               wrong ? "border-error-accent" : "border-field focus:border-ink",
             )}
           />
@@ -70,7 +70,7 @@ export function LockGate({ slug, name }: { slug: string; name: string }) {
             type="button"
             onClick={() => setShow((s) => !s)}
             aria-label={show ? "Hide password" : "Show password"}
-            className="absolute top-1/2 right-1 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-md text-muted transition hover:text-ink"
+            className="absolute top-1/2 right-1 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full text-muted transition hover:text-ink"
           >
             {show ? <EyeOff aria-hidden className="size-4" /> : <Eye aria-hidden className="size-4" />}
           </button>

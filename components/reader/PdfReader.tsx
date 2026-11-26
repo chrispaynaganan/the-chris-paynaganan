@@ -265,7 +265,7 @@ function ReaderBody({ src, title, onClose }: { src: string; title: string; onClo
 
       {findOpen && (
         <div className="flex shrink-0 items-center gap-2 border-b border-line bg-surface px-3 py-2">
-          <label className="flex h-10 min-w-0 flex-1 items-center gap-2 rounded-lg border border-line-strong bg-paper px-3 focus-within:border-ink md:max-w-sm">
+          <label className="flex h-10 min-w-0 flex-1 items-center gap-2 rounded-full border border-line-strong bg-paper px-4 focus-within:border-ink md:max-w-sm">
             <Search aria-hidden className="size-4 shrink-0 text-muted" />
             <input
               ref={findRef}
