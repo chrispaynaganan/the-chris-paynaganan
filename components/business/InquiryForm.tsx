@@ -59,7 +59,9 @@ export function InquiryForm({
   const field = (k: keyof Values) =>
     cn(
       "min-h-10 w-full rounded-lg px-3 py-2 text-sm transition",
-      dark ? "bg-ink text-paper placeholder:text-paper/40" : "bg-paper text-ink",
+      // On black: frosted glass, so the glow behind the page shows through, blurred.
+      // Native dropdown options keep a solid black background (**:bg-ink).
+      dark ? "bg-paper/5 text-paper backdrop-blur-md placeholder:text-paper/40 **:bg-ink" : "bg-paper text-ink",
       errors[k]
         ? dark
           ? "border-2 border-error-on-dark"

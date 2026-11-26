@@ -11,6 +11,8 @@ import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/button";
 import { useSearchDock } from "@/components/home/SearchDock";
 import { SearchSuggestions } from "@/components/home/SearchSuggestions";
+import GradualBlur from "@/components/reactbits/GradualBlur";
+import StarBorder from "@/components/reactbits/StarBorder";
 import { Logo } from "./Logo";
 import { useSitePath } from "./useSitePath";
 
@@ -30,6 +32,28 @@ function useScrolled() {
     return () => window.removeEventListener("scroll", on);
   }, []);
   return scrolled;
+}
+
+/**
+ * React Bits GradualBlur behind the sticky header: the page blurs progressively as it
+ * slides under the bar, strongest at the top edge, and fades out a little below it.
+ * It only appears once the page has scrolled, so nothing is blurred at the top.
+ */
+function NavBlur({ on, tint }: { on: boolean; tint: string }) {
+  return (
+    <GradualBlur
+      position="top"
+      target="parent"
+      height="calc(100% + 3rem)"
+      strength={3}
+      layers={8}
+      curve="bezier"
+      exponential
+      tint={tint}
+      zIndex={-1}
+      style={{ "--gradual-blur-reveal": on ? 1 : 0 } as React.CSSProperties}
+    />
+  );
 }
 
 function SiteMenu({ linkedIn, calendly, enterpriseUrl, resumeUrl }: { linkedIn: string; calendly: string; enterpriseUrl: string; resumeUrl?: string }) {
@@ -86,7 +110,8 @@ export function Header({
 
   if (isBusiness) {
     return (
-      <header style={{ viewTransitionName: "site-header" }} className={cn("sticky top-0 z-30 border-b bg-ink text-paper transition duration-300", scrolled ? "border-paper/15" : "border-transparent")}>
+      <header style={{ viewTransitionName: "site-header" }} className="sticky top-0 z-30 text-paper">
+        <NavBlur on={scrolled} tint="color-mix(in srgb, var(--color-ink) 92%, transparent)" />
         <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-gutter py-2">
           <Logo dark business />
           <nav aria-label="Business sections" className="hidden flex-wrap gap-5 text-sm font-medium md:flex">
@@ -105,9 +130,28 @@ export function Header({
             <Link href="/" transitionTypes={["nav-back"]} className="text-sm font-medium text-paper underline underline-offset-4 hover:decoration-2">
               Back to projects
             </Link>
-            <a href="#inquire" className="inline-flex h-10 items-center rounded-lg bg-paper px-4 text-sm font-medium text-ink transition hover:bg-placeholder-alt active:scale-97">
+            {/* React Bits StarBorder: a star of light laps the main call to action */}
+            <StarBorder
+              as="a"
+              href="#inquire"
+              theme="dark"
+              color="#ffffff"
+              trailColor="#ffffff"
+              duration={4}
+              direction="clockwise"
+              stars={1}
+              trailLength={0.3}
+              thickness={1}
+              radius={0}
+              glow={0.6}
+              hover="lap"
+              clickPulse
+              backgroundColor="var(--color-ink)"
+              borderColor="color-mix(in srgb, var(--color-paper) 25%, transparent)"
+              className="h-10 px-4 py-0 text-sm font-medium transition active:scale-97"
+            >
               Start a project
-            </a>
+            </StarBorder>
           </div>
         </div>
       </header>
@@ -117,11 +161,9 @@ export function Header({
   return (
     <header
       style={{ viewTransitionName: "site-header" }}
-      className={cn(
-        "sticky top-0 z-30 border-b bg-paper transition duration-300",
-        scrolled ? "border-transparent shadow-float" : "border-line",
-      )}
+      className="sticky top-0 z-30"
     >
+      <NavBlur on={scrolled} tint="color-mix(in srgb, var(--color-paper) 92%, transparent)" />
       <div className="mx-auto grid max-w-site grid-cols-2 items-center gap-4 px-gutter py-2 md:grid-cols-3">
         <Logo />
 
