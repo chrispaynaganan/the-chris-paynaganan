@@ -202,7 +202,7 @@ export function Header({
                   <button type="button" onClick={() => setExpanded(false)} aria-label="Close search" className="mx-1 flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full transition hover:bg-surface">
                     <X aria-hidden className="size-4" />
                   </button>
-                  <button type="button" onClick={showResults} className="relative isolate flex h-8 shrink-0 cursor-pointer items-center gap-1.5 overflow-hidden rounded-full px-3.5 text-sm font-medium text-paper transition active:scale-97">
+                  <button type="button" onClick={showResults} className="relative isolate flex h-8 shrink-0 cursor-pointer items-center gap-1.5 overflow-hidden rounded-full px-3.5 text-sm font-medium text-ink transition active:scale-97">
                     <GlassFill variant="primary" radius={999} />
                     Search
                   </button>

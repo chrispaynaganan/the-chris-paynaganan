@@ -81,6 +81,8 @@
      One elevation tier only (as Airbnb does): cards on hover, the search bar,
      menus, dialogs and toasts all float the same way. Everything else is flat. */
   --shadow-float: 0 0 0 1px rgb(0 0 0 / 0.02), 0 2px 6px rgb(0 0 0 / 0.04), 0 4px 8px rgb(0 0 0 / 0.1);
+  /* Glass buttons: a bright top highlight, a faint rim and a soft lift */
+  --shadow-glass: inset 0 1px 0 rgb(255 255 255 / 0.9), inset 0 0 0 1px rgb(0 0 0 / 0.06), 0 2px 8px rgb(0 0 0 / 0.08);
 
   /* ===== Radius by role =====
      Buttons and pills are fully round (rounded-full); inputs use rounded-lg (8px). */

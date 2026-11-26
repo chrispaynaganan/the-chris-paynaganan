@@ -27,7 +27,7 @@ export function buttonClass(variant: ButtonVariant = "primary", className?: stri
 export function glassButtonClass(variant: "primary" | "secondary" = "primary", className?: string) {
   return cn(
     "relative isolate inline-flex h-10 cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full px-4 lg:h-9 text-sm font-medium transition duration-200 active:scale-97 disabled:cursor-not-allowed disabled:opacity-50",
-    variant === "primary" ? "text-paper hover:bg-ink/40" : "text-ink hover:bg-paper/60",
+    variant === "primary" ? "text-ink hover:bg-paper/60" : "text-ink hover:bg-paper/60",
     className,
   );
 }

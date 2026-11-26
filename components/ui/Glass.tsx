@@ -8,10 +8,10 @@ export type GlassVariant = "primary" | "secondary";
  * React Bits GlassSurface as a button's background. Drop it in as the first child of a
  * button or link styled with glassButtonClass(): it fills the button, sits behind the
  * label, and bends whatever is behind the button at its edges.
- * primary = smoky dark glass with white text, secondary = clear glass with black text.
+ * The portfolio is light, so the glass is always clear; the primary button gets a thin
+ * black rim to tell it apart. Darker glass is kept for the black business page.
  */
 export function GlassFill({ variant = "secondary", radius = 999 }: { variant?: GlassVariant; radius?: number }) {
-  const dark = variant === "primary";
   return (
     <GlassSurface
       width="100%"
@@ -26,8 +26,10 @@ export function GlassFill({ variant = "secondary", radius = 999 }: { variant?: G
       brightness={50}
       opacity={0.93}
       saturation={1.4}
-      backgroundOpacity={dark ? 0.8 : 0.35}
-      className={`pointer-events-none absolute inset-0 -z-1 ${dark ? "glass-scheme-dark" : "glass-scheme-light"}`}
+      backgroundOpacity={0.55}
+      // shadow-glass swaps the component's grey inner shading for a bright rim and a soft lift.
+      // The primary rim is drawn on the glass itself, so the glass doesn't bend it into smudges.
+      className={`glass-scheme-light pointer-events-none absolute inset-0 -z-1 shadow-glass ${variant === "primary" ? "ring-1 ring-ink/80 ring-inset" : ""}`}
     />
   );
 }
