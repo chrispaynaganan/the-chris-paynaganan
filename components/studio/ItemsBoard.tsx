@@ -5,7 +5,7 @@ import { studioClient } from "@/lib/supabase/browser";
 import { BoardHeader, GroupedTable, ItemPanel, useSaver, type Column } from "./Board";
 import { StatusCell } from "./StatusCell";
 import type { Label } from "./colors";
-import { DeleteButton, ImagesField, LinesField, Repeater, Section, SelectField, TextField, Toggle } from "./fields";
+import { DeleteButton, ImagesField, LinesField, PdfField, Repeater, Section, SelectField, TextField, Toggle } from "./fields";
 import { businessBoard, getPath, setPath, siteBoard, type FieldSpec } from "./schema";
 import { BoardSkeleton, LoadError } from "./states";
 
@@ -171,6 +171,8 @@ function Field({ spec, item, onCommit }: { spec: FieldSpec; item: Item; onCommit
           onCommit={(list) => onCommit(list[0]?.src ?? "")}
         />
       );
+    case "pdf":
+      return <PdfField label={spec.label} hint={spec.hint} kind="resume" slug="" publicFolder={spec.folder} value={String(v ?? "")} onCommit={onCommit} />;
     case "sections": {
       const list = (Array.isArray(v) ? v : []) as { heading: string; body: string[] }[];
       return (

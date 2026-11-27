@@ -322,6 +322,8 @@ export function DeleteButton({ label, onConfirm }: { label: string; onConfirm: (
 /**
  * A project document (PDF): upload it here, or paste a link. Uploads go to the private
  * "studio-files" bucket and open through /files/<slug>/<file>, which respects the NDA lock.
+ * With `publicFolder` (like the résumé), it goes to the public "studio-media" bucket instead
+ * and the field keeps its public link.
  */
 export function PdfField({
   label,
@@ -330,18 +332,20 @@ export function PdfField({
   kind,
   onCommit,
   hint,
+  publicFolder,
 }: {
   label: string;
   value: string;
   slug: string;
   kind: string;
+  publicFolder?: string;
   onCommit: (v: string) => void;
   hint?: string;
 }) {
   const input = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const uploaded = value.startsWith(`/files/`);
+  const uploaded = publicFolder ? value.includes("/storage/v1/object/public/studio-media/") || (value.startsWith("/") && value.endsWith(".pdf")) : value.startsWith(`/files/`);
 
   const upload = async (file: File) => {
     if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) return setError("Choose a PDF file.");
@@ -349,6 +353,14 @@ export function PdfField({
     setBusy(true);
     setError("");
     const name = `${kind}-${Date.now()}.pdf`;
+    if (publicFolder) {
+      const media = studioClient().storage.from("studio-media");
+      const path = `${publicFolder}/${name}`;
+      const { error: err } = await media.upload(path, file, { contentType: "application/pdf", cacheControl: "3600", upsert: false });
+      setBusy(false);
+      if (err) return setError("Upload failed. Check the file and try again.");
+      return onCommit(media.getPublicUrl(path).data.publicUrl);
+    }
     const { error: err } = await studioClient().storage.from("studio-files").upload(`${slug}/${name}`, file, { contentType: "application/pdf", upsert: false });
     setBusy(false);
     if (err) return setError(/bucket/i.test(err.message) ? "Run supabase/0014_studio_files.sql in Supabase first." : "Upload failed. Check the file and try again.");

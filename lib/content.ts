@@ -86,6 +86,7 @@ const loadSite = cache(async (): Promise<SiteContent> => {
     tagline: str(p.tagline, fileSite.tagline),
     calendlyUrl: str(p.calendlyUrl, fileSite.calendlyUrl),
     resumeUrl: str(p.resumeUrl),
+    photoUrl: str(p.photoUrl) || undefined,
     enterprise,
     socials: group(items, "site", "socials").map((i) => ({ label: i.title, url: str(i.data.url) })).filter((x) => nonEmpty(x.url)),
     heroLine: str(p.heroLine, fileSite.heroLine),

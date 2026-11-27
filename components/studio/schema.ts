@@ -8,6 +8,8 @@ export type FieldSpec =
   | { type: "toggle"; key: string; label: string; hint?: string }
   | { type: "select"; key: string; label: string; options: { value: string; label: string }[] }
   | { type: "image"; key: string; label: string; hint?: string }
+  /** A PDF uploaded to the public media bucket (or a pasted link) */
+  | { type: "pdf"; key: string; label: string; hint?: string; folder: string }
   | { type: "sections"; key: string; label: string };
 
 export type GroupSpec = {
@@ -216,7 +218,8 @@ export const siteBoard: BoardSpec = {
         { type: "email", key: "email", label: "Contact email" },
         { type: "text", key: "replyTime", label: "Reply time" },
         { type: "url", key: "calendlyUrl", label: "Calendly link" },
-        { type: "url", key: "resumeUrl", label: "Résumé link", hint: "Leave empty to hide the Résumé links." },
+        { type: "image", key: "photoUrl", label: "Your photo", hint: "Shown on the home page (Meet your host) and the About card. A square photo works best." },
+        { type: "pdf", key: "resumeUrl", label: "Résumé", folder: "site/resume", hint: "Upload a PDF or paste a link. Leave empty to hide the Résumé links." },
         { type: "textarea", key: "inTheWorks", label: "“In the works” note on About", rows: 2 },
         { type: "text", key: "enterprise.label", label: "Footer enterprise label" },
         { type: "url", key: "enterprise.url", label: "Footer enterprise link" },

@@ -141,6 +141,8 @@ export interface SiteContent {
   tagline: string;
   calendlyUrl: string;
   resumeUrl?: string;
+  /** Your photo: home page "Meet your host" and the About card. Initials show until there is one. */
+  photoUrl?: string;
   enterprise: { label: string; url: string };
   socials: { label: string; url: string }[];
   heroLine: string;

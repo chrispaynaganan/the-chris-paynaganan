@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HostPhoto } from "@/components/layout/HostPhoto";
 import type { Metadata } from "next";
 import { Check } from "lucide-react";
 import { getPassport, getProjects, getSite } from "@/lib/content";
@@ -24,7 +25,7 @@ export default async function AboutPage() {
         <aside className="flex w-full flex-col gap-5 md:sticky md:top-20 md:w-80 md:shrink-0">
           <div className="grid animate-fade-up grid-cols-2 items-center gap-4 rounded-panel p-7 shadow-float">
             <div className="flex flex-col items-center gap-2 text-center">
-              <div className="flex size-26 items-center justify-center rounded-full bg-placeholder text-xs text-muted">[Photo]</div>
+              <HostPhoto src={site.photoUrl} name={site.name} className="size-26" />
               <span className="text-2xl font-semibold tracking-tight">Chris</span>
               <span className="text-xs font-medium">{site.role}</span>
             </div>

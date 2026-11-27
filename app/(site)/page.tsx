@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HostPhoto } from "@/components/layout/HostPhoto";
 import { ViewTransition } from "react";
 import { categories, getPassport, getProjects, getSite } from "@/lib/content";
 import { ProjectExplorer } from "@/components/home/ProjectExplorer";
@@ -37,7 +38,7 @@ export default async function HomePage() {
 
         <Reveal>
           <section aria-labelledby="host-teaser" className="flex flex-wrap items-center gap-8 border-t border-line pt-12">
-            <div className="flex size-24 shrink-0 items-center justify-center rounded-full bg-placeholder text-xs text-muted">[Photo]</div>
+            <HostPhoto src={site.photoUrl} name={site.name} className="size-24" />
             <div className="flex min-w-0 flex-1 basis-96 flex-col gap-2">
               <h2 id="host-teaser" className="text-xl font-semibold">Meet your host</h2>
               <p className="max-w-3xl text-xl">{site.hostTeaser}</p>
