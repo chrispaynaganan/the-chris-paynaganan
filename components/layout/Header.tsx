@@ -88,11 +88,13 @@ export function Header({
   calendly,
   enterpriseUrl,
   resumeUrl,
+  photoUrl,
 }: {
   linkedIn: string;
   calendly: string;
   enterpriseUrl: string;
   resumeUrl?: string;
+  photoUrl?: string;
 }) {
   const pathname = useSitePath();
   const scrolled = useScrolled();
@@ -119,7 +121,7 @@ export function Header({
       >
         <NavBlur on={scrolled} tint="color-mix(in srgb, var(--color-ink) 92%, transparent)" />
         <div className="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-gutter py-2">
-          <Logo dark business />
+          <Logo dark business photoUrl={photoUrl} />
           <nav aria-label="Business sections" className="hidden flex-wrap gap-5 text-sm font-medium md:flex">
             {[
               ["#bundles", "Bundles"],
@@ -171,7 +173,7 @@ export function Header({
     >
       <NavBlur on={scrolled} tint="color-mix(in srgb, var(--color-paper) 92%, transparent)" />
       <div className="mx-auto grid max-w-site grid-cols-2 items-center gap-4 px-gutter py-2 md:grid-cols-3">
-        <Logo />
+        <Logo photoUrl={photoUrl} />
 
         <div className="relative hidden min-h-10 items-center justify-center md:flex">
           <AnimatePresence mode="wait" initial={false}>

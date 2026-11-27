@@ -13,6 +13,7 @@ export async function SiteChrome({ children }: { children: React.ReactNode }) {
       <Header
         calendly={site.calendlyUrl}
         resumeUrl={site.resumeUrl}
+        photoUrl={site.photoUrl}
         enterpriseUrl={site.enterprise.url}
         linkedIn={site.socials.find((s) => s.label === "LinkedIn")?.url ?? ""}
       />
