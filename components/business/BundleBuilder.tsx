@@ -46,6 +46,8 @@ export function BundleBuilder({
 
   const offered = items.filter((it) => (it.kind === "choice" ? (it.options ?? []).some((o) => priceOf(o, line) !== undefined) : priceOf(it, line) !== undefined));
   const sections = [...new Set(offered.map((it) => it.section))];
+  const [tab, setTab] = useState(0);
+  const current = sections[Math.min(tab, sections.length - 1)];
   const labelOf = (it: BuilderItem) => it.labels?.[line] ?? it.label;
 
   const switchLine = (next: Line) => {
@@ -61,21 +63,21 @@ export function BundleBuilder({
   const set = (id: string, v: number | string) => setPicks((p) => ({ ...p, [id]: v }));
 
   const lines = useMemo(() => {
-    const out: { label: string; amount: number; monthly?: { months: number; each: number } }[] = [];
+    const out: { id: string; label: string; amount: number; monthly?: { months: number; each: number } }[] = [];
     for (const it of offered) {
       const v = picks[it.id];
       if (it.kind === "choice") {
         const o = it.options?.find((x) => x.id === v);
         const amount = o ? (priceOf(o, line) ?? 0) : 0;
-        if (o && amount > 0) out.push({ label: `${labelOf(it)}: ${o.label}`, amount });
+        if (o && amount > 0) out.push({ id: it.id, label: `${labelOf(it)}: ${o.label}`, amount });
         continue;
       }
       const each = priceOf(it, line) ?? 0;
       const n = Number(v) || 0;
-      if (it.kind === "fixed") out.push({ label: labelOf(it), amount: each });
-      else if (it.kind === "toggle" && n) out.push({ label: labelOf(it), amount: each });
-      else if (it.kind === "count" && n) out.push({ label: `${labelOf(it)} × ${n}`, amount: each * n });
-      else if (it.kind === "monthly" && n) out.push({ label: `${labelOf(it)}, ${plural(n, it.unit)}`, amount: each * n, monthly: { months: n, each } });
+      if (it.kind === "fixed") out.push({ id: it.id, label: labelOf(it), amount: each });
+      else if (it.kind === "toggle" && n) out.push({ id: it.id, label: labelOf(it), amount: each });
+      else if (it.kind === "count" && n) out.push({ id: it.id, label: `${labelOf(it)} × ${n}`, amount: each * n });
+      else if (it.kind === "monthly" && n) out.push({ id: it.id, label: `${labelOf(it)}, ${plural(n, it.unit)}`, amount: each * n, monthly: { months: n, each } });
     }
     return out;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,10 +166,37 @@ export function BundleBuilder({
       />
 
       <div className="grid gap-10 lg:grid-cols-12">
-        <div className="flex flex-col gap-12 lg:col-span-8">
-          {sections.map((sec) => (
-            <fieldset key={sec} className="flex flex-col">
-              <legend className="mb-2 text-xs font-medium tracking-widest text-paper/60 uppercase">{sec}</legend>
+        <div className="flex min-w-0 flex-col gap-6 lg:col-span-8">
+          {/* One section at a time, so the builder stays about a screen tall */}
+          <div role="tablist" aria-label="Sections" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+            {sections.map((sec, i) => {
+              const on = sec === current;
+              const picked = lines.filter((l) => offered.find((it) => it.id === l.id)?.section === sec).length;
+              return (
+                <button
+                  key={sec}
+                  type="button"
+                  role="tab"
+                  id={`byo-tab-${i}`}
+                  aria-selected={on}
+                  aria-controls="byo-panel"
+                  onClick={() => setTab(i)}
+                  className={cn(
+                    "flex shrink-0 cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm whitespace-nowrap transition",
+                    on ? "border-paper bg-paper text-ink" : "border-paper/30 text-paper/80 hover:border-paper/70",
+                  )}
+                >
+                  {sec}
+                  {picked > 0 && (
+                    <span className={cn("rounded-full px-1.5 text-xs tabular-nums", on ? "bg-ink text-paper" : "bg-paper/15 text-paper")}>{picked}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+          {[current].map((sec) => (
+            <fieldset key={sec} id="byo-panel" role="tabpanel" aria-labelledby={`byo-tab-${sections.indexOf(sec)}`} className="flex flex-col">
+              <legend className="sr-only">{sec}</legend>
               {offered
                 .filter((it) => it.section === sec)
                 .map((it) => (
@@ -210,6 +239,21 @@ export function BundleBuilder({
                 ))}
             </fieldset>
           ))}
+          <div className="flex items-center justify-between gap-4">
+            <button
+              type="button"
+              onClick={() => setTab(Math.max(0, sections.indexOf(current) - 1))}
+              disabled={sections.indexOf(current) === 0}
+              className={buttonClass("tertiary", "disabled:invisible", true)}
+            >
+              Back: {sections[sections.indexOf(current) - 1] ?? ""}
+            </button>
+            {sections.indexOf(current) < sections.length - 1 && (
+              <button type="button" onClick={() => setTab(sections.indexOf(current) + 1)} className={buttonClass("secondary", undefined, true)}>
+                Next: {sections[sections.indexOf(current) + 1]}
+              </button>
+            )}
+          </div>
         </div>
 
         <aside aria-label="Your bundle" className="lg:col-span-4">
@@ -223,7 +267,7 @@ export function BundleBuilder({
             </div>
             <ul className="flex flex-col gap-2 border-t border-line pt-4 text-sm">
               {lines.map((l) => (
-                <li key={l.label} className="flex justify-between gap-4">
+                <li key={l.id} className="flex justify-between gap-4">
                   <span className="text-body">{l.label}</span>
                   <span className="shrink-0 tabular-nums">{peso(l.amount)}</span>
                 </li>
