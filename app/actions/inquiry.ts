@@ -8,11 +8,15 @@ export type InquiryInput =
       source: "project";
       name: string;
       email: string;
-      company?: string;
+      company: string;
+      role?: string;
+      website?: string;
+      problem: string;
+      success?: string;
+      budget: string;
       tier: string;
-      payment: string;
       timeline: string;
-      details?: string;
+      heard?: string;
       businessBundles: string[];
     }
   | {
@@ -45,12 +49,25 @@ export async function submitInquiry(input: InquiryInput): Promise<InquiryResult>
           full_name: name,
           email,
           company: clip(input.company, 200) || null,
-          bundle_category: input.businessBundles.includes(input.tier) ? "business" : "professional",
+          bundle_category: input.businessBundles.includes(input.tier) ? "business" : input.tier === "Help me choose" ? null : "professional",
           bundle_tier: clip(input.tier, 120),
-          payment_option: clip(input.payment, 120),
+          // The form asks for a budget range now; payment is settled in the proposal
+          payment_option: clip(input.budget, 120),
           timeline: clip(input.timeline, 120),
-          project_details: clip(input.details, 5000) || null,
-          currency: "usd",
+          project_details: clip(
+            [
+              `What's not working: ${input.problem.trim()}`,
+              input.success?.trim() && `Success in 6 months: ${input.success.trim()}`,
+              `Budget: ${input.budget}`,
+              input.role?.trim() && `Role: ${input.role.trim()}`,
+              input.website?.trim() && `Website: ${input.website.trim()}`,
+              input.heard?.trim() && `Heard about me: ${input.heard.trim()}`,
+            ]
+              .filter(Boolean)
+              .join("\n"),
+            5000,
+          ),
+          currency: "php",
         }
       : {
           source: "contact",
@@ -61,7 +78,7 @@ export async function submitInquiry(input: InquiryInput): Promise<InquiryResult>
           message: clip(input.message, 5000),
         };
 
-  if (input.source === "project" && (!row.bundle_tier || !row.payment_option || !row.timeline)) return { ok: false, reason: "invalid" };
+  if (input.source === "project" && (!row.company || !input.problem.trim() || !row.payment_option || !row.timeline)) return { ok: false, reason: "invalid" };
   if (input.source === "contact" && (!row.reason || !row.message)) return { ok: false, reason: "invalid" };
 
   const { error } = await db.from("inquiries").insert(row);
@@ -73,7 +90,7 @@ export async function submitInquiry(input: InquiryInput): Promise<InquiryResult>
   const from = process.env.CONTACT_FROM_EMAIL;
   if (key && to && from) {
     try {
-      const subject = input.source === "project" ? `New project inquiry: ${row.bundle_tier} from ${name}` : `New message (${row.reason}) from ${name}`;
+      const subject = input.source === "project" ? `New project inquiry from ${name} (${row.company}): ${row.bundle_tier}` : `New message (${row.reason}) from ${name}`;
       const body = Object.entries(row)
         .filter(([, v]) => v)
         .map(([k, v]) => `${k}: ${v}`)

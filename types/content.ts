@@ -83,6 +83,24 @@ export interface Bundle {
   save?: string;
   popular?: boolean;
   items: string[];
+  /** Who the bundle is for, one line under its name */
+  bestFor?: string;
+  /** Rough length, like "About 5 weeks" */
+  timeline?: string;
+  /** Sum of its parts before the bundle discount, like "₱144,845" */
+  valuedAt?: string;
+  /** Line above the inclusions, like "Everything in The Foundation, plus:" */
+  lead?: string;
+  /** Value by phase, for the "What's inside" table */
+  breakdown?: { phase: string; php: string }[];
+}
+
+export interface CaseStudy {
+  name: string;
+  industry: string;
+  problem: string;
+  built: string;
+  href?: string;
 }
 
 export interface SiteContent {
@@ -109,11 +127,23 @@ export interface SiteContent {
   business: {
     intro: string;
     bundles: Bundle[];
+    /** Bundle names for companies (from companyBundles) */
     businessBundles: string[];
-    addons: { name: string; usd: string; php: string; description: string }[];
-    process: { title: string; body: string }[];
+    companyBundles: Bundle[];
+    /** Note under each set of cards */
+    notes: { personal: string; business: string };
+    addons: { name: string; usd: string; php: string; description: string; group?: "all" | "personal" | "business" }[];
+    process: { title: string; body: string; when?: string; you?: string; get?: string }[];
+    fit: { good: string[]; not: string[] };
+    whyMe: { title: string; body: string }[];
+    guarantees: { title: string; body: string }[];
+    caseStudies: CaseStudy[];
+    callAgenda: { title: string; minutes: string }[];
+    callOutcome: string;
     faqs: { q: string; a: string }[];
     paymentOptions: string[];
+    /** Budget ranges for the project form */
+    budgets: string[];
     timelines: string[];
   };
 }

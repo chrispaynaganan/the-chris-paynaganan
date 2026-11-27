@@ -5,6 +5,7 @@ import { projects } from "../content/projects.ts";
 import { site } from "../content/site.ts";
 import { stampDefs } from "../content/stamps.ts";
 import { privacy, terms } from "../content/legal.ts";
+import { businessItems } from "./business-items.mts";
 
 const json = (v: unknown) => `$j$${JSON.stringify(v)}$j$::jsonb`;
 const text = (v: string | undefined | null) => (v == null ? "null" : `$t$${v}$t$`);
@@ -43,13 +44,7 @@ add("site", "legal", privacy.title, { key: "privacy", ...privacy });
 add("site", "legal", terms.title, { key: "terms", ...terms });
 
 // Business
-const b = site.business;
-add("business", "settings", "Business settings", { intro: b.intro, paymentOptions: b.paymentOptions, timelines: b.timelines });
-b.bundles.forEach((x) => add("business", "bundles", x.name, { payInFull: x.payInFull, installments: x.installments, save: x.save ?? "", popular: !!x.popular, items: x.items }));
-b.businessBundles.forEach((n) => add("business", "business-bundles", n));
-b.addons.forEach((a) => add("business", "addons", a.name, { usd: a.usd, php: a.php, description: a.description }));
-b.process.forEach((p) => add("business", "process", p.title, { body: p.body }));
-b.faqs.forEach((f) => add("business", "faq", f.q, { a: f.a }));
+businessItems(site.business).forEach((it) => add("business", it.group, it.title, it.data));
 
 const positions = new Map<string, number>();
 const itemRows = items.map((it) => {

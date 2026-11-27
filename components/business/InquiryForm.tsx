@@ -7,17 +7,30 @@ import { buttonClass } from "@/components/ui/button";
 import { Notice } from "@/components/ui/Notice";
 import { Confirmation } from "@/components/ui/Confirmation";
 
-type Values = { name: string; email: string; tier: string; pay: string; company: string; time: string; details: string };
+type Values = {
+  name: string;
+  email: string;
+  company: string;
+  role: string;
+  website: string;
+  problem: string;
+  success: string;
+  budget: string;
+  time: string;
+  tier: string;
+  heard: string;
+};
 type Errors = Partial<Record<keyof Values, string>>;
 
-const empty: Values = { name: "", email: "", tier: "", pay: "", company: "", time: "", details: "" };
+const empty: Values = { name: "", email: "", company: "", role: "", website: "", problem: "", success: "", budget: "", time: "", tier: "", heard: "" };
 
 function validate(v: Values): Errors {
   const e: Errors = {};
   if (!v.name.trim()) e.name = "Please add your name.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email.trim())) e.email = "Enter a valid email, like you@company.com.";
-  if (!v.tier) e.tier = "Pick the closest bundle.";
-  if (!v.pay) e.pay = "Choose how you’d like to pay.";
+  if (!v.company.trim()) e.company = "Please add your company or brand.";
+  if (!v.problem.trim()) e.problem = "Tell me a little about what’s not working.";
+  if (!v.budget) e.budget = "Pick the closest budget range.";
   if (!v.time) e.time = "Pick a timeline.";
   return e;
 }
@@ -26,14 +39,14 @@ export function InquiryForm({
   email,
   bundles,
   businessBundles,
-  paymentOptions,
+  budgets,
   timelines,
   dark = false,
 }: {
   email: string;
   bundles: string[];
   businessBundles: string[];
-  paymentOptions: string[];
+  budgets: string[];
   timelines: string[];
   dark?: boolean;
 }) {
@@ -86,10 +99,14 @@ export function InquiryForm({
         name: values.name,
         email: values.email,
         company: values.company,
-        tier: values.tier,
-        payment: values.pay,
+        role: values.role,
+        website: values.website,
+        problem: values.problem,
+        success: values.success,
+        budget: values.budget,
+        tier: values.tier || "Help me choose",
         timeline: values.time,
-        details: values.details,
+        heard: values.heard,
         businessBundles,
       });
       if (!res.ok) {
@@ -97,14 +114,18 @@ export function InquiryForm({
         const body = [
           `Name: ${values.name}`,
           `Email: ${values.email}`,
-          `Company: ${values.company || "—"}`,
-          `Bundle: ${values.tier}`,
-          `Payment: ${values.pay}`,
+          `Company: ${values.company}`,
+          `Role: ${values.role || "—"}`,
+          `Website: ${values.website || "—"}`,
+          `Budget: ${values.budget}`,
           `Timeline: ${values.time}`,
+          `Bundle: ${values.tier || "Help me choose"}`,
+          `Heard about me: ${values.heard || "—"}`,
           "",
-          values.details,
+          `What's not working: ${values.problem}`,
+          `Success in 6 months: ${values.success || "—"}`,
         ].join("\n");
-        window.location.href = `mailto:${email}?subject=${encodeURIComponent(`Project inquiry: ${values.tier}`)}&body=${encodeURIComponent(body)}`;
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(`Project inquiry: ${values.company}`)}&body=${encodeURIComponent(body)}`;
       }
       setSent(res.ok ? "saved" : "email");
       setTried(false);
@@ -129,8 +150,8 @@ export function InquiryForm({
       title={sent === "email" ? "Your project request is ready" : "Project request sent"}
       steps={[
         sent === "email" ? "Send the email that just opened in your email app." : "Your request is with me now.",
-        "I’ll reply within a day or two with the intake form and a call scheduler.",
-        "We meet on a discovery call, then I send a quotation.",
+        "I’ll reply within 1 business day with a link to book your discovery call.",
+        "We meet on a 45-minute call, then I send a written proposal.",
       ]}
     />
     <form onSubmit={submit} noValidate className="grid flex-2 basis-md gap-4 sm:grid-cols-2">
@@ -145,30 +166,39 @@ export function InquiryForm({
         {err("name")}
       </div>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-email" className={labelClass}>Email *</label>
+        <label htmlFor="f-email" className={labelClass}>Work email *</label>
         <input id="f-email" type="email" value={v.email} onChange={set("email")} className={field("email")} autoComplete="email" {...described("email")} />
         {err("email")}
       </div>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-tier" className={labelClass}>Bundle / tier *</label>
-        <select id="f-tier" value={v.tier} onChange={set("tier")} className={field("tier")} {...described("tier")}>
-          <option value="">Choose one</option>
-          <optgroup label="Professional">{bundles.map((b) => <option key={b}>{b}</option>)}</optgroup>
-          <optgroup label="Business">{businessBundles.map((b) => <option key={b}>{b}</option>)}</optgroup>
-        </select>
-        {err("tier")}
+        <label htmlFor="f-company" className={labelClass}>Company or brand *</label>
+        <input id="f-company" value={v.company} onChange={set("company")} className={field("company")} autoComplete="organization" {...described("company")} />
+        {err("company")}
       </div>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-pay" className={labelClass}>Payment option *</label>
-        <select id="f-pay" value={v.pay} onChange={set("pay")} className={field("pay")} {...described("pay")}>
-          <option value="">Choose one</option>
-          {paymentOptions.map((p) => <option key={p}>{p}</option>)}
-        </select>
-        {err("pay")}
+        <label htmlFor="f-role" className={labelClass}>Your role</label>
+        <input id="f-role" value={v.role} onChange={set("role")} className={field("role")} autoComplete="organization-title" placeholder="e.g. Owner, Marketing lead" />
+      </div>
+      <div className="flex flex-col gap-1.5 sm:col-span-2">
+        <label htmlFor="f-website" className={labelClass}>Current website</label>
+        <input id="f-website" type="url" value={v.website} onChange={set("website")} className={field("website")} autoComplete="url" placeholder="Leave blank if you don’t have one yet" />
+      </div>
+      <div className="flex flex-col gap-1.5 sm:col-span-2">
+        <label htmlFor="f-problem" className={labelClass}>What’s not working right now? *</label>
+        <textarea id="f-problem" rows={4} value={v.problem} onChange={set("problem")} className={cn(field("problem"), "resize-y")} placeholder="e.g. People visit but don’t book." {...described("problem")} />
+        {err("problem")}
+      </div>
+      <div className="flex flex-col gap-1.5 sm:col-span-2">
+        <label htmlFor="f-success" className={labelClass}>What would success look like 6 months after launch?</label>
+        <textarea id="f-success" rows={3} value={v.success} onChange={set("success")} className={cn(field("success"), "resize-y")} />
       </div>
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="f-company" className={labelClass}>Company</label>
-        <input id="f-company" value={v.company} onChange={set("company")} className={field("company")} autoComplete="organization" />
+        <label htmlFor="f-budget" className={labelClass}>Budget range *</label>
+        <select id="f-budget" value={v.budget} onChange={set("budget")} className={field("budget")} {...described("budget")}>
+          <option value="">Choose one</option>
+          {budgets.map((b) => <option key={b}>{b}</option>)}
+        </select>
+        {err("budget")}
       </div>
       <div className="flex flex-col gap-1.5">
         <label htmlFor="f-time" className={labelClass}>Timeline *</label>
@@ -178,12 +208,20 @@ export function InquiryForm({
         </select>
         {err("time")}
       </div>
-      <div className="flex flex-col gap-1.5 sm:col-span-2">
-        <label htmlFor="f-details" className={labelClass}>Project details</label>
-        <textarea id="f-details" rows={4} value={v.details} onChange={set("details")} className={cn(field("details"), "resize-y")} />
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="f-tier" className={labelClass}>Bundle</label>
+        <select id="f-tier" value={v.tier} onChange={set("tier")} className={field("tier")}>
+          <option value="">Help me choose</option>
+          <optgroup label="For business">{businessBundles.map((b) => <option key={b}>{b}</option>)}</optgroup>
+          <optgroup label="For personal">{bundles.map((b) => <option key={b}>{b}</option>)}</optgroup>
+        </select>
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="f-heard" className={labelClass}>How did you hear about me?</label>
+        <input id="f-heard" value={v.heard} onChange={set("heard")} className={field("heard")} />
       </div>
       <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
-        <button type="submit" disabled={pending} className={buttonClass("primary", undefined, dark)}>{pending ? "Sending…" : "Send inquiry"}</button>
+        <button type="submit" disabled={pending} className={buttonClass("primary", undefined, dark)}>{pending ? "Sending…" : "Send"}</button>
         <a href={`mailto:${email}`} className={buttonClass("tertiary", undefined, dark)}>Or email me directly</a>
       </div>
     </form>

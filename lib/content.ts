@@ -55,6 +55,20 @@ const loadItems = cache(async (): Promise<ItemRow[] | null> => {
 
 const group = (items: ItemRow[], board: ItemRow["board"], key: string) => items.filter((i) => i.board === board && i.group_key === key);
 const str = (v: unknown, fallback = "") => (typeof v === "string" ? v : fallback);
+/** Studio stores the phase values as lines like "Design | ₱57,525"; the files store objects. */
+const parseBreakdown = (v: unknown): { phase: string; php: string }[] | undefined => {
+  if (!Array.isArray(v) || !v.length) return undefined;
+  return v
+    .map((x) => {
+      if (typeof x === "string") {
+        const [phase, php = ""] = x.split("|").map((t) => t.trim());
+        return { phase, php };
+      }
+      const o = x as Record<string, unknown>;
+      return { phase: str(o?.phase), php: str(o?.php) };
+    })
+    .filter((x) => x.phase);
+};
 const strs = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : []);
 
 const loadSite = cache(async (): Promise<SiteContent> => {
@@ -88,28 +102,80 @@ const loadSite = cache(async (): Promise<SiteContent> => {
       category: (["web", "mobile"].includes(str(i.data.category)) ? str(i.data.category) : undefined) as "web" | "mobile" | undefined,
       src: str(i.data.src) || undefined,
     })),
-    business: {
-      intro: str(biz.intro, fileSite.business.intro),
-      bundles: group(items, "business", "bundles").map((i) => ({
-        name: i.title,
-        payInFull: (i.data.payInFull as { usd: string; php: string }) ?? { usd: "", php: "" },
-        installments: (i.data.installments as { usd: string; php: string }) ?? { usd: "", php: "" },
-        save: str(i.data.save) || undefined,
-        popular: Boolean(i.data.popular),
-        items: strs(i.data.items),
-      })),
-      businessBundles: group(items, "business", "business-bundles").map((i) => i.title),
-      addons: group(items, "business", "addons").map((i) => ({ name: i.title, usd: str(i.data.usd), php: str(i.data.php), description: str(i.data.description) })),
-      process: group(items, "business", "process").map((i) => ({ title: i.title, body: str(i.data.body) })),
-      faqs: group(items, "business", "faq").map((i) => ({ q: i.title, a: str(i.data.a) })),
-      paymentOptions: strs(biz.paymentOptions).length ? strs(biz.paymentOptions) : fileSite.business.paymentOptions,
-      timelines: strs(biz.timelines).length ? strs(biz.timelines) : fileSite.business.timelines,
-    },
+    business: (() => {
+      const fb = fileSite.business;
+      // Lists added after Studio was seeded: until they have rows, the file version shows
+      const or = <T,>(list: T[], fallback: T[]) => (list.length ? list : fallback);
+      const bundlesOf = (key: string) =>
+        group(items, "business", key).map((i) => ({
+          name: i.title,
+          payInFull: (i.data.payInFull as { usd: string; php: string }) ?? { usd: "", php: "" },
+          installments: (i.data.installments as { usd: string; php: string }) ?? (i.data.payInFull as { usd: string; php: string }) ?? { usd: "", php: "" },
+          save: str(i.data.save) || undefined,
+          popular: Boolean(i.data.popular),
+          items: strs(i.data.items),
+          bestFor: str(i.data.bestFor) || undefined,
+          timeline: str(i.data.timeline) || undefined,
+          valuedAt: str(i.data.valuedAt) || undefined,
+          lead: str(i.data.lead) || undefined,
+          breakdown: parseBreakdown(i.data.breakdown),
+        }));
+      const companyBundles = or(bundlesOf("company-bundles"), fb.companyBundles);
+      return {
+        intro: str(biz.intro, fb.intro),
+        bundles: bundlesOf("bundles"),
+        businessBundles: companyBundles.map((x) => x.name),
+        companyBundles,
+        notes: {
+          personal: str((biz.notes as Record<string, unknown> | undefined)?.personal, fb.notes.personal),
+          business: str((biz.notes as Record<string, unknown> | undefined)?.business, fb.notes.business),
+        },
+        addons: group(items, "business", "addons").map((i) => ({
+          name: i.title,
+          usd: str(i.data.usd),
+          php: str(i.data.php),
+          description: str(i.data.description),
+          group: (["all", "personal", "business"].includes(str(i.data.group)) ? str(i.data.group) : "all") as "all" | "personal" | "business",
+        })),
+        process: group(items, "business", "process").map((i) => ({
+          title: i.title,
+          body: str(i.data.body),
+          when: str(i.data.when) || undefined,
+          you: str(i.data.you) || undefined,
+          get: str(i.data.get) || undefined,
+        })),
+        fit: {
+          good: or(group(items, "business", "fit-good").map((i) => i.title), fb.fit.good),
+          not: or(group(items, "business", "fit-not").map((i) => i.title), fb.fit.not),
+        },
+        whyMe: or(group(items, "business", "why-me").map((i) => ({ title: i.title, body: str(i.data.body) })), fb.whyMe),
+        guarantees: or(group(items, "business", "guarantees").map((i) => ({ title: i.title, body: str(i.data.body) })), fb.guarantees),
+        caseStudies: or(
+          group(items, "business", "case-studies").map((i) => ({
+            name: i.title,
+            industry: str(i.data.industry),
+            problem: str(i.data.problem),
+            built: str(i.data.built),
+            href: str(i.data.href) || undefined,
+          })),
+          fb.caseStudies,
+        ),
+        callAgenda: or(group(items, "business", "call-agenda").map((i) => ({ title: i.title, minutes: str(i.data.minutes) })), fb.callAgenda),
+        callOutcome: str(biz.callOutcome, fb.callOutcome),
+        faqs: group(items, "business", "faq").map((i) => ({ q: i.title, a: str(i.data.a) })),
+        paymentOptions: strs(biz.paymentOptions).length ? strs(biz.paymentOptions) : fb.paymentOptions,
+        budgets: strs(biz.budgets).length ? strs(biz.budgets) : fb.budgets,
+        timelines: strs(biz.timelines).length ? strs(biz.timelines) : fb.timelines,
+      };
+    })(),
   };
   // Any list left empty in Studio falls back to the file version rather than vanishing from the site
   if (!s.socials.length) s.socials = fileSite.socials;
   if (!s.story.length) s.story = fileSite.story;
   if (!s.business.bundles.length) s.business.bundles = fileSite.business.bundles;
+  if (!s.business.addons.length) s.business.addons = fileSite.business.addons;
+  if (!s.business.process.length) s.business.process = fileSite.business.process;
+  if (!s.business.faqs.length) s.business.faqs = fileSite.business.faqs;
   return s;
 });
 

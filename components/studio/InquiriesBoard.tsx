@@ -85,7 +85,7 @@ export function InquiriesBoard() {
         ...(open.source === "project"
           ? ([
               ["Bundle", [open.bundle_tier, open.bundle_category && `(${open.bundle_category})`].filter(Boolean).join(" ")],
-              ["Payment", open.payment_option],
+              ["Budget / payment", open.payment_option],
               ["Timeline", open.timeline],
               ["Currency", open.currency?.toUpperCase()],
             ] as [string, string | null | undefined][])
