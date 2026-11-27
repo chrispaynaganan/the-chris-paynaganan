@@ -95,6 +95,35 @@ export interface Bundle {
   breakdown?: { phase: string; php: string }[];
 }
 
+/** A price per line. Leave one out when the item isn't offered for that line. */
+export interface LinePrice {
+  personal?: number;
+  business?: number;
+}
+
+/** One thing a visitor can add in "Build your own bundle". Prices are in PHP. */
+export interface BuilderItem extends LinePrice {
+  id: string;
+  section: string;
+  label: string;
+  /** A different label per line, e.g. the CMS */
+  labels?: { personal?: string; business?: string };
+  description?: string;
+  /**
+   * fixed: always included · toggle: on or off · count: a number times the price, like pages
+   * choice: pick one option · monthly: months times the monthly price
+   */
+  kind: "fixed" | "toggle" | "count" | "choice" | "monthly";
+  unit?: string;
+  min?: number;
+  max?: number;
+  /** Starting count, months, or 1/0 for a toggle */
+  start?: number;
+  options?: ({ id: string; label: string } & LinePrice)[];
+  /** Starting option id for a choice */
+  startOption?: string;
+}
+
 export interface CaseStudy {
   name: string;
   industry: string;
@@ -140,6 +169,8 @@ export interface SiteContent {
     caseStudies: CaseStudy[];
     callAgenda: { title: string; minutes: string }[];
     callOutcome: string;
+    /** "Build your own bundle": what can be picked, and the hourly rates behind the prices */
+    builder: { rates: { personal: number; business: number }; items: BuilderItem[] };
     faqs: { q: string; a: string }[];
     paymentOptions: string[];
     /** Budget ranges for the project form */

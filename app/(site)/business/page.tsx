@@ -5,6 +5,7 @@ import { Faq } from "@/components/business/Faq";
 import { InquiryForm } from "@/components/business/InquiryForm";
 import { Marquee } from "@/components/business/Marquee";
 import { AddOns } from "@/components/business/AddOns";
+import { BundleBuilder } from "@/components/business/BundleBuilder";
 import { Reveal } from "@/components/motion/Reveal";
 import FoldText from "@/components/reactbits/FoldText";
 import { buttonClass } from "@/components/ui/button";
@@ -168,9 +169,20 @@ export default async function BusinessPage() {
           <Bundles business={b.companyBundles} personal={b.bundles} notes={b.notes} />
         </section>
 
+        {/* Build your own */}
+        <section id="build" aria-labelledby="byo-title" className="flex scroll-mt-24 flex-col gap-12">
+          <Chapter n="04" label="Build your own" id="byo-title" title="Or build your own bundle." />
+          <Reveal>
+            <p className="max-w-3xl text-lg text-paper/75">
+              Pick only what you need, and watch the price add up as you go. Every part is priced the same way as the bundles, by the hours it takes.
+            </p>
+          </Reveal>
+          <BundleBuilder rates={b.builder.rates} items={b.builder.items} bundles={{ personal: b.bundles, business: b.companyBundles }} />
+        </section>
+
         {/* Process */}
         <section id="process" aria-labelledby="p-title" className="flex scroll-mt-24 flex-col gap-12">
-          <Chapter n="04" label="Process" id="p-title" title="How a project unfolds." />
+          <Chapter n="05" label="Process" id="p-title" title="How a project unfolds." />
           <Reveal>
             <p className="max-w-3xl text-lg text-paper/75">
               Nine steps, and you’ll always know which one we’re on. Weeks shown are for The Foundation; The Alignment runs about 10 weeks and The Mandate about 20, with the same steps.
@@ -219,7 +231,7 @@ export default async function BusinessPage() {
 
         {/* Guarantees */}
         <section id="guarantees" aria-labelledby="g-title" className="flex scroll-mt-24 flex-col gap-12">
-          <Chapter n="05" label="Guarantees" id="g-title" title="What you can count on." />
+          <Chapter n="06" label="Guarantees" id="g-title" title="What you can count on." />
           <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {b.guarantees.map((g, i) => (
               <li key={g.title}>
@@ -234,7 +246,7 @@ export default async function BusinessPage() {
 
         {/* Work */}
         <section id="work" aria-labelledby="c-title" className="flex scroll-mt-24 flex-col gap-12">
-          <Chapter n="06" label="Work" id="c-title" title="Work that’s already working." />
+          <Chapter n="07" label="Work" id="c-title" title="Work that’s already working." />
           <ul className="grid gap-5 lg:grid-cols-3">
             {b.caseStudies.map((c, i) => (
               <li key={c.name}>
@@ -272,13 +284,13 @@ export default async function BusinessPage() {
 
         {/* Add-ons */}
         <section id="addons" aria-labelledby="a-title" className="flex scroll-mt-24 flex-col gap-12">
-          <Chapter n="07" label="Add-ons" id="a-title" title="Add what you need." />
+          <Chapter n="08" label="Add-ons" id="a-title" title="Add what you need." />
           <AddOns addons={b.addons} />
         </section>
 
         {/* FAQ */}
         <section id="faq" aria-labelledby="f-title" className="flex scroll-mt-24 flex-col gap-10">
-          <Chapter n="08" label="Questions" id="f-title" title="Before you ask." />
+          <Chapter n="09" label="Questions" id="f-title" title="Before you ask." />
           <Reveal>
             <Faq items={b.faqs} dark />
           </Reveal>
@@ -286,7 +298,7 @@ export default async function BusinessPage() {
 
         {/* Inquiry */}
         <section id="inquire" aria-labelledby="i-title" className="flex scroll-mt-24 flex-col gap-12">
-          <Chapter n="09" label="Begin" id="i-title" title="Tell me what’s not working." />
+          <Chapter n="10" label="Begin" id="i-title" title="Tell me what’s not working." />
           <div className="grid gap-12 lg:grid-cols-12">
             <Reveal className="flex flex-col gap-8 lg:col-span-4">
               <div className="flex flex-col gap-4">

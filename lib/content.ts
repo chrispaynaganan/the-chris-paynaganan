@@ -162,6 +162,8 @@ const loadSite = cache(async (): Promise<SiteContent> => {
         ),
         callAgenda: or(group(items, "business", "call-agenda").map((i) => ({ title: i.title, minutes: str(i.data.minutes) })), fb.callAgenda),
         callOutcome: str(biz.callOutcome, fb.callOutcome),
+        // The builder's items and prices live in content/site.ts for now
+        builder: fb.builder,
         faqs: group(items, "business", "faq").map((i) => ({ q: i.title, a: str(i.data.a) })),
         paymentOptions: strs(biz.paymentOptions).length ? strs(biz.paymentOptions) : fb.paymentOptions,
         budgets: strs(biz.budgets).length ? strs(biz.budgets) : fb.budgets,

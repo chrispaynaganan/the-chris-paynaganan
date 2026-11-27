@@ -19,10 +19,11 @@ type Values = {
   time: string;
   tier: string;
   heard: string;
+  build: string;
 };
 type Errors = Partial<Record<keyof Values, string>>;
 
-const empty: Values = { name: "", email: "", company: "", role: "", website: "", problem: "", success: "", budget: "", time: "", tier: "", heard: "" };
+const empty: Values = { name: "", email: "", company: "", role: "", website: "", problem: "", success: "", budget: "", time: "", tier: "", heard: "", build: "" };
 
 function validate(v: Values): Errors {
   const e: Errors = {};
@@ -58,8 +59,14 @@ export function InquiryForm({
 
   useEffect(() => {
     const onChoose = (e: Event) => setV((prev) => ({ ...prev, tier: (e as CustomEvent<string>).detail }));
+    // From "Build your own bundle": the picks and the estimate arrive as a ready-made summary
+    const onBuild = (e: Event) => setV((prev) => ({ ...prev, tier: "Custom bundle", build: (e as CustomEvent<string>).detail }));
     window.addEventListener("choose-bundle", onChoose);
-    return () => window.removeEventListener("choose-bundle", onChoose);
+    window.addEventListener("custom-bundle", onBuild);
+    return () => {
+      window.removeEventListener("choose-bundle", onChoose);
+      window.removeEventListener("custom-bundle", onBuild);
+    };
   }, []);
 
   const set = (k: keyof Values) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -107,6 +114,7 @@ export function InquiryForm({
         tier: values.tier || "Help me choose",
         timeline: values.time,
         heard: values.heard,
+        build: values.build,
         businessBundles,
       });
       if (!res.ok) {
@@ -124,6 +132,7 @@ export function InquiryForm({
           "",
           `What's not working: ${values.problem}`,
           `Success in 6 months: ${values.success || "—"}`,
+          ...(values.build ? ["", values.build] : []),
         ].join("\n");
         window.location.href = `mailto:${email}?subject=${encodeURIComponent(`Project inquiry: ${values.company}`)}&body=${encodeURIComponent(body)}`;
       }
@@ -183,6 +192,12 @@ export function InquiryForm({
         <label htmlFor="f-website" className={labelClass}>Current website</label>
         <input id="f-website" type="url" value={v.website} onChange={set("website")} className={field("website")} autoComplete="url" placeholder="Leave blank if you don’t have one yet" />
       </div>
+      {v.build && (
+        <div className="flex flex-col gap-1.5 sm:col-span-2">
+          <label htmlFor="f-build" className={labelClass}>Your custom bundle</label>
+          <textarea id="f-build" rows={8} value={v.build} onChange={set("build")} className={cn(field("build"), "resize-y font-mono text-xs")} />
+        </div>
+      )}
       <div className="flex flex-col gap-1.5 sm:col-span-2">
         <label htmlFor="f-problem" className={labelClass}>What’s not working right now? *</label>
         <textarea id="f-problem" rows={4} value={v.problem} onChange={set("problem")} className={cn(field("problem"), "resize-y")} placeholder="e.g. People visit but don’t book." {...described("problem")} />
@@ -212,6 +227,7 @@ export function InquiryForm({
         <label htmlFor="f-tier" className={labelClass}>Bundle</label>
         <select id="f-tier" value={v.tier} onChange={set("tier")} className={field("tier")}>
           <option value="">Help me choose</option>
+          <option>Custom bundle</option>
           <optgroup label="For business">{businessBundles.map((b) => <option key={b}>{b}</option>)}</optgroup>
           <optgroup label="For personal">{bundles.map((b) => <option key={b}>{b}</option>)}</optgroup>
         </select>

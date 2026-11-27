@@ -17,6 +17,7 @@ export type InquiryInput =
       tier: string;
       timeline: string;
       heard?: string;
+      build?: string;
       businessBundles: string[];
     }
   | {
@@ -49,7 +50,7 @@ export async function submitInquiry(input: InquiryInput): Promise<InquiryResult>
           full_name: name,
           email,
           company: clip(input.company, 200) || null,
-          bundle_category: input.businessBundles.includes(input.tier) ? "business" : input.tier === "Help me choose" ? null : "professional",
+          bundle_category: input.businessBundles.includes(input.tier) ? "business" : ["Help me choose", "Custom bundle"].includes(input.tier) ? null : "professional",
           bundle_tier: clip(input.tier, 120),
           // The form asks for a budget range now; payment is settled in the proposal
           payment_option: clip(input.budget, 120),
@@ -62,6 +63,7 @@ export async function submitInquiry(input: InquiryInput): Promise<InquiryResult>
               input.role?.trim() && `Role: ${input.role.trim()}`,
               input.website?.trim() && `Website: ${input.website.trim()}`,
               input.heard?.trim() && `Heard about me: ${input.heard.trim()}`,
+              input.build?.trim() && `\n${input.build.trim()}`,
             ]
               .filter(Boolean)
               .join("\n"),
